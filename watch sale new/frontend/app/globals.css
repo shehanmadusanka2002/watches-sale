@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: #1a1a1a;
+  --color-accent: #2c5e1a; /* Professional green like anix slider */
+  --color-surface: #ffffff;
+  --color-muted: #f4f4f4;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+.text-gold-gradient {
+  background: linear-gradient(to right, #111, #444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar for clean look */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Professional shadows */
+.card-shadow {
+  box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.card-shadow:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
