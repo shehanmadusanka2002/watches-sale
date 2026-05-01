@@ -1,0 +1,72 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ReviewsController = void 0;
+const common_1 = require("@nestjs/common");
+const reviews_service_1 = require("./reviews.service");
+let ReviewsController = class ReviewsController {
+    reviewsService;
+    constructor(reviewsService) {
+        this.reviewsService = reviewsService;
+    }
+    getAllReviews() {
+        return this.reviewsService.findAll();
+    }
+    getProductReviews(productId) {
+        return this.reviewsService.getProductReviews(+productId);
+    }
+    addReview(userId, productId, rating, comment) {
+        return this.reviewsService.addReview(+userId, +productId, rating, comment);
+    }
+    deleteReview(userId, reviewId) {
+        return this.reviewsService.deleteReview(+userId, +reviewId);
+    }
+};
+exports.ReviewsController = ReviewsController;
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ReviewsController.prototype, "getAllReviews", null);
+__decorate([
+    (0, common_1.Get)('product/:productId'),
+    __param(0, (0, common_1.Param)('productId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ReviewsController.prototype, "getProductReviews", null);
+__decorate([
+    (0, common_1.Post)(':userId/product/:productId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Param)('productId')),
+    __param(2, (0, common_1.Body)('rating')),
+    __param(3, (0, common_1.Body)('comment')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, Number, String]),
+    __metadata("design:returntype", void 0)
+], ReviewsController.prototype, "addReview", null);
+__decorate([
+    (0, common_1.Delete)(':userId/:reviewId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Param)('reviewId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], ReviewsController.prototype, "deleteReview", null);
+exports.ReviewsController = ReviewsController = __decorate([
+    (0, common_1.Controller)('reviews'),
+    __metadata("design:paramtypes", [reviews_service_1.ReviewsService])
+], ReviewsController);
+//# sourceMappingURL=reviews.controller.js.map
