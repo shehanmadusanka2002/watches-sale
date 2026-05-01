@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, Filter, Edit, Trash2, Watch as WatchIcon, Package, DollarSign, Tag } from 'lucide-react';
-import { fetchProducts } from '@/lib/api';
+import { fetchProducts, API_BASE_URL } from '@/lib/api';
 import { Toast } from '@/app/components/Toast';
 import { ConfirmModal } from '@/app/components/ConfirmModal';
 
@@ -57,7 +57,7 @@ const AdminProducts = () => {
 
   const getCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch(`${API_BASE_URL}/categories`);
       if (!response.ok) throw new Error('Failed to fetch categories');
       
       const text = await response.text();
@@ -90,8 +90,8 @@ const AdminProducts = () => {
     }
     try {
       const url = isEditMode 
-        ? `http://localhost:8080/api/products/${selectedProductId}`
-        : 'http://localhost:8080/api/products';
+        ? `${API_BASE_URL}/products/${selectedProductId}`
+        : `${API_BASE_URL}/products`;
       
       const method = isEditMode ? 'PATCH' : 'POST';
 
@@ -160,7 +160,7 @@ const AdminProducts = () => {
     const id = confirmModal.productId;
     
     try {
-      const response = await fetch(`http://localhost:8080/api/products/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/products/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

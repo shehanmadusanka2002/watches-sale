@@ -6,6 +6,8 @@ import { Mail, Lock, User, ArrowRight, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
+import { API_BASE_URL } from '@/lib/api';
+
 const RegisterPage = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -19,7 +21,7 @@ const RegisterPage = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

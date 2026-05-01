@@ -6,7 +6,7 @@ import Navbar from '@/app/components/Navbar';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Truck, CreditCard, ChevronRight, ArrowLeft, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { checkout } from '@/lib/api';
+import { checkout, API_BASE_URL } from '@/lib/api';
 import Script from 'next/script';
 import { md5 } from '@/lib/md5';
 import { ConfirmModal } from '@/app/components/ConfirmModal';
@@ -69,9 +69,9 @@ const CheckoutPage = () => {
       const payment = {
         sandbox: true,
         merchant_id: merchantId,
-        return_url: "http://localhost:3000/checkout/success",
-        cancel_url: "http://localhost:3000/checkout",
-        notify_url: "http://localhost:8080/api/payment/notify",
+        return_url: `${window.location.origin}/checkout/success`,
+        cancel_url: `${window.location.origin}/checkout`,
+        notify_url: `${API_BASE_URL}/payment/notify`,
         order_id: orderId,
         items: "Watch Haven Collection Acquisition",
         amount: amountFormatted,

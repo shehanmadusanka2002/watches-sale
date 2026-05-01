@@ -6,6 +6,8 @@ import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
+import { API_BASE_URL } from '@/lib/api';
+
 const LoginPage = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -18,7 +20,7 @@ const LoginPage = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

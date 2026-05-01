@@ -6,6 +6,7 @@ import Navbar from '@/app/components/Navbar';
 import { Package, Truck, CheckCircle, Clock, ChevronRight, ShoppingBag, ArrowLeft, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { API_BASE_URL } from '@/lib/api';
 
 const UserOrdersPage = () => {
   const [orders, setOrders] = useState<any[]>([]);
@@ -23,7 +24,7 @@ const UserOrdersPage = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:8080/api/orders/user/${user.id}`, {
+        const response = await fetch(`${API_BASE_URL}/orders/user/${user.id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

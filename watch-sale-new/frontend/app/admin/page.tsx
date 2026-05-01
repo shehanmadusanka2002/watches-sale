@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { ShoppingBag, TrendingUp, Users, DollarSign, ArrowUpRight, ArrowDownRight, Loader2 } from 'lucide-react';
+import { API_BASE_URL } from '@/lib/api';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState<any>(null);
@@ -16,8 +17,8 @@ const AdminDashboard = () => {
         };
 
         const [statsRes, ordersRes] = await Promise.all([
-          fetch('http://localhost:8080/api/orders/admin-stats', { headers }),
-          fetch('http://localhost:8080/api/orders', { headers })
+          fetch(`${API_BASE_URL}/orders/admin-stats`, { headers }),
+          fetch(`${API_BASE_URL}/orders`, { headers })
         ]);
 
         if (statsRes.ok) {

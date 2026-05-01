@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Settings, Globe, Bell, Lock, Database, Save, Palette, RefreshCw } from 'lucide-react';
 import { Toast } from '@/app/components/Toast';
 import { defaultAdminBranding, getAdminBranding, normalizeBranding, saveAdminBranding } from '@/lib/adminBranding';
+import { API_BASE_URL } from '@/lib/api';
 
 const SettingsPage = () => {
   const [storeName, setStoreName] = useState(defaultAdminBranding.storeName);
@@ -138,7 +139,7 @@ const SettingsPage = () => {
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full">Active</span>
                  </div>
-                 <p className="text-xs font-mono text-zinc-400 mt-2">http://localhost:8080/api/v1</p>
+                 <p className="text-xs font-mono text-zinc-400 mt-2">{API_BASE_URL}</p>
               </div>
 
               <div className="flex gap-4">

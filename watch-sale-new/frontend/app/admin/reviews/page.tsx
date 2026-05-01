@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { MessageSquare, Star, Trash2, Search, Filter } from 'lucide-react';
 import { Toast } from '@/app/components/Toast';
 import { ConfirmModal } from '@/app/components/ConfirmModal';
+import { API_BASE_URL } from '@/lib/api';
 
 const AdminReviews = () => {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -17,7 +18,7 @@ const AdminReviews = () => {
 
   const fetchAllReviews = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/reviews', {
+      const response = await fetch(`${API_BASE_URL}/reviews`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Users, Mail, Shield, UserX, Search, Loader2 } from 'lucide-react';
 import { Toast } from '@/app/components/Toast';
 import { ConfirmModal } from '@/app/components/ConfirmModal';
+import { API_BASE_URL } from '@/lib/api';
 
 const CustomersPage = () => {
   const [customers, setCustomers] = useState<any[]>([]);
@@ -22,7 +23,7 @@ const CustomersPage = () => {
 
   const fetchCustomers = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/users', {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -60,7 +61,7 @@ const CustomersPage = () => {
 
     try {
       setDeletingId(user.id);
-      const response = await fetch(`http://localhost:8080/api/users/${user.id}`, {
+      const response = await fetch(`${API_BASE_URL}/users/${user.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

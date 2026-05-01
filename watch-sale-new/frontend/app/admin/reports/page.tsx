@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { BarChart3, TrendingUp, TrendingDown, DollarSign, ShoppingBag, Users, Calendar } from 'lucide-react';
+import { API_BASE_URL } from '@/lib/api';
 
 const AdminReports = () => {
   const [stats, setStats] = React.useState<any[]>([]);
@@ -13,10 +14,10 @@ const AdminReports = () => {
   const fetchStats = async () => {
     try {
       const [statsRes, usersRes] = await Promise.all([
-        fetch('http://localhost:8080/api/orders/stats', {
+        fetch(`${API_BASE_URL}/orders/stats`, {
            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         }),
-        fetch('http://localhost:8080/api/users', {
+        fetch(`${API_BASE_URL}/users`, {
            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         })
       ]);

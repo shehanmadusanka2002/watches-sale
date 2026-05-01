@@ -5,6 +5,7 @@ import { Package, Truck, CheckCircle, Clock, Search, MoreHorizontal, Loader2, Tr
 import { ConfirmModal } from '@/app/components/ConfirmModal';
 import { OrderDetailsModal } from '@/app/components/OrderDetailsModal';
 import { Toast } from '@/app/components/Toast';
+import { API_BASE_URL } from '@/lib/api';
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState<any[]>([]);
@@ -21,7 +22,7 @@ const OrdersPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/orders', {
+      const response = await fetch(`${API_BASE_URL}/orders`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -57,7 +58,7 @@ const OrdersPage = () => {
   const handleStatusUpdate = async (orderId: number, newStatus: string) => {
     try {
       const statusValue = reverseStatusMap[newStatus];
-      const response = await fetch(`http://localhost:8080/api/orders/${orderId}/status?status=${statusValue}`, {
+      const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status?status=${statusValue}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -78,7 +79,7 @@ const OrdersPage = () => {
 
   const handleDeleteOrder = async (orderId: number) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/orders/${orderId}`, {
+      const response = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

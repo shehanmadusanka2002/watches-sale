@@ -5,6 +5,7 @@ import { Plus, Tag, Trash2, Edit2, Loader2, LayoutGrid } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Toast } from '@/app/components/Toast';
 import { ConfirmModal } from '@/app/components/ConfirmModal';
+import { API_BASE_URL } from '@/lib/api';
 
 
 const CategoriesPage = () => {
@@ -27,7 +28,7 @@ const CategoriesPage = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/categories', {
+      const response = await fetch(`${API_BASE_URL}/categories`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -60,7 +61,7 @@ const CategoriesPage = () => {
 
     setCreating(true);
     try {
-      const response = await fetch('http://localhost:8080/api/categories', {
+      const response = await fetch(`${API_BASE_URL}/categories`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +108,7 @@ const CategoriesPage = () => {
     const id = confirmModal.categoryId;
 
     try {
-      const response = await fetch(`http://localhost:8080/api/categories/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/categories/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
