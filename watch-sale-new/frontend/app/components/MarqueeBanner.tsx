@@ -30,7 +30,6 @@ const MarqueeBanner = () => {
             <h2 className="text-6xl font-black tracking-tighter uppercase leading-none">
               Featured <br /> <span className="text-zinc-300">Timepieces</span>
             </h2>
-            <div className="w-20 h-1.5 bg-black mt-8" />
           </div>
           <p className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.4em] max-w-[200px] leading-relaxed italic">
             Experience the seamless flow of master engineering and aesthetic perfection.
@@ -76,17 +75,6 @@ const MarqueeBanner = () => {
             </div>
           ))}
         </motion.div>
-      </div>
-      
-      {/* Scroll indicator line */}
-      <div className="container mx-auto px-6 mt-12">
-        <div className="w-full h-px bg-zinc-100 relative">
-          <motion.div 
-            className="absolute top-0 left-0 h-full bg-black"
-            animate={{ width: ["0%", "100%"] }}
-            transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-          />
-        </div>
       </div>
     </section>
   );
