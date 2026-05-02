@@ -93,20 +93,6 @@ const AdminDashboard = () => {
       {/* Chart Placeholders & Recent Orders */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white border border-zinc-100 rounded-sm p-8 shadow-sm text-left">
-               <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-8">Sales Performance</h3>
-               <div className="h-64 flex items-end gap-2 px-2">
-                  {[40, 70, 45, 90, 65, 80, 55, 30, 85, 60, 95, 75].map((h, i) => (
-                    <div key={i} className="flex-grow bg-zinc-50 hover:bg-black transition-colors rounded-t-sm relative group" style={{ height: `${h}%` }}>
-                       <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] py-1 px-2 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">Rs.{h}k</div>
-                    </div>
-                  ))}
-               </div>
-               <div className="flex justify-between mt-6 px-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
-                  <span>Jan</span><span>Mar</span><span>Jun</span><span>Sep</span><span>Dec</span>
-               </div>
-            </div>
-
             {/* Low Stock Alerts Section */}
             {lowStockProducts.length > 0 && (
               <div className="bg-white border border-red-100 rounded-sm p-8 shadow-sm text-left">
@@ -137,6 +123,20 @@ const AdminDashboard = () => {
                 </div>
               </div>
             )}
+
+            <div className="bg-white border border-zinc-100 rounded-sm p-8 shadow-sm text-left">
+               <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-8">Sales Performance</h3>
+               <div className="h-64 flex items-end gap-2 px-2">
+                  {[40, 70, 45, 90, 65, 80, 55, 30, 85, 60, 95, 75].map((h, i) => (
+                    <div key={i} className="flex-grow bg-zinc-50 hover:bg-black transition-colors rounded-t-sm relative group" style={{ height: `${h}%` }}>
+                       <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] py-1 px-2 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">Rs.{h}k</div>
+                    </div>
+                  ))}
+               </div>
+               <div className="flex justify-between mt-6 px-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                  <span>Jan</span><span>Mar</span><span>Jun</span><span>Sep</span><span>Dec</span>
+               </div>
+            </div>
          </div>
 
          <div className="bg-white border border-zinc-100 rounded-sm p-8 shadow-sm text-left h-fit">
