@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, User, Search, Menu, X, Heart, Phone, LogOut, Settings, ChevronRight, Package } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
@@ -16,8 +16,10 @@ const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showUserDropdownMobile, setShowUserDropdownMobile] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const { getCartCount } = useCart();
   const { wishlistCount } = useWishlist();
 
@@ -132,10 +134,10 @@ const Navbar = () => {
                            <>
                              <div className="fixed inset-0 z-40" onClick={() => setShowUserDropdown(false)} />
                              <motion.div 
-                               initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                               animate={{ opacity: 1, y: 0, scale: 1 }}
-                               exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                               className="absolute right-0 top-[calc(100%+1.5rem)] w-64 bg-white border border-zinc-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] z-50 p-2 rounded-xl"
+                                initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                                className="absolute right-0 top-[calc(100%+1.5rem)] w-64 bg-white border border-zinc-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] z-50 p-2 rounded-xl"
                              >
                                 <div className="p-3 bg-zinc-950 rounded-lg mb-3 text-white shadow-lg">
                                    <div className="flex items-center gap-3">
@@ -284,7 +286,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center max-w-md mx-auto">
           <Link href="/" className="flex flex-col items-center gap-1 group">
             <div className="p-2 rounded-xl group-active:bg-zinc-100 transition-colors">
-              <Package size={20} className={router.pathname === '/' ? 'text-black' : 'text-zinc-400'} />
+              <Package size={20} className={pathname === '/' ? 'text-black' : 'text-zinc-400'} />
             </div>
             <span className="text-[8px] font-black uppercase tracking-widest text-zinc-400">Shop</span>
           </Link>

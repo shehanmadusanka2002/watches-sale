@@ -6,8 +6,6 @@ import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
-
-
 import { API_BASE_URL } from '@/lib/api';
 import { GoogleLogin } from '@react-oauth/google';
 
