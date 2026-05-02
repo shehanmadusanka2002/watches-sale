@@ -17,9 +17,6 @@ export default function Home() {
       <Hero />
       <WhatsAppButton />
       
-      {/* Moving Watches Marquee Section (Replacing Vintage) */}
-      <MarqueeBanner />
-
       {/* Category Banners - Men's & Women's */}
       <section className="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-6">
         <Link href="/category/men" className="relative group cursor-pointer overflow-hidden rounded-sm bg-zinc-900 h-[250px] shadow-lg">
@@ -206,6 +203,9 @@ export default function Home() {
           <ProductGrid categoryType="SMART WATCHES" />
         </motion.div>
       </section>
+
+      {/* Moving Watches Marquee Section (Replacing Vintage) */}
+      <MarqueeBanner />
 
       {/* Children Section */}
       <section id="children" className="py-20">
