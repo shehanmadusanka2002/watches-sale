@@ -7,6 +7,7 @@ import { API_BASE_URL } from '@/lib/api';
 const AdminDashboard = () => {
   const [stats, setStats] = useState<any>(null);
   const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const [lowStockProducts, setLowStockProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,9 +17,10 @@ const AdminDashboard = () => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         };
 
-        const [statsRes, ordersRes] = await Promise.all([
+        const [statsRes, ordersRes, productsRes] = await Promise.all([
           fetch(`${API_BASE_URL}/orders/admin-stats`, { headers }),
-          fetch(`${API_BASE_URL}/orders`, { headers })
+          fetch(`${API_BASE_URL}/orders`, { headers }),
+          fetch(`${API_BASE_URL}/products`, { headers })
         ]);
 
         if (statsRes.ok) {
@@ -28,8 +30,15 @@ const AdminDashboard = () => {
 
         if (ordersRes.ok) {
           const ordersData = await ordersRes.json();
-          // Filter or slice to get most recent
           setRecentOrders(ordersData.slice(0, 5));
+        }
+
+        if (productsRes.ok) {
+          const productsData = await productsRes.json();
+          if (Array.isArray(productsData)) {
+            const lowStock = productsData.filter(p => p.stockQuantity > 0 && p.stockQuantity < 5);
+            setLowStockProducts(lowStock);
+          }
         }
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -83,21 +92,54 @@ const AdminDashboard = () => {
 
       {/* Chart Placeholders & Recent Orders */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         <div className="lg:col-span-2 bg-white border border-zinc-100 rounded-sm p-8 shadow-sm text-left">
-            <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-8">Sales Performance</h3>
-            <div className="h-64 flex items-end gap-2 px-2">
-               {[40, 70, 45, 90, 65, 80, 55, 30, 85, 60, 95, 75].map((h, i) => (
-                 <div key={i} className="flex-grow bg-zinc-50 hover:bg-black transition-colors rounded-t-sm relative group" style={{ height: `${h}%` }}>
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] py-1 px-2 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">Rs.{h}k</div>
-                 </div>
-               ))}
+         <div className="lg:col-span-2 space-y-8">
+            <div className="bg-white border border-zinc-100 rounded-sm p-8 shadow-sm text-left">
+               <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-8">Sales Performance</h3>
+               <div className="h-64 flex items-end gap-2 px-2">
+                  {[40, 70, 45, 90, 65, 80, 55, 30, 85, 60, 95, 75].map((h, i) => (
+                    <div key={i} className="flex-grow bg-zinc-50 hover:bg-black transition-colors rounded-t-sm relative group" style={{ height: `${h}%` }}>
+                       <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] py-1 px-2 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">Rs.{h}k</div>
+                    </div>
+                  ))}
+               </div>
+               <div className="flex justify-between mt-6 px-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                  <span>Jan</span><span>Mar</span><span>Jun</span><span>Sep</span><span>Dec</span>
+               </div>
             </div>
-            <div className="flex justify-between mt-6 px-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
-               <span>Jan</span><span>Mar</span><span>Jun</span><span>Sep</span><span>Dec</span>
-            </div>
+
+            {/* Low Stock Alerts Section */}
+            {lowStockProducts.length > 0 && (
+              <div className="bg-white border border-red-100 rounded-sm p-8 shadow-sm text-left">
+                <div className="flex items-center gap-3 mb-8">
+                   <div className="p-2 bg-red-50 text-red-600 rounded-sm">
+                      <TrendingUp size={16} />
+                   </div>
+                   <h3 className="text-xs font-black uppercase tracking-widest text-red-600">Inventory Alerts (Low Stock)</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                   {lowStockProducts.map(product => (
+                     <div key={product.id} className="p-4 bg-zinc-50 border border-zinc-100 rounded-sm flex justify-between items-center group hover:border-red-200 transition-all">
+                        <div className="flex items-center gap-3">
+                           <div className="w-10 h-10 bg-white border border-zinc-100 rounded-sm overflow-hidden">
+                              <img src={product.imageUrl?.split('|')[0]} alt="" className="w-full h-full object-cover" />
+                           </div>
+                           <div className="flex flex-col">
+                              <span className="text-[10px] font-black uppercase truncate max-w-[120px]">{product.name}</span>
+                              <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest">{product.brand}</span>
+                           </div>
+                        </div>
+                        <div className="text-right">
+                           <span className="text-[10px] font-black text-red-600">{product.stockQuantity} Left</span>
+                           <p className="text-[8px] font-bold text-zinc-300 uppercase tracking-widest">Restock Needed</p>
+                        </div>
+                     </div>
+                   ))}
+                </div>
+              </div>
+            )}
          </div>
 
-         <div className="bg-white border border-zinc-100 rounded-sm p-8 shadow-sm text-left">
+         <div className="bg-white border border-zinc-100 rounded-sm p-8 shadow-sm text-left h-fit">
             <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-8">Recent Orders</h3>
             <div className="space-y-6">
                {recentOrders.length === 0 ? (
