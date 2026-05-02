@@ -33,4 +33,9 @@ export class ReviewsController {
   ) {
     return this.reviewsService.deleteReview(+userId, +reviewId);
   }
+
+  @Delete(':reviewId')
+  adminDeleteReview(@Param('reviewId') reviewId: string) {
+    return this.reviewsService.deleteReviewAdmin(+reviewId);
+  }
 }

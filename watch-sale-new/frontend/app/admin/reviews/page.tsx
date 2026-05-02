@@ -54,9 +54,26 @@ const AdminReviews = () => {
 
   const performDelete = async () => {
     if (!confirmModal.reviewId) return;
-    // Implement delete logic here
-    showToast('Review removed successfully', 'success');
-    setConfirmModal({ isOpen: false, reviewId: null });
+    
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/${confirmModal.reviewId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (!response.ok) throw new Error('Failed to delete review');
+
+      showToast('Review removed successfully', 'success');
+      // Refresh the list
+      fetchAllReviews();
+    } catch (error) {
+      console.error('Delete error:', error);
+      showToast('Failed to delete review', 'error');
+    } finally {
+      setConfirmModal({ isOpen: false, reviewId: null });
+    }
   };
 
   return (

@@ -48,6 +48,12 @@ export class ReviewsService {
     await this.reviewRepository.delete(reviewId);
   }
 
+  async deleteReviewAdmin(reviewId: number): Promise<void> {
+    const review = await this.reviewRepository.findOne({ where: { id: reviewId } });
+    if (!review) throw new NotFoundException('Review not found');
+    await this.reviewRepository.delete(reviewId);
+  }
+
   async findAll(): Promise<Review[]> {
     return this.reviewRepository.find({
       relations: ['user', 'product'],
