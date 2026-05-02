@@ -24,6 +24,7 @@ export class Review {
   @Column('longtext', { nullable: true })
   reviewImageUrl: string;
 
+
   @CreateDateColumn()
   createdAt: Date;
 }
