@@ -13,8 +13,8 @@ async function bootstrap() {
     app.use(urlencoded({ limit: '50mb', extended: true }));
 
     app.enableCors({
-      origin: '*',
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      origin: true, // This will reflect the request origin
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       credentials: true,
     });
 
@@ -36,7 +36,7 @@ if (process.env.NODE_ENV !== 'production') {
     app.setGlobalPrefix('api');
     app.use(json({ limit: '50mb' }));
     app.use(urlencoded({ limit: '50mb', extended: true }));
-    app.enableCors({ origin: '*', credentials: true });
+    app.enableCors({ origin: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', credentials: true });
     await app.listen(8080);
   };
   // startLocal(); // Commented out to prevent double-boot in dev watch mode if necessary
