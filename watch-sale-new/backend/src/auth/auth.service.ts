@@ -64,4 +64,43 @@ export class AuthService {
       }
     };
   }
+
+  async googleLogin(token: string) {
+    const { OAuth2Client } = require('google-auth-library');
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+    try {
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      const googlePayload = ticket.getPayload();
+      const { email, name, sub: googleId } = googlePayload;
+
+      let user = await this.usersService.findByEmail(email);
+
+      if (!user) {
+        // Create user if not exists
+        user = await this.usersService.create({
+          username: name,
+          email: email,
+          password: `GOOGLE_${googleId}`, // Dummy password
+          role: 'USER'
+        });
+      }
+
+      const payload = { email: user.email, sub: user.id, role: user.role };
+      return {
+        access_token: this.jwtService.sign(payload),
+        user: {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          role: user.role,
+        }
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Invalid Google Token');
+    }
+  }
 }

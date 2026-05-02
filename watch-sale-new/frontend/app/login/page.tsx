@@ -7,12 +7,36 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
 import { API_BASE_URL } from '@/lib/api';
+import { GoogleLogin } from '@react-oauth/google';
 
 const LoginPage = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    setLoading(true);
+    setError('');
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: credentialResponse.credential }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Google login failed');
+
+      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      router.push('/');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,6 +133,23 @@ const LoginPage = () => {
             {loading ? <Loader2 size={16} className="animate-spin" /> : 'Sign In'}
             {!loading && <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />}
           </button>
+
+          <div className="relative flex items-center py-4">
+             <div className="flex-grow border-t border-zinc-100"></div>
+             <span className="flex-shrink mx-4 text-[10px] font-black uppercase text-zinc-300">Or Continue With</span>
+             <div className="flex-grow border-t border-zinc-100"></div>
+          </div>
+
+          <div className="flex justify-center">
+             <GoogleLogin
+               onSuccess={handleGoogleSuccess}
+               onError={() => setError('Google Login Failed')}
+               useOneTap
+               theme="outline"
+               shape="square"
+               width="100%"
+             />
+          </div>
         </form>
 
         <div className="mt-8 pt-8 border-t border-zinc-50 text-center">
