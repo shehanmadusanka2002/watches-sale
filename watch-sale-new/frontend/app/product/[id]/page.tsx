@@ -410,34 +410,59 @@ const ProductDetails = () => {
                                         />
                                     </div>
 
-                                    {/* Image Upload */}
+                                    {/* Image Upload & Camera */}
                                     <div className="space-y-2">
                                         <label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 ml-1">Photo Evidence (Optional)</label>
-                                        <div className="flex gap-4">
-                                            <label className="flex-1 flex flex-col items-center justify-center p-6 border-2 border-dashed border-zinc-100 rounded-sm hover:border-black cursor-pointer transition-colors bg-zinc-50 group">
-                                                <input 
-                                                    type="file" 
-                                                    accept="image/*" 
-                                                    className="hidden" 
-                                                    onChange={(e) => {
-                                                        const file = e.target.files?.[0];
-                                                        if (file) {
-                                                            const reader = new FileReader();
-                                                            reader.onloadend = () => {
-                                                                const base64 = reader.result as string;
-                                                                setPreviewImage(base64);
-                                                                setNewReview({ ...newReview, imageUrl: base64 });
-                                                            };
-                                                            reader.readAsDataURL(file);
-                                                        }
-                                                    }}
-                                                />
-                                                <Camera size={20} className="text-zinc-300 group-hover:text-black transition-colors mb-2" />
-                                                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-black">Upload Real Photo</span>
-                                            </label>
+                                        <div className="flex flex-col sm:flex-row gap-4">
+                                            <div className="flex-1 grid grid-cols-2 gap-4">
+                                                <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-zinc-100 rounded-sm hover:border-black cursor-pointer transition-colors bg-zinc-50 group">
+                                                    <input 
+                                                        type="file" 
+                                                        accept="image/*" 
+                                                        className="hidden" 
+                                                        onChange={(e) => {
+                                                            const file = e.target.files?.[0];
+                                                            if (file) {
+                                                                const reader = new FileReader();
+                                                                reader.onloadend = () => {
+                                                                    const base64 = reader.result as string;
+                                                                    setPreviewImage(base64);
+                                                                    setNewReview({ ...newReview, imageUrl: base64 });
+                                                                };
+                                                                reader.readAsDataURL(file);
+                                                            }
+                                                        }}
+                                                    />
+                                                    <Camera size={20} className="text-zinc-300 group-hover:text-black transition-colors mb-2" />
+                                                    <span className="text-[8px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-black text-center">Gallery</span>
+                                                </label>
+
+                                                <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-zinc-100 rounded-sm hover:border-black cursor-pointer transition-colors bg-zinc-50 group">
+                                                    <input 
+                                                        type="file" 
+                                                        accept="image/*" 
+                                                        capture="environment"
+                                                        className="hidden" 
+                                                        onChange={(e) => {
+                                                            const file = e.target.files?.[0];
+                                                            if (file) {
+                                                                const reader = new FileReader();
+                                                                reader.onloadend = () => {
+                                                                    const base64 = reader.result as string;
+                                                                    setPreviewImage(base64);
+                                                                    setNewReview({ ...newReview, imageUrl: base64 });
+                                                                };
+                                                                reader.readAsDataURL(file);
+                                                            }
+                                                        }}
+                                                    />
+                                                    <User size={20} className="text-zinc-300 group-hover:text-black transition-colors mb-2" />
+                                                    <span className="text-[8px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-black text-center">Camera</span>
+                                                </label>
+                                            </div>
                                             
                                             {previewImage && (
-                                                <div className="w-24 h-24 relative rounded-sm overflow-hidden border border-zinc-100 shadow-sm">
+                                                <div className="w-24 h-24 relative rounded-sm overflow-hidden border border-zinc-100 shadow-sm shrink-0 mx-auto sm:mx-0">
                                                     <img src={previewImage} alt="Preview" className="w-full h-full object-cover" />
                                                     <button 
                                                         type="button"
