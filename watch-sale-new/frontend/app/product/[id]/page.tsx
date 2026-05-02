@@ -585,11 +585,31 @@ const ProductDetails = () => {
                 </div>
             </main>
 
-            <footer className="bg-white border-t border-zinc-100 py-12 mb-10 md:mb-0">
+            <footer className="bg-white border-t border-zinc-100 py-12 mb-20 md:mb-0">
                 <div className="container mx-auto px-6 text-center">
                     <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.5em]">ANIX OFFICIAL BOUTIQUE &copy; 2026</p>
                 </div>
             </footer>
+
+            {/* Mobile Sticky Add to Cart */}
+            <div className="lg:hidden fixed bottom-[72px] left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-zinc-100 z-[90]">
+                <button 
+                    onClick={handleAddToCart}
+                    className={`w-full ${isAdded ? 'bg-green-600' : 'bg-black'} text-white py-4 text-[11px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 shadow-2xl active:scale-95 transition-all`}
+                >
+                    {isAdded ? (
+                        <>
+                            <Check size={16} />
+                            Added
+                        </>
+                    ) : (
+                        <>
+                            <ShoppingCart size={16} />
+                            Add to Collection - Rs. {product.price?.toLocaleString()}
+                        </>
+                    )}
+                </button>
+            </div>
 
             <AnimatePresence>
                 {show360 && (

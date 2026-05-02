@@ -279,6 +279,52 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      {/* 4. Mobile Bottom Navigation (Sticky) */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-zinc-100 px-6 py-3 z-[100] shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.1)]">
+        <div className="flex justify-between items-center max-w-md mx-auto">
+          <Link href="/" className="flex flex-col items-center gap-1 group">
+            <div className="p-2 rounded-xl group-active:bg-zinc-100 transition-colors">
+              <Package size={20} className={router.pathname === '/' ? 'text-black' : 'text-zinc-400'} />
+            </div>
+            <span className="text-[8px] font-black uppercase tracking-widest text-zinc-400">Shop</span>
+          </Link>
+          
+          <button onClick={() => setShowQuiz(true)} className="flex flex-col items-center gap-1 group">
+            <div className="p-2 rounded-xl group-active:bg-zinc-100 transition-colors">
+              <Sparkles size={20} className="text-zinc-400" />
+            </div>
+            <span className="text-[8px] font-black uppercase tracking-widest text-zinc-400">Match</span>
+          </button>
+
+          <div className="relative -mt-8">
+            <button 
+              onClick={() => setIsCartOpen(true)}
+              className="w-14 h-14 bg-black rounded-full flex items-center justify-center text-white shadow-2xl shadow-black/20 active:scale-90 transition-transform"
+            >
+              <ShoppingCart size={22} />
+              {getCartCount() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-[10px] w-6 h-6 rounded-full flex items-center justify-center font-black border-2 border-white">
+                  {getCartCount()}
+                </span>
+              )}
+            </button>
+          </div>
+
+          <Link href="/profile/wishlist" className="flex flex-col items-center gap-1 group">
+            <div className="p-2 rounded-xl group-active:bg-zinc-100 transition-colors text-zinc-400">
+              <Heart size={20} className={wishlistCount > 0 ? "fill-black text-black" : ""} />
+            </div>
+            <span className="text-[8px] font-black uppercase tracking-widest text-zinc-400">Saved</span>
+          </Link>
+
+          <Link href={user ? "/profile/orders" : "/login"} className="flex flex-col items-center gap-1 group">
+            <div className="p-2 rounded-xl group-active:bg-zinc-100 transition-colors">
+              <User size={20} className="text-zinc-400" />
+            </div>
+            <span className="text-[8px] font-black uppercase tracking-widest text-zinc-400">{user ? 'Me' : 'Login'}</span>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
