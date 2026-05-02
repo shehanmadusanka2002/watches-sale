@@ -8,6 +8,8 @@ import { Star, ChevronRight, Truck, ShieldCheck, RefreshCw, Phone, MapPin, Camer
 import { motion } from "framer-motion";
 import Link from "next/link";
 
+import MarqueeBanner from "./components/MarqueeBanner";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
@@ -15,6 +17,9 @@ export default function Home() {
       <Hero />
       <WhatsAppButton />
       
+      {/* Moving Watches Marquee Section (Replacing Vintage) */}
+      <MarqueeBanner />
+
       {/* Category Banners - Men's & Women's */}
       <section className="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-6">
         <Link href="/category/men" className="relative group cursor-pointer overflow-hidden rounded-sm bg-zinc-900 h-[250px] shadow-lg">
@@ -199,25 +204,6 @@ export default function Home() {
             <ChevronRight size={24} className="text-zinc-200 bg-zinc-50 rounded-full cursor-pointer hover:bg-zinc-100 transition-colors" />
           </div>
           <ProductGrid categoryType="SMART WATCHES" />
-        </motion.div>
-      </section>
-
-      {/* Vintage Section */}
-      <section id="vintage" className="py-20 bg-zinc-950 text-white overflow-hidden">
-        <motion.div 
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="container mx-auto px-6"
-        >
-          <div className="flex items-center gap-4 mb-12">
-            <h2 className="text-3xl font-black tracking-tighter flex items-center gap-3">
-              VINTAGE <span className="text-zinc-800">|</span> <span className="text-xs font-bold text-zinc-500 italic uppercase">Heritage Collection</span>
-            </h2>
-            <div className="h-[2px] flex-grow bg-zinc-900" />
-          </div>
-          <ProductGrid categoryType="VINTAGE EDITION" />
         </motion.div>
       </section>
 
