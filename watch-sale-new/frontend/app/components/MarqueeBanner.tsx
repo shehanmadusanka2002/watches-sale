@@ -6,12 +6,12 @@ import { motion } from 'framer-motion';
 const MarqueeBanner = () => {
   // Array of watch images (using high-quality placeholder-like products or existing ones)
   const watches = [
-    { src: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=400', name: 'Premium Edition' },
-    { src: 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?auto=format&fit=crop&q=80&w=400', name: 'Classic Chrono' },
-    { src: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&q=80&w=400', name: 'Smart Tech' },
-    { src: 'https://images.unsplash.com/photo-1548171916-c0ea98836371?auto=format&fit=crop&q=80&w=400', name: 'Sport Master' },
-    { src: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&q=80&w=400', name: 'Luxury Gold' },
-    { src: 'https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=400', name: 'Ocean Diver' },
+    { src: '/images/marquee/watch1.png', name: 'Grand Master' },
+    { src: '/images/marquee/watch2.png', name: 'Modern Chrono' },
+    { src: '/images/marquee/watch3.png', name: 'Elite Diamond' },
+    { src: '/images/marquee/watch4.png', name: 'Pure Minimalist' },
+    { src: '/images/marquee/watch5.png', name: 'Ocean Heritage' },
+    { src: '/images/marquee/watch6.png', name: 'Next-Gen Smart' },
   ];
 
   // Duplicate the array to create the infinite effect
