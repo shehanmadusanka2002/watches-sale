@@ -36,20 +36,20 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const fetchNotificationsData = async () => {
     try {
       const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
-      
-      // Fetch Orders for new order detection
       const ordersRes = await fetch(`${API_BASE_URL}/orders`, { headers });
       const productsRes = await fetch(`${API_BASE_URL}/products`, { headers });
 
       let newNotifications: any[] = [];
+      const storedLastId = localStorage.getItem('lastSeenOrderId');
+      const lastId = storedLastId ? parseInt(storedLastId) : 0;
 
       if (ordersRes.ok) {
         const orders = await ordersRes.json();
         if (Array.isArray(orders)) {
-          const latestOrder = orders.reduce((max, o) => o.id > max ? o.id : max, 0);
+          const maxIdInDb = orders.reduce((max, o) => o.id > max ? o.id : max, 0);
           
-          if (lastOrderIdRef.current !== 0 && latestOrder > lastOrderIdRef.current) {
-            const freshOrders = orders.filter(o => o.id > lastOrderIdRef.current);
+          if (lastId !== 0 && maxIdInDb > lastId) {
+            const freshOrders = orders.filter(o => o.id > lastId);
             freshOrders.forEach(o => {
               newNotifications.push({
                 id: `order-${o.id}`,
@@ -61,7 +61,12 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               });
             });
           }
-          lastOrderIdRef.current = latestOrder;
+          
+          // Update baseline if it was 0 or if we found newer orders
+          if (lastId === 0 || maxIdInDb > lastId) {
+            localStorage.setItem('lastSeenOrderId', maxIdInDb.toString());
+            lastOrderIdRef.current = maxIdInDb;
+          }
         }
       }
 
@@ -82,12 +87,13 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         }
       }
 
-      setNotifications(prev => {
-        // Keep unique notifications (by id)
-        const combined = [...newNotifications, ...prev];
-        const unique = combined.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-        return unique.slice(0, 20); // Keep last 20
-      });
+      if (newNotifications.length > 0) {
+        setNotifications(prev => {
+          const combined = [...newNotifications, ...prev];
+          const unique = combined.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+          return unique.slice(0, 20);
+        });
+      }
 
     } catch (error) {
       console.error('Failed to poll notifications:', error);
@@ -112,8 +118,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     // Initial fetch
     fetchNotificationsData();
     
-    // Polling every 30 seconds
-    const interval = setInterval(fetchNotificationsData, 30000);
+    // Polling every 15 seconds
+    const interval = setInterval(fetchNotificationsData, 15000);
 
     window.addEventListener('admin-branding-updated', applyBranding);
     window.addEventListener('storage', applyBranding);
