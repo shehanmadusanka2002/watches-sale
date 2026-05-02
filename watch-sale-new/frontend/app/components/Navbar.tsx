@@ -57,7 +57,7 @@ const Navbar = () => {
       <div className="bg-[#0a0a0a] text-white/50 py-2.5 px-6 border-b border-white/5">
         <div className="container mx-auto flex justify-between items-center text-[9px] md:text-xs tracking-[0.2em] font-black uppercase">
           <div className="flex items-center gap-6">
-            <span className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><Phone size={12} className="text-white/20" /> +94 71 234 5678</span>
+            <span className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><Phone size={12} className="text-white/20" /> +94 76 238 8479</span>
             <span className="hidden md:inline border-l border-white/10 pl-6">Complimentary Islandwide Shipping</span>
           </div>
           {/* Removed Concierge and Admin Panel links */}

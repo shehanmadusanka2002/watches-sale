@@ -57,7 +57,7 @@ const ChatBot = () => {
     }
 
     if (text.includes('location') || text.includes('address') || text.includes('where') || text.includes('store') || text.includes('contact') || text.includes('phone')) {
-      return "Anix Boutique is primarily an online destination for luxury timepieces with home delivery. You can reach our experts via WhatsApp at +94 71 234 5678 for personalized service.";
+      return "Anix Boutique is primarily an online destination for luxury timepieces with home delivery. You can reach our experts via WhatsApp at +94 76 238 8479 for personalized service.";
     }
 
     if (text.includes('price') || text.includes('cost') || text.includes('how much')) {
