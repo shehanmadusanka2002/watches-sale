@@ -27,8 +27,9 @@ const ProductDetails = () => {
     
     // Review States
     const [reviews, setReviews] = useState<any[]>([]);
-    const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
+    const [newReview, setNewReview] = useState({ rating: 5, comment: '', imageUrl: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     const getProductAndReviews = async () => {
         if (id) {
@@ -84,9 +85,11 @@ const ProductDetails = () => {
             await postReview(user.id, {
                 productId: Number(id),
                 rating: newReview.rating,
-                comment: newReview.comment
+                comment: newReview.comment,
+                imageUrl: newReview.imageUrl
             });
-            setNewReview({ rating: 5, comment: '' });
+            setNewReview({ rating: 5, comment: '', imageUrl: '' });
+            setPreviewImage(null);
             // Refresh reviews
             const freshReviews = await fetchReviews(id as string);
             setReviews(freshReviews);
@@ -406,6 +409,51 @@ const ProductDetails = () => {
                                             className="w-full bg-zinc-50 border border-zinc-100 p-5 text-sm h-32 focus:border-black outline-none transition-all rounded-sm resize-none"
                                         />
                                     </div>
+
+                                    {/* Image Upload */}
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 ml-1">Photo Evidence (Optional)</label>
+                                        <div className="flex gap-4">
+                                            <label className="flex-1 flex flex-col items-center justify-center p-6 border-2 border-dashed border-zinc-100 rounded-sm hover:border-black cursor-pointer transition-colors bg-zinc-50 group">
+                                                <input 
+                                                    type="file" 
+                                                    accept="image/*" 
+                                                    className="hidden" 
+                                                    onChange={(e) => {
+                                                        const file = e.target.files?.[0];
+                                                        if (file) {
+                                                            const reader = new FileReader();
+                                                            reader.onloadend = () => {
+                                                                const base64 = reader.result as string;
+                                                                setPreviewImage(base64);
+                                                                setNewReview({ ...newReview, imageUrl: base64 });
+                                                            };
+                                                            reader.readAsDataURL(file);
+                                                        }
+                                                    }}
+                                                />
+                                                <Camera size={20} className="text-zinc-300 group-hover:text-black transition-colors mb-2" />
+                                                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-black">Upload Real Photo</span>
+                                            </label>
+                                            
+                                            {previewImage && (
+                                                <div className="w-24 h-24 relative rounded-sm overflow-hidden border border-zinc-100 shadow-sm">
+                                                    <img src={previewImage} alt="Preview" className="w-full h-full object-cover" />
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setPreviewImage(null);
+                                                            setNewReview({ ...newReview, imageUrl: '' });
+                                                        }}
+                                                        className="absolute top-1 right-1 bg-black/50 text-white p-1 rounded-full hover:bg-black transition-colors"
+                                                    >
+                                                        <RotateCcw size={10} />
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
                                     <button 
                                         type="submit"
                                         disabled={isSubmitting}
@@ -460,6 +508,11 @@ const ProductDetails = () => {
                                                 <p className="text-[13px] text-zinc-600 leading-relaxed font-medium">
                                                     {review.comment}
                                                 </p>
+                                                {review.reviewImageUrl && (
+                                                    <div className="mt-4 w-40 aspect-square rounded-sm overflow-hidden border border-zinc-50 shadow-sm hover:scale-105 transition-transform cursor-pointer">
+                                                        <img src={review.reviewImageUrl} alt="Review evidence" className="w-full h-full object-cover" />
+                                                    </div>
+                                                )}
                                                 <div className="flex items-center gap-4 pt-2">
                                                     <span className="text-[8px] font-black text-zinc-300 uppercase tracking-widest">
                                                         {new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}

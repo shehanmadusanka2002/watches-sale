@@ -21,8 +21,9 @@ export class ReviewsController {
     @Param('productId') productId: string,
     @Body('rating') rating: number,
     @Body('comment') comment: string,
+    @Body('imageUrl') imageUrl?: string,
   ) {
-    return this.reviewsService.addReview(+userId, +productId, rating, comment);
+    return this.reviewsService.addReview(+userId, +productId, rating, comment, imageUrl);
   }
 
   @Delete(':userId/:reviewId')

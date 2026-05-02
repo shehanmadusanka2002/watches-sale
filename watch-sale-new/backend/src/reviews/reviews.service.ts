@@ -14,7 +14,7 @@ export class ReviewsService {
     private usersService: UsersService,
   ) {}
 
-  async addReview(userId: number, productId: number, rating: number, comment: string): Promise<Review> {
+  async addReview(userId: number, productId: number, rating: number, comment: string, imageUrl?: string): Promise<Review> {
     const user = await this.usersService.findById(userId);
     if (!user) throw new NotFoundException('User not found');
 
@@ -25,6 +25,7 @@ export class ReviewsService {
       product,
       rating,
       comment,
+      reviewImageUrl: imageUrl,
     });
 
     return this.reviewRepository.save(review);

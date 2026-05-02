@@ -21,6 +21,9 @@ export class Review {
   @Column('text', { nullable: true })
   comment: string;
 
+  @Column('longtext', { nullable: true })
+  reviewImageUrl: string;
+
   @CreateDateColumn()
   createdAt: Date;
 }

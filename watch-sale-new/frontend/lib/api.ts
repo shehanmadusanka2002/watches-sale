@@ -85,7 +85,7 @@ export const fetchReviews = async (productId: string | number) => {
   }
 };
 
-export const postReview = async (userId: number, reviewData: { productId: number, rating: number, comment: string }) => {
+export const postReview = async (userId: number, reviewData: { productId: number, rating: number, comment: string, imageUrl?: string }) => {
   try {
     const response = await fetch(`${API_BASE_URL}/reviews/${userId}/product/${reviewData.productId}`, {
       method: 'POST',
@@ -95,7 +95,8 @@ export const postReview = async (userId: number, reviewData: { productId: number
       },
       body: JSON.stringify({
         rating: reviewData.rating,
-        comment: reviewData.comment
+        comment: reviewData.comment,
+        imageUrl: reviewData.imageUrl
       }),
     });
     if (!response.ok) throw new Error('Failed to post review');
