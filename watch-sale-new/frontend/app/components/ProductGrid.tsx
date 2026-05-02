@@ -24,6 +24,113 @@ interface ProductGridProps {
   showFilters?: boolean;
 }
 
+const LuxuryEmptyState = () => {
+  return (
+    <div className="relative w-full py-32 flex flex-col items-center justify-center overflow-hidden rounded-3xl bg-[#050505] border border-zinc-800/50 shadow-2xl">
+      {/* 1. Background Animated Gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/20 via-transparent to-transparent opacity-50" />
+      
+      {/* 2. Floating Mechanical Gears (SVG Animation) */}
+      <div className="relative w-64 h-64 mb-8">
+        {/* Large Gear */}
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0 flex items-center justify-center opacity-10"
+        >
+          <svg width="200" height="200" viewBox="0 0 100 100" fill="none" stroke="white" strokeWidth="0.5">
+            <path d="M50 10 L55 25 L70 25 L60 35 L65 50 L50 40 L35 50 L40 35 L30 25 L45 25 Z" transform="scale(2) translate(-25, -25)" />
+            <circle cx="50" cy="50" r="10" />
+            <circle cx="50" cy="50" r="30" strokeDasharray="2 4" />
+          </svg>
+        </motion.div>
+
+        {/* Small Gear */}
+        <motion.div 
+          animate={{ rotate: -360 }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          className="absolute top-0 right-0 opacity-20"
+        >
+          <svg width="80" height="80" viewBox="0 0 100 100" fill="none" stroke="white" strokeWidth="1">
+            <path d="M50 20 L55 35 L70 35 L60 45 L65 60 L50 50 L35 60 L40 45 L30 35 L45 35 Z" />
+            <circle cx="50" cy="50" r="8" />
+          </svg>
+        </motion.div>
+
+        {/* The "Ghost" Watch Silhouette */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: [0.1, 0.3, 0.1], scale: [0.95, 1, 0.95] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 flex items-center justify-center"
+        >
+          <div className="w-32 h-48 border-2 border-zinc-700/30 rounded-[2.5rem] relative flex items-center justify-center">
+            <div className="w-24 h-24 rounded-full border border-zinc-600/20" />
+            <div className="absolute top-1/2 left-1/2 w-1 h-12 bg-gradient-to-t from-zinc-500/50 to-transparent origin-bottom -translate-x-1/2 -translate-y-full rotate-45" />
+          </div>
+        </motion.div>
+
+        {/* Scanning Light Effect */}
+        <motion.div 
+          animate={{ top: ['-20%', '120%'] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+          className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-zinc-400/30 to-transparent blur-[1px] z-10"
+        />
+      </div>
+
+      {/* 3. Text Content with Staggered Reveal */}
+      <div className="relative z-20 text-center px-6">
+        <motion.h3 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-white text-xs font-black uppercase tracking-[0.6em] mb-4"
+        >
+          Curating Excellence
+        </motion.h3>
+        
+        <motion.div 
+          initial={{ width: 0 }}
+          animate={{ width: '100px' }}
+          className="h-[1px] bg-gradient-to-r from-transparent via-zinc-500 to-transparent mx-auto mb-6"
+        />
+
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] max-w-xs leading-relaxed"
+        >
+          The requested timepieces are currently undergoing <br/> 
+          <span className="text-zinc-300">meticulous inspection</span>. <br/> 
+          Please refine your criteria for alternatives.
+        </motion.p>
+      </div>
+
+      {/* 4. Floating Particles */}
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-0.5 h-0.5 bg-zinc-500 rounded-full"
+          initial={{ 
+            x: Math.random() * 400 - 200, 
+            y: Math.random() * 400 - 200, 
+            opacity: 0 
+          }}
+          animate={{ 
+            y: [0, -100], 
+            opacity: [0, 0.5, 0] 
+          }}
+          transition={{ 
+            duration: Math.random() * 3 + 2, 
+            repeat: Infinity, 
+            delay: Math.random() * 2 
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const ProductGrid = ({ categoryType, showFilters = false }: ProductGridProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -120,9 +227,7 @@ const ProductGrid = ({ categoryType, showFilters = false }: ProductGridProps) =>
       )}
 
       {filteredProducts.length === 0 ? (
-        <div className="py-20 text-center border-2 border-dashed border-zinc-100 rounded-sm">
-           <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">No timepieces found matching your criteria</p>
-        </div>
+        <LuxuryEmptyState />
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
           {filteredProducts.map((product, idx) => (
