@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 
 const Hero = () => {
   const { scrollY } = useScroll();
@@ -10,7 +10,7 @@ const Hero = () => {
 
   const words = "Crafted for Legends".split(" ");
 
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
@@ -18,12 +18,12 @@ const Hero = () => {
     }),
   };
 
-  const child = {
+  const child: Variants = {
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         damping: 12,
         stiffness: 100,
       },
@@ -69,7 +69,7 @@ const Hero = () => {
             className="text-7xl md:text-[10rem] font-serif text-white leading-[0.85] mb-12 flex flex-wrap gap-x-8"
           >
             {words.map((word, index) => (
-              <motion.span key={index} variants={child} className={index === 2 ? "text-gold-shimmer italic" : ""}>
+              <motion.span key={index} variants={child} className={index === 2 ? "text-gold italic" : ""}>
                 {word}
               </motion.span>
             ))}
