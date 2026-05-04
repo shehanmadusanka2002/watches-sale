@@ -1,129 +1,62 @@
 "use client";
 
 import React from 'react';
-import { motion, useScroll, useTransform, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const Hero = () => {
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-
-  const words = "Crafted for Legends".split(" ");
-
-  const container: Variants = {
-    hidden: { opacity: 0 },
-    visible: (i = 1) => ({
-      opacity: 1,
-      transition: { staggerChildren: 0.2, delayChildren: 0.5 * i },
-    }),
-  };
-
-  const child: Variants = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring" as const,
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-    hidden: {
-      opacity: 0,
-      y: 40,
-    },
-  };
-
   return (
-    <section className="relative h-screen flex items-center bg-black overflow-hidden">
-      {/* Cinematic Background with Parallax */}
-      <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
+    <section className="relative min-h-[500px] md:min-h-[700px] flex items-center bg-black overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
         <motion.div 
-          initial={{ scale: 1.3, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.5 }}
-          transition={{ duration: 3, ease: "easeOut" }}
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.7 }}
+          transition={{ duration: 1.5 }}
           className="w-full h-full bg-[url('https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-      </motion.div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        <motion.div style={{ opacity }} className="max-w-4xl">
-          <div className="flex items-center gap-6 mb-12">
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: 60 }}
-              transition={{ duration: 1, delay: 1 }}
-              className="h-px bg-gold" 
-            />
-            <span className="text-gold text-[10px] font-black uppercase tracking-[0.8em] overflow-hidden whitespace-nowrap">
-              Geneva • London • Colombo
-            </span>
-          </div>
-
-          <motion.h1 
-            variants={container}
-            initial="hidden"
-            animate="visible"
-            className="text-7xl md:text-[10rem] font-serif text-white leading-[0.85] mb-12 flex flex-wrap gap-x-8"
-          >
-            {words.map((word, index) => (
-              <motion.span key={index} variants={child} className={index === 2 ? "text-gold italic" : ""}>
-                {word}
-              </motion.span>
-            ))}
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 0.6, y: 0 }}
-            transition={{ duration: 1, delay: 1.5 }}
-            className="max-w-xl text-lg md:text-2xl text-zinc-400 font-light leading-relaxed mb-16 font-sans italic"
-          >
-            A legacy forged in precision. Discover the pinnacle of horological excellence in Sri Lanka's most exclusive private boutique.
-          </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 2 }}
-            className="flex flex-wrap gap-12 items-center"
-          >
-            <button className="luxury-button">
-              Explore The Vault
-            </button>
-            
-            <button className="group flex items-center gap-6 text-white text-[10px] font-black uppercase tracking-[0.4em] transition-all hover:text-gold">
-              <span className="w-12 h-px bg-white/20 group-hover:bg-gold transition-all duration-500" />
-              The Heritage
-            </button>
-          </motion.div>
-        </motion.div>
       </div>
 
-      {/* Floating Detail Indicators */}
-      <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-20 z-20">
-         {[1, 2, 3].map((i) => (
-           <div key={i} className="flex items-center gap-4 group cursor-pointer">
-              <div className="w-1.5 h-1.5 rounded-full border border-gold/40 group-hover:bg-gold transition-all" />
-              <span className="text-[8px] text-zinc-600 font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">0{i}</span>
-           </div>
-         ))}
-      </div>
-      
-      {/* Scroll indicator with Cinematic Shimmer */}
-      <div className="absolute right-10 bottom-24 flex flex-col items-center gap-8 z-20">
-         <span className="text-[8px] font-black text-gold/30 uppercase tracking-[0.8em] [writing-mode:vertical-lr]">Scroll To Discover</span>
-         <motion.div 
-           animate={{ height: [0, 100, 0], y: [0, 0, 100] }}
-           transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-           className="w-[1px] bg-gradient-to-b from-gold via-gold/40 to-transparent" 
-         />
+      <div className="container mx-auto px-6 relative z-10 grid grid-cols-1 gap-0 items-center">
+        {/* Text Content */}
+        <div className="text-left py-20">
+           <motion.div
+             initial={{ opacity: 0, y: 30 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.8, delay: 0.2 }}
+           >
+              <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-[0.3em] text-white/70 mb-6 transition-all hover:bg-white/20 cursor-default">
+                Elegance in Motion
+              </span>
+              <h1 className="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-8 italic drop-shadow-2xl">
+                CRAFTED <br /> FOR <br /> <span className="text-zinc-500">LEGENDS.</span>
+              </h1>
+              <p className="max-w-md text-sm md:text-base text-zinc-400 font-medium leading-relaxed mb-10 italic">
+                Discover the pinnacle of Swiss precision and avant-garde design. Sri Lanka's most exclusive watch collective.
+              </p>
+              
+              <div className="flex flex-wrap gap-4">
+                 <motion.button 
+                   whileHover={{ scale: 1.05 }}
+                   whileTap={{ scale: 0.95 }}
+                   className="px-10 py-4 bg-white text-black text-[11px] font-black uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                 >
+                   Explore Full Collection
+                 </motion.button>
+                 <button className="px-10 py-4 bg-transparent border border-white/30 text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all backdrop-blur-sm">
+                   Our Heritage
+                 </button>
+              </div>
+           </motion.div>
+        </div>
+
       </div>
 
-      {/* Grain Overlay for Realism */}
-      <div className="grain-overlay" />
+      {/* Side Scroll Indicator */}
+      <div className="absolute right-10 bottom-10 flex flex-col items-center gap-4 z-20">
+         <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.5em] [writing-mode:vertical-lr]">Scroll</span>
+         <div className="w-[1px] h-20 bg-gradient-to-b from-white/40 to-transparent" />
+      </div>
     </section>
   );
 };
