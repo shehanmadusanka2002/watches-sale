@@ -4,7 +4,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const MarqueeBanner = () => {
-  // Array of watch images (using high-quality placeholder-like products or existing ones)
   const watches = [
     { src: '/images/marquee/watch1.png', name: 'Grand Master' },
     { src: '/images/marquee/watch2.png', name: 'Modern Chrono' },
@@ -14,62 +13,52 @@ const MarqueeBanner = () => {
     { src: '/images/marquee/watch6.png', name: 'Next-Gen Smart' },
   ];
 
-  // Duplicate the array to create the infinite effect
   const doubledWatches = [...watches, ...watches, ...watches];
 
   return (
-    <section className="py-24 bg-white overflow-hidden relative">
+    <section className="py-32 bg-[#0A0A0A] overflow-hidden relative border-y border-white/5">
       {/* Background Decorative Text */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none">
-        <span className="text-[20vw] font-black uppercase tracking-tighter">COLLECTION</span>
+      <div className="absolute inset-0 flex items-center justify-center opacity-[0.01] pointer-events-none select-none">
+        <span className="text-[25vw] font-serif uppercase tracking-tighter italic">Elegance</span>
       </div>
 
-      <div className="container mx-auto px-6 mb-16 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="container mx-auto px-6 mb-24 relative z-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
           <div>
-            <h2 className="text-6xl font-black tracking-tighter uppercase leading-none">
-              Featured <br /> <span className="text-zinc-300">Timepieces</span>
+            <div className="flex items-center gap-6 mb-8">
+              <div className="w-12 h-px bg-gold" />
+              <span className="text-gold text-[9px] font-black uppercase tracking-[0.8em]">Curated Excellence</span>
+            </div>
+            <h2 className="text-6xl md:text-8xl font-serif text-white leading-none">
+              Featured <br /> <span className="text-gold italic">Timepieces</span>
             </h2>
           </div>
-          <p className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.4em] max-w-[200px] leading-relaxed italic">
-            Experience the seamless flow of master engineering and aesthetic perfection.
+          <p className="max-w-[280px] text-[11px] text-[#8A8A8A] font-sans tracking-widest leading-loose uppercase italic opacity-60">
+            Experience the seamless flow of master engineering and aesthetic perfection. Each piece tells a story of precision.
           </p>
         </div>
       </div>
 
       <div className="relative flex overflow-x-hidden">
         <motion.div 
-          className="flex whitespace-nowrap gap-12 py-10"
-          animate={{
-            x: [0, -1920], // Move left
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 40,
-              ease: "linear",
-            },
-          }}
+          className="flex whitespace-nowrap gap-16 py-10"
+          animate={{ x: [0, -1920] }}
+          transition={{ x: { repeat: Infinity, repeatType: "loop", duration: 60, ease: "linear" } }}
         >
           {doubledWatches.map((watch, index) => (
-            <div 
-              key={index} 
-              className="inline-block group cursor-pointer"
-            >
-              <div className="relative w-[300px] h-[400px] bg-zinc-50 rounded-2xl overflow-hidden transition-all duration-700 group-hover:bg-zinc-100 shadow-[0_20px_50px_rgba(0,0,0,0.05)] group-hover:shadow-[0_40px_80px_rgba(0,0,0,0.1)]">
-                {/* Floating Effect Image */}
+            <div key={index} className="inline-block group cursor-pointer">
+              <div className="relative w-[320px] h-[450px] bg-[#1A1A1A] border border-white/5 overflow-hidden transition-all duration-1000 group-hover:border-gold/30 group-hover:shadow-[0_40px_100px_rgba(0,0,0,0.8)]">
                 <motion.img 
                   src={watch.src} 
                   alt={watch.name}
-                  className="w-full h-full object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 grayscale opacity-20 group-hover:opacity-60"
                   whileHover={{ y: -10 }}
                 />
                 
-                {/* Overlay Info */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-                   <span className="text-white text-xs font-black uppercase tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{watch.name}</span>
-                   <span className="text-white/60 text-[9px] font-bold uppercase tracking-tighter mt-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75 italic">Boutique Selection</span>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-10">
+                   <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4">{watch.name}</span>
+                   <div className="w-8 h-px bg-gold/50 mb-4 group-hover:w-16 transition-all duration-700" />
+                   <span className="text-white/40 text-[8px] font-bold uppercase tracking-[0.2em] italic">Private Collection</span>
                 </div>
               </div>
             </div>

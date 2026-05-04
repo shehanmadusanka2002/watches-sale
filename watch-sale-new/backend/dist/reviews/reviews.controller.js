@@ -26,11 +26,14 @@ let ReviewsController = class ReviewsController {
     getProductReviews(productId) {
         return this.reviewsService.getProductReviews(+productId);
     }
-    addReview(userId, productId, rating, comment) {
-        return this.reviewsService.addReview(+userId, +productId, rating, comment);
+    addReview(userId, productId, rating, comment, imageUrl) {
+        return this.reviewsService.addReview(+userId, +productId, rating, comment, imageUrl);
     }
     deleteReview(userId, reviewId) {
         return this.reviewsService.deleteReview(+userId, +reviewId);
+    }
+    adminDeleteReview(reviewId) {
+        return this.reviewsService.deleteReviewAdmin(+reviewId);
     }
 };
 exports.ReviewsController = ReviewsController;
@@ -53,8 +56,9 @@ __decorate([
     __param(1, (0, common_1.Param)('productId')),
     __param(2, (0, common_1.Body)('rating')),
     __param(3, (0, common_1.Body)('comment')),
+    __param(4, (0, common_1.Body)('imageUrl')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Number, String]),
+    __metadata("design:paramtypes", [String, String, Number, String, String]),
     __metadata("design:returntype", void 0)
 ], ReviewsController.prototype, "addReview", null);
 __decorate([
@@ -65,6 +69,13 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], ReviewsController.prototype, "deleteReview", null);
+__decorate([
+    (0, common_1.Delete)(':reviewId'),
+    __param(0, (0, common_1.Param)('reviewId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ReviewsController.prototype, "adminDeleteReview", null);
 exports.ReviewsController = ReviewsController = __decorate([
     (0, common_1.Controller)('reviews'),
     __metadata("design:paramtypes", [reviews_service_1.ReviewsService])

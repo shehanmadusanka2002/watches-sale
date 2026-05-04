@@ -19,6 +19,7 @@ let Review = class Review {
     product;
     rating;
     comment;
+    reviewImageUrl;
     createdAt;
 };
 exports.Review = Review;
@@ -44,6 +45,10 @@ __decorate([
     (0, typeorm_1.Column)('text', { nullable: true }),
     __metadata("design:type", String)
 ], Review.prototype, "comment", void 0);
+__decorate([
+    (0, typeorm_1.Column)('longtext', { nullable: true }),
+    __metadata("design:type", String)
+], Review.prototype, "reviewImageUrl", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

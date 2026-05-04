@@ -28,7 +28,7 @@ let ReviewsService = class ReviewsService {
         this.productsService = productsService;
         this.usersService = usersService;
     }
-    async addReview(userId, productId, rating, comment) {
+    async addReview(userId, productId, rating, comment, imageUrl) {
         const user = await this.usersService.findById(userId);
         if (!user)
             throw new common_1.NotFoundException('User not found');
@@ -38,6 +38,7 @@ let ReviewsService = class ReviewsService {
             product,
             rating,
             comment,
+            reviewImageUrl: imageUrl,
         });
         return this.reviewRepository.save(review);
     }
@@ -54,6 +55,12 @@ let ReviewsService = class ReviewsService {
         });
         if (!review)
             throw new common_1.NotFoundException('Review not found or unauthorized');
+        await this.reviewRepository.delete(reviewId);
+    }
+    async deleteReviewAdmin(reviewId) {
+        const review = await this.reviewRepository.findOne({ where: { id: reviewId } });
+        if (!review)
+            throw new common_1.NotFoundException('Review not found');
         await this.reviewRepository.delete(reviewId);
     }
     async findAll() {

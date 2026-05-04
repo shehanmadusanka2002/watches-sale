@@ -6,5 +6,6 @@ export declare class Review {
     product: Product;
     rating: number;
     comment: string;
+    reviewImageUrl: string;
     createdAt: Date;
 }

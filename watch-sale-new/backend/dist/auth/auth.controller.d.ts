@@ -22,4 +22,13 @@ export declare class AuthController {
             role: import("../enums/role.enum").Role;
         };
     }>;
+    googleLogin(token: string): Promise<{
+        access_token: string;
+        user: {
+            id: number;
+            email: string;
+            username: string;
+            role: import("../enums/role.enum").Role;
+        };
+    }>;
 }

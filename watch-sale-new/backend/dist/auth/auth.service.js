@@ -47,6 +47,7 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = __importStar(require("bcrypt"));
 const users_service_1 = require("../users/users.service");
+const role_enum_1 = require("../enums/role.enum");
 let AuthService = class AuthService {
     usersService;
     jwtService;
@@ -97,6 +98,40 @@ let AuthService = class AuthService {
                 role: user.role,
             }
         };
+    }
+    async googleLogin(token) {
+        const { OAuth2Client } = require('google-auth-library');
+        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken: token,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            });
+            const googlePayload = ticket.getPayload();
+            const { email, name, sub: googleId } = googlePayload;
+            let user = await this.usersService.findByEmail(email);
+            if (!user) {
+                user = await this.usersService.create({
+                    username: name,
+                    email: email,
+                    password: `GOOGLE_${googleId}`,
+                    role: role_enum_1.Role.CUSTOMER
+                });
+            }
+            const payload = { email: user.email, sub: user.id, role: user.role };
+            return {
+                access_token: this.jwtService.sign(payload),
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                }
+            };
+        }
+        catch (error) {
+            throw new common_1.UnauthorizedException('Invalid Google Token');
+        }
     }
 };
 exports.AuthService = AuthService;

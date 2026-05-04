@@ -7,8 +7,9 @@ export declare class ReviewsService {
     private productsService;
     private usersService;
     constructor(reviewRepository: Repository<Review>, productsService: ProductsService, usersService: UsersService);
-    addReview(userId: number, productId: number, rating: number, comment: string): Promise<Review>;
+    addReview(userId: number, productId: number, rating: number, comment: string, imageUrl?: string): Promise<Review>;
     getProductReviews(productId: number): Promise<Review[]>;
     deleteReview(userId: number, reviewId: number): Promise<void>;
+    deleteReviewAdmin(reviewId: number): Promise<void>;
     findAll(): Promise<Review[]>;
 }
