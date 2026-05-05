@@ -133,17 +133,18 @@ const CheckoutPage = () => {
                      <h2 className="text-xs font-black uppercase tracking-[0.3em]">Contact Information</h2>
                   </div>
                   <div className="space-y-6">
-                     <div className="relative">
-                        <input 
-                           required
-                           type="email" 
-                           name="email"
-                           placeholder="Email Address"
-                           value={formData.email}
-                           onChange={handleInputChange}
-                           className="w-full border-b-2 border-zinc-100 py-4 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-300 placeholder:font-black"
-                        />
-                     </div>
+                      <div className="relative space-y-1">
+                         <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Email Address</p>
+                         <input 
+                            required
+                            type="email" 
+                            name="email"
+                            placeholder="yourname@email.com"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
+                         />
+                      </div>
                      <div className="flex items-center gap-4 py-2">
                         <input type="checkbox" id="marketing" className="accent-black" />
                         <label htmlFor="marketing" className="text-[10px] font-black uppercase tracking-widest text-zinc-400 cursor-pointer">Email me with luxury collections and news</label>
@@ -154,60 +155,78 @@ const CheckoutPage = () => {
                <section>
                   <div className="flex items-center gap-3 mb-8 border-b border-zinc-100 pb-4">
                      <span className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-black">2</span>
-                     <h2 className="text-xs font-black uppercase tracking-[0.3em]">Shipping Details</h2>
+                     <h2 className="text-xs font-black uppercase tracking-[0.3em]">Shipping Destination</h2>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                     <input 
-                        required
-                        type="text" 
-                        name="firstName"
-                        placeholder="First Name"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        className="w-full border-b-2 border-zinc-100 py-4 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-300 placeholder:font-black"
-                     />
-                     <input 
-                        required
-                        type="text" 
-                        name="lastName"
-                        placeholder="Last Name"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className="w-full border-b-2 border-zinc-100 py-4 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-300 placeholder:font-black"
-                     />
-                  </div>
-                  <div className="space-y-8">
-                     <input 
-                        required
-                        type="text" 
-                        name="address"
-                        placeholder="Shipping Address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        className="w-full border-b-2 border-zinc-100 py-4 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-300 placeholder:font-black"
-                     />
-                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
+                     <div className="space-y-1">
+                        <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">First Name</p>
                         <input 
                            required
                            type="text" 
-                           name="city"
-                           placeholder="City"
-                           value={formData.city}
+                           name="firstName"
+                           placeholder="e.g. Sunil"
+                           value={formData.firstName}
                            onChange={handleInputChange}
-                           className="w-full border-b-2 border-zinc-100 py-4 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-300 placeholder:font-black"
+                           className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
                         />
-                        <div className="w-full border-b-2 border-zinc-100 py-4 text-sm font-black uppercase tracking-widest text-zinc-400">
-                           Sri Lanka
-                        </div>
+                     </div>
+                     <div className="space-y-1">
+                        <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Last Name</p>
                         <input 
                            required
-                           type="tel" 
-                           name="phone"
-                           placeholder="Phone Number"
-                           value={formData.phone}
+                           type="text" 
+                           name="lastName"
+                           placeholder="e.g. Perera"
+                           value={formData.lastName}
                            onChange={handleInputChange}
-                           className="w-full border-b-2 border-zinc-100 py-4 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-300 placeholder:font-black"
+                           className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
                         />
+                     </div>
+                  </div>
+                  <div className="space-y-8">
+                     <div className="space-y-1">
+                        <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Shipping Address</p>
+                        <input 
+                           required
+                           type="text" 
+                           name="address"
+                           placeholder="House No, Street, Area"
+                           value={formData.address}
+                           onChange={handleInputChange}
+                           className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
+                        />
+                     </div>
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                        <div className="space-y-1">
+                           <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">City</p>
+                           <input 
+                              required
+                              type="text" 
+                              name="city"
+                              placeholder="e.g. Colombo"
+                              value={formData.city}
+                              onChange={handleInputChange}
+                              className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
+                           />
+                        </div>
+                        <div className="space-y-1">
+                           <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Country</p>
+                           <div className="w-full border-b-2 border-zinc-100 py-4 px-1 text-sm font-black uppercase tracking-widest text-zinc-300">
+                              Sri Lanka
+                           </div>
+                        </div>
+                        <div className="space-y-1">
+                           <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Phone Number (Mobile)</p>
+                           <input 
+                              required
+                              type="tel" 
+                              name="phone"
+                              placeholder="077 XXXXXXX"
+                              value={formData.phone}
+                              onChange={handleInputChange}
+                              className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
+                           />
+                        </div>
                      </div>
                   </div>
                </section>

@@ -231,13 +231,16 @@ const ProductDetails = () => {
                             <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-black tracking-tighter mb-6 leading-tight uppercase">
                                 {product.name}
                             </h1>
-
-                            <div className="flex items-center gap-6 mb-8">
+                            <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-8">
                                 <span className="text-3xl font-black text-black tracking-tight">Rs. {product.price?.toLocaleString()}</span>
-                                <div className="h-8 w-px bg-zinc-100"></div>
-                                <div className="flex flex-col">
-                                    <span className="text-[9px] font-black text-green-600 uppercase tracking-widest">Available Now</span>
-                                    <span className="text-[10px] text-zinc-400">Order by 4PM for next-day dispatch</span>
+                                <div className="hidden md:block h-8 w-px bg-zinc-100"></div>
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="text-[8px] font-black bg-green-50 text-green-600 px-3 py-1 rounded-full uppercase tracking-widest border border-green-100 flex items-center gap-1">
+                                       <Check size={10} /> Islandwide Free Delivery
+                                    </span>
+                                    <span className="text-[8px] font-black bg-zinc-50 text-zinc-600 px-3 py-1 rounded-full uppercase tracking-widest border border-zinc-100 flex items-center gap-1">
+                                       <Truck size={10} /> Cash on Delivery Available
+                                    </span>
                                 </div>
                             </div>
 

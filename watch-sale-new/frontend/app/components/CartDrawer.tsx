@@ -154,19 +154,19 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                         <p className="text-xs font-black text-black mb-6 tracking-tighter">Rs. {item.price.toLocaleString()}</p>
                         
                         <div className="mt-auto flex items-center justify-between">
-                          <div className="flex items-center bg-zinc-50 rounded-full p-1 border border-zinc-100">
+                          <div className="flex items-center bg-zinc-50 rounded-full p-1.5 border border-zinc-100">
                             <button 
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white hover:shadow-sm text-zinc-400 hover:text-black transition-all"
+                              className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:shadow-sm text-zinc-400 hover:text-black transition-all active:scale-90"
                             >
-                              <Minus size={10} />
+                              <Minus size={14} />
                             </button>
-                            <span className="text-[10px] font-black px-3 min-w-[30px] text-center text-black">{item.quantity}</span>
+                            <span className="text-xs font-black px-4 min-w-[36px] text-center text-black">{item.quantity}</span>
                             <button 
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white hover:shadow-sm text-zinc-400 hover:text-black transition-all"
+                              className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:shadow-sm text-zinc-400 hover:text-black transition-all active:scale-90"
                             >
-                              <Plus size={10} />
+                              <Plus size={14} />
                             </button>
                           </div>
                           <span className="text-[8px] font-black text-zinc-300 uppercase tracking-[0.2em]">Quantity</span>
