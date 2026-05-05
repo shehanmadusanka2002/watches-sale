@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useCart } from '@/context/CartContext';
 import { motion } from 'framer-motion';
-import { Check, Package, Truck, ArrowRight, Heart, MessageCircle } from 'lucide-react';
+import { Check, Package, Truck, ArrowRight, Heart, MessageCircle, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Navbar from '@/app/components/Navbar';
 
-const SuccessPage = () => {
+const SuccessContent = () => {
     const { clearCart } = useCart();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -136,6 +136,18 @@ I am sending the payment receipt below:`;
                 </div>
             </footer>
         </div>
+    );
+};
+
+const SuccessPage = () => {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-white flex items-center justify-center">
+                <Loader2 size={40} className="animate-spin text-zinc-200" />
+            </div>
+        }>
+            <SuccessContent />
+        </Suspense>
     );
 };
 
