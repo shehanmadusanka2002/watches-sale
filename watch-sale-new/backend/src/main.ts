@@ -12,32 +12,11 @@ async function bootstrap() {
     app.use(json({ limit: '50mb' }));
     app.use(urlencoded({ limit: '50mb', extended: true }));
 
-    // Dynamic CORS Middleware for Vercel
-    app.use((req, res, next) => {
-      const origin = req.headers.origin;
-      const isVercel = origin && (origin.endsWith('.vercel.app') || origin.includes('localhost'));
-      
-      if (isVercel) {
-        res.header('Access-Control-Allow-Origin', origin);
-      } else {
-        res.header('Access-Control-Allow-Origin', '*');
-      }
-
-      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-      res.header('Access-Control-Allow-Credentials', 'true');
-      
-      if (req.method === 'OPTIONS') {
-        res.sendStatus(200);
-      } else {
-        next();
-      }
-    });
-
     app.enableCors({
       origin: true,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       credentials: true,
+      allowedHeaders: 'Content-Type, Authorization, Content-Length, X-Requested-With',
     });
 
     await app.init();
