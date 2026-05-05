@@ -30,7 +30,7 @@ const CheckoutPage = () => {
     country: 'Sri Lanka',
     phone: ''
   });
-  const [paymentMethod, setPaymentMethod] = useState<'COD' | 'ONLINE'>('COD');
+  const [paymentMethod, setPaymentMethod] = useState<'COD' | 'BANK_TRANSFER'>('COD');
   const [alertModal, setAlertModal] = useState({ isOpen: false, message: '', title: 'Acquisition Alert' });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,114 +51,47 @@ const CheckoutPage = () => {
       return;
     }
 
-    if (paymentMethod === 'ONLINE') {
-      const merchantId = "1235239";
-      const merchantSecret = "4knwMA2AQmR8cP9rVh81Cd8QenK7fG0xs8gj3Ea8vNdl";
-      const orderId = `Order_${Date.now()}`;
-      const amountFormatted = getCartTotal().toFixed(2);
-      const currency = "LKR";
+    setLoading(true);
+    try {
+      const items = cart.map(item => ({
+        productId: item.id,
+        quantity: item.quantity,
+        price: item.price
+      }));
 
-      const hash = md5(
-        merchantId + 
-        orderId + 
-        amountFormatted + 
-        currency + 
-        md5(merchantSecret).toUpperCase()
-      ).toUpperCase();
-
-      const payment = {
-        sandbox: true,
-        merchant_id: merchantId,
-        return_url: `${window.location.origin}/checkout/success`,
-        cancel_url: `${window.location.origin}/checkout`,
-        notify_url: `${API_BASE_URL}/payment/notify`,
-        order_id: orderId,
-        items: "Watch Haven Collection Acquisition",
-        amount: amountFormatted,
-        currency: currency,
-        hash: hash,
-        first_name: formData.firstName,
-        last_name: formData.lastName,
+      const shippingDetails = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         email: formData.email,
-        phone: formData.phone,
-        address: formData.address,
+        shippingAddress: formData.address,
         city: formData.city,
-        country: formData.country,
+        phone: formData.phone
       };
 
-      window.payhere.onCompleted = async function onCompleted() {
-        setLoading(true);
-        try {
-          const items = cart.map(item => ({
-            productId: item.id,
-            quantity: item.quantity,
-            price: item.price
-          }));
-
-          const shippingDetails = {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            shippingAddress: formData.address,
-            city: formData.city,
-            phone: formData.phone
-          };
-
-          await checkout(user.id, 'CARD', items, shippingDetails);
-          clearCart();
-          router.push('/checkout/success');
-        } catch (error: any) {
-          console.error("Order recording failed:", error);
-          setAlertModal({ 
-            isOpen: true, 
-            title: 'Acquisition Error', 
-            message: error.message || "An error occurred while finalizing your acquisition." 
-          });
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      if (window.payhere) {
-        window.payhere.startPayment(payment);
-      } else {
-        setAlertModal({ 
-          isOpen: true, 
-          title: 'Gateway Syncing', 
-          message: "Payment gateway is still loading. Please wait a moment." 
-        });
-      }
-    } else {
-      setLoading(true);
-      try {
-        const items = cart.map(item => ({
-          productId: item.id,
-          quantity: item.quantity,
-          price: item.price
+      const result = await checkout(user.id, paymentMethod === 'COD' ? 'CASH_ON_DELIVERY' : 'BANK_TRANSFER', items, shippingDetails);
+      
+      if (paymentMethod === 'BANK_TRANSFER') {
+        // Redirect to success page but with WhatsApp info
+        localStorage.setItem('lastOrder', JSON.stringify({
+          orderId: result.id,
+          total: getCartTotal(),
+          method: 'BANK_TRANSFER'
         }));
-
-        const shippingDetails = {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          shippingAddress: formData.address,
-          city: formData.city,
-          phone: formData.phone
-        };
-
-        await checkout(user.id, 'CASH_ON_DELIVERY', items, shippingDetails);
+        clearCart();
+        router.push('/checkout/success?method=bank');
+      } else {
         clearCart();
         router.push('/checkout/success');
-      } catch (error: any) {
-        console.error("COD order placement failed:", error);
-        setAlertModal({ 
-          isOpen: true, 
-          title: 'Acquisition Alert', 
-          message: error.message || "Failed to place order. Please try again." 
-        });
-      } finally {
-        setLoading(false);
       }
+    } catch (error: any) {
+      console.error("Order placement failed:", error);
+      setAlertModal({ 
+        isOpen: true, 
+        title: 'Acquisition Alert', 
+        message: error.message || "Failed to place order. Please try again." 
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -305,32 +238,56 @@ const CheckoutPage = () => {
                       </div>
 
                       <div 
-                        onClick={() => setPaymentMethod('ONLINE')}
+                        onClick={() => setPaymentMethod('BANK_TRANSFER')}
                         className={`p-8 border-2 rounded-sm cursor-pointer transition-all ${
-                          paymentMethod === 'ONLINE' ? 'border-black bg-zinc-50' : 'border-zinc-100 hover:border-zinc-200 bg-white'
+                          paymentMethod === 'BANK_TRANSFER' ? 'border-black bg-zinc-50' : 'border-zinc-100 hover:border-zinc-200 bg-white'
                         }`}
                       >
                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
                             <div className="flex items-center gap-5">
-                               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'ONLINE' ? 'border-black' : 'border-zinc-200'}`}>
-                                  {paymentMethod === 'ONLINE' && <div className="w-2.5 h-2.5 bg-black rounded-full" />}
+                               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'BANK_TRANSFER' ? 'border-black' : 'border-zinc-200'}`}>
+                                  {paymentMethod === 'BANK_TRANSFER' && <div className="w-2.5 h-2.5 bg-black rounded-full" />}
                                </div>
                                <div className="text-left">
-                                  <p className="text-[13px] font-black uppercase tracking-[0.2em] text-black">Secure Online Payment</p>
-                                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1">Acquire via Visa, Mastercard, or PayHere gateway.</p>
+                                  <p className="text-[13px] font-black uppercase tracking-[0.2em] text-black">Bank Transfer / Online Payment</p>
+                                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1">Transfer directly to our bank account and send receipt via WhatsApp.</p>
                                </div>
                             </div>
-                            <div className="bg-white px-4 py-2 rounded-sm border border-zinc-100">
-                               <img 
-                                  src="https://www.payhere.lk/downloads/images/payhere_long_banner.png" 
-                                  alt="Secure Gateway" 
-                                  className="h-6 object-contain grayscale hover:grayscale-0 transition-all duration-700" 
-                               />
-                            </div>
+                            <CreditCard size={24} strokeWidth={1.5} className={paymentMethod === 'BANK_TRANSFER' ? 'text-black' : 'text-zinc-200'} />
                          </div>
-                         <p className="text-[10px] font-bold text-zinc-400 leading-[2] uppercase tracking-[0.15em] max-w-2xl text-left pl-10">
-                            After clicking "Complete Purchase", you will be redirected to PayHere to complete your purchase securely.
-                         </p>
+                         
+                         {paymentMethod === 'BANK_TRANSFER' && (
+                            <motion.div 
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              className="pl-10 space-y-4"
+                            >
+                               <div className="bg-white p-6 border border-zinc-200 rounded-sm space-y-3">
+                                  <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Our Bank Details:</p>
+                                  <div className="grid grid-cols-2 gap-4">
+                                     <div>
+                                        <p className="text-[9px] font-bold text-zinc-400 uppercase">Bank</p>
+                                        <p className="text-[11px] font-black uppercase">Commercial Bank</p>
+                                     </div>
+                                     <div>
+                                        <p className="text-[9px] font-bold text-zinc-400 uppercase">Account Name</p>
+                                        <p className="text-[11px] font-black uppercase">ANIX BOUTIQUE</p>
+                                     </div>
+                                     <div>
+                                        <p className="text-[9px] font-bold text-zinc-400 uppercase">Account Number</p>
+                                        <p className="text-[11px] font-black uppercase tracking-widest">8012345678</p>
+                                     </div>
+                                     <div>
+                                        <p className="text-[9px] font-bold text-zinc-400 uppercase">Branch</p>
+                                        <p className="text-[11px] font-black uppercase">Colombo 04</p>
+                                     </div>
+                                  </div>
+                               </div>
+                               <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest italic">
+                                  * Please use your Name or Phone number as the reference.
+                               </p>
+                            </motion.div>
+                         )}
                       </div>
                    </div>
                   

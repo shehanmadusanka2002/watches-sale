@@ -27,6 +27,9 @@ export class Payment {
   @Column({ nullable: true })
   transactionId: string;
 
+  @Column({ nullable: true })
+  receiptImage: string;
+
   @OneToOne(() => Order, order => order.payment, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'order_id' })
   order: Order;
