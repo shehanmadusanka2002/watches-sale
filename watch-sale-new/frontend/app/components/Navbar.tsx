@@ -48,8 +48,9 @@ const Navbar = () => {
     { name: "MEN'S WATCHES", href: "/category/men" },
     { name: "WOMEN'S WATCHES", href: "/category/women" },
     { name: "COUPLE WATCHES", href: "/category/couple" },
+    { name: "WEDDING COLLECTION", href: "/category/couple" },
+    { name: "AVURUDU SPECIAL", href: "/category/new-arrivals" },
     { name: "SMART WATCHES", href: "/category/smart" },
-    { name: "CHILDREN WATCHES", href: "/category/children" },
     { name: "NEW ARRIVALS", href: "/category/new-arrivals" }
   ];
 

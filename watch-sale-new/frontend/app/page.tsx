@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 import MarqueeBanner from "./components/MarqueeBanner";
+import FestiveCollections from "./components/FestiveCollections";
 
 export default function Home() {
   return (
@@ -42,6 +43,9 @@ export default function Home() {
            </div>
         </Link>
       </section>
+
+      {/* Special Festive Collections (Avurudu / Wedding) */}
+      <FestiveCollections />
 
       {/* Trust Badges - Redesigned for Premium Look */}
       <section className="py-16 bg-white relative overflow-hidden">
