@@ -11,7 +11,7 @@ const FestiveCollections = () => {
       id: 'avurudu',
       title: 'Avurudu Special',
       subtitle: 'New Beginnings, Timeless Style',
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop',
+      image: '/images/avurudu_special.png',
       color: 'from-red-600/20 to-orange-600/20',
       badge: 'Limited Edition',
       link: '/category/new-arrivals' // For now redirecting to new arrivals
@@ -20,7 +20,7 @@ const FestiveCollections = () => {
       id: 'wedding',
       title: 'Wedding Collection',
       subtitle: 'Luxury Gifts for Eternal Bonds',
-      image: 'https://images.unsplash.com/photo-1542491595-30013b619711?q=80&w=1000&auto=format&fit=crop',
+      image: '/images/wedding_collection.png',
       color: 'from-yellow-600/20 to-amber-900/20',
       badge: 'Gift Packaging Included',
       link: '/category/couple' // Redirecting to couple watches
