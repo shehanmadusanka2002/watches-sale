@@ -83,6 +83,11 @@ export class OrdersService {
   }
 
   async createOrderWithItems(userId: number, paymentMethod: PaymentMethod, items: any[], shippingDetails: any): Promise<Order> {
+    console.log('--- Checkout Started ---');
+    console.log('User ID:', userId);
+    console.log('Payment Method:', paymentMethod);
+    console.log('Items:', JSON.stringify(items));
+    
     const user = await this.usersService.findById(userId);
     if (!user) throw new NotFoundException('User not found');
 
@@ -92,50 +97,57 @@ export class OrdersService {
 
     const totalAmount = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-    return this.orderRepository.manager.transaction(async transactionalEntityManager => {
-      // Create Order
-      let order = transactionalEntityManager.create(Order, {
-        user,
-        status: OrderStatus.PENDING,
-        ...shippingDetails,
-      });
-      order = await transactionalEntityManager.save(Order, order);
+    try {
+      return await this.orderRepository.manager.transaction(async transactionalEntityManager => {
+        // Create Order
+        let order = transactionalEntityManager.create(Order, {
+          user,
+          status: OrderStatus.PENDING,
+          ...shippingDetails,
+        });
+        order = await transactionalEntityManager.save(Order, order);
 
-      // Create Order Items and Check Stock
-      for (const item of items) {
-        const product = await transactionalEntityManager.findOne('Product', { where: { id: item.productId } }) as any;
-        if (!product) throw new NotFoundException(`Product ${item.productId} not found`);
+        // Create Order Items and Check Stock
+        for (const item of items) {
+          const product = await transactionalEntityManager.findOne('Product', { where: { id: item.productId } }) as any;
+          if (!product) throw new NotFoundException(`Product ${item.productId} not found`);
 
-        if (product.stockQuantity < item.quantity) {
-          throw new BadRequestException(`Apologies, but the ${product.name} is currently unavailable in this quantity. Please adjust your collection.`);
+          if (product.stockQuantity < item.quantity) {
+            throw new BadRequestException(`Apologies, but the ${product.name} is currently unavailable in this quantity. Please adjust your collection.`);
+          }
+
+          const orderItem = transactionalEntityManager.create(OrderItem, {
+            order,
+            product,
+            quantity: item.quantity,
+            price: item.price,
+          });
+          await transactionalEntityManager.save(OrderItem, orderItem);
+
+          // Decrement stock
+          product.stockQuantity -= item.quantity;
+          await transactionalEntityManager.save('Product', product);
         }
 
-        const orderItem = transactionalEntityManager.create(OrderItem, {
-          order,
-          product,
-          quantity: item.quantity,
-          price: item.price,
-        });
-        await transactionalEntityManager.save(OrderItem, orderItem);
+        // Process Payment
+        console.log('Creating Payment...');
+        await this.paymentsService.createPaymentInTransaction(transactionalEntityManager, order, paymentMethod, totalAmount);
 
-        // Decrement stock
-        product.stockQuantity -= item.quantity;
-        await transactionalEntityManager.save('Product', product);
-      }
+        const finalOrder = (await transactionalEntityManager.findOne(Order, {
+          where: { id: order.id },
+          relations: ['orderItems', 'orderItems.product', 'payment', 'user'],
+        }))!;
 
-      // Process Payment
-      await this.paymentsService.createPaymentInTransaction(transactionalEntityManager, order, paymentMethod, totalAmount);
+        // Send email asynchronously
+        console.log('Sending Confirmation Email...');
+        this.mailService.sendOrderConfirmation(finalOrder);
 
-      const finalOrder = (await transactionalEntityManager.findOne(Order, {
-        where: { id: order.id },
-        relations: ['orderItems', 'orderItems.product', 'payment', 'user'],
-      }))!;
-
-      // Send email asynchronously
-      this.mailService.sendOrderConfirmation(finalOrder);
-
-      return finalOrder;
-    });
+        return finalOrder;
+      });
+    } catch (error) {
+      console.error('CRITICAL ERROR DURING CHECKOUT:', error);
+      throw error;
+    }
   }
 
   async getUserOrders(userId: number): Promise<Order[]> {
