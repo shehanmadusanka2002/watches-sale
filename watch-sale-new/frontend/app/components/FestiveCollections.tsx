@@ -44,52 +44,51 @@ const FestiveCollections = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {collections.map((col, idx) => (
-            <motion.div
-              key={col.id}
-              initial={{ opacity: 0, x: idx === 0 ? -20 : 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="group relative h-[450px] overflow-hidden rounded-sm cursor-pointer shadow-2xl"
-            >
-              {/* Background Image */}
-              <img 
-                src={col.image} 
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-                alt={col.title}
-              />
-              
-              {/* Gradient Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${col.color} mix-blend-multiply opacity-60 group-hover:opacity-40 transition-opacity`} />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
-
-              {/* Content */}
-              <div className="absolute inset-0 p-12 flex flex-col justify-end items-start">
-                <span className="bg-white text-black text-[9px] font-black px-4 py-2 uppercase tracking-[0.2em] mb-6 shadow-xl">
-                  {col.badge}
-                </span>
-                <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase mb-2 group-hover:translate-x-2 transition-transform duration-500 italic">
-                  {col.title}
-                </h3>
-                <p className="text-white/60 text-[11px] font-bold uppercase tracking-[0.3em] mb-10 max-w-xs leading-relaxed">
-                  {col.subtitle}
-                </p>
+            <Link key={col.id} href={col.link}>
+              <motion.div
+                initial={{ opacity: 0, x: idx === 0 ? -20 : 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+                className="group relative h-[450px] overflow-hidden rounded-sm cursor-pointer shadow-2xl"
+              >
+                {/* Background Image */}
+                <img 
+                  src={col.image} 
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                  alt={col.title}
+                />
                 
-                <Link 
-                  href={col.link}
-                  className="flex items-center gap-4 text-white text-[10px] font-black uppercase tracking-[0.4em] group/btn"
-                >
-                  Discover Selection 
-                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-white group-hover/btn:text-black transition-all">
-                    <ChevronRight size={16} />
-                  </div>
-                </Link>
-              </div>
+                {/* Gradient Overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${col.color} mix-blend-multiply opacity-60 group-hover:opacity-40 transition-opacity`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
 
-              {/* Sparkle effects on hover */}
-              <div className="absolute top-10 right-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <Sparkles className="text-white animate-pulse" size={40} />
-              </div>
-            </motion.div>
+                {/* Content */}
+                <div className="absolute inset-0 p-12 flex flex-col justify-end items-start">
+                  <span className="bg-white text-black text-[9px] font-black px-4 py-2 uppercase tracking-[0.2em] mb-6 shadow-xl">
+                    {col.badge}
+                  </span>
+                  <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase mb-2 group-hover:translate-x-2 transition-transform duration-500 italic">
+                    {col.title}
+                  </h3>
+                  <p className="text-white/60 text-[11px] font-bold uppercase tracking-[0.3em] mb-10 max-w-xs leading-relaxed">
+                    {col.subtitle}
+                  </p>
+                  
+                  <div className="flex items-center gap-4 text-white text-[10px] font-black uppercase tracking-[0.4em] group/btn">
+                    Discover Selection 
+                    <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-white group-hover/btn:text-black transition-all">
+                      <ChevronRight size={16} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sparkle effects on hover */}
+                <div className="absolute top-10 right-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                  <Sparkles className="text-white animate-pulse" size={40} />
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>
