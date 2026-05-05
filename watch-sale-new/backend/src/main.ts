@@ -40,5 +40,5 @@ if (process.env.NODE_ENV !== 'production') {
     app.enableCors({ origin: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', credentials: true });
     await app.listen(8080);
   };
-  // startLocal(); // Commented out to prevent double-boot in dev watch mode if necessary
+  // startLocal();
 }

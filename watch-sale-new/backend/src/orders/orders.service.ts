@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
+import { Product } from '../products/entities/product.entity';
 import { UsersService } from '../users/users.service';
 import { CartService } from '../cart/cart.service';
 import { PaymentsService } from '../payments/payments.service';
@@ -45,7 +46,7 @@ export class OrdersService {
 
       // Create Order Items and Check Stock
       for (const item of cart.cartItems) {
-        const product = await transactionalEntityManager.findOne('Product', { where: { id: item.product.id } }) as any;
+        const product = await transactionalEntityManager.findOne(Product, { where: { id: item.product.id } });
         
         if (!product || product.stockQuantity < item.quantity) {
           throw new BadRequestException(`Apologies, but the ${product?.name || 'requested timepiece'} is currently unavailable in this quantity. Please adjust your collection.`);
@@ -83,11 +84,6 @@ export class OrdersService {
   }
 
   async createOrderWithItems(userId: number, paymentMethod: PaymentMethod, items: any[], shippingDetails: any): Promise<Order> {
-    console.log('--- Checkout Started ---');
-    console.log('User ID:', userId);
-    console.log('Payment Method:', paymentMethod);
-    console.log('Items:', JSON.stringify(items));
-    
     const user = await this.usersService.findById(userId);
     if (!user) throw new NotFoundException('User not found');
 
@@ -109,7 +105,7 @@ export class OrdersService {
 
         // Create Order Items and Check Stock
         for (const item of items) {
-          const product = await transactionalEntityManager.findOne('Product', { where: { id: item.productId } }) as any;
+          const product = await transactionalEntityManager.findOne(Product, { where: { id: item.productId } });
           if (!product) throw new NotFoundException(`Product ${item.productId} not found`);
 
           if (product.stockQuantity < item.quantity) {
@@ -130,7 +126,6 @@ export class OrdersService {
         }
 
         // Process Payment
-        console.log('Creating Payment...');
         await this.paymentsService.createPaymentInTransaction(transactionalEntityManager, order, paymentMethod, totalAmount);
 
         const finalOrder = (await transactionalEntityManager.findOne(Order, {
@@ -139,13 +134,11 @@ export class OrdersService {
         }))!;
 
         // Send email asynchronously
-        console.log('Sending Confirmation Email...');
         this.mailService.sendOrderConfirmation(finalOrder);
 
         return finalOrder;
       });
     } catch (error) {
-      console.error('CRITICAL ERROR DURING CHECKOUT:', error);
       throw error;
     }
   }

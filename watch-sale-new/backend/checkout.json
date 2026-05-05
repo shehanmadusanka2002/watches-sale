@@ -1,0 +1,18 @@
+{
+  "paymentMethod": "BANK_TRANSFER",
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 1,
+      "price": 1000
+    }
+  ],
+  "shippingDetails": {
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test@example.com",
+    "shippingAddress": "123 Street",
+    "city": "Colombo",
+    "phone": "0771234567"
+  }
+}

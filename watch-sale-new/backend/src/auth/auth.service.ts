@@ -85,7 +85,7 @@ export class AuthService {
           username: name,
           email: email,
           password: `GOOGLE_${googleId}`, // Dummy password
-          role: 'USER'
+          role: 'CUSTOMER' as any
         });
       }
 

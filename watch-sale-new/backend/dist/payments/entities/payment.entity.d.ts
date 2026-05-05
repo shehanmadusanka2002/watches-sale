@@ -7,5 +7,6 @@ export declare class Payment {
     amount: number;
     status: PaymentStatus;
     transactionId: string;
+    receiptImage: string;
     order: Order;
 }

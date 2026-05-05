@@ -47,7 +47,6 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = __importStar(require("bcrypt"));
 const users_service_1 = require("../users/users.service");
-const role_enum_1 = require("../enums/role.enum");
 let AuthService = class AuthService {
     usersService;
     jwtService;
@@ -115,7 +114,7 @@ let AuthService = class AuthService {
                     username: name,
                     email: email,
                     password: `GOOGLE_${googleId}`,
-                    role: role_enum_1.Role.CUSTOMER
+                    role: 'CUSTOMER'
                 });
             }
             const payload = { email: user.email, sub: user.id, role: user.role };

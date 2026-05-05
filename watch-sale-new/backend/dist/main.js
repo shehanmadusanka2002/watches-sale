@@ -10,45 +10,11 @@ async function bootstrap() {
         app.setGlobalPrefix('api');
         app.use((0, express_1.json)({ limit: '50mb' }));
         app.use((0, express_1.urlencoded)({ limit: '50mb', extended: true }));
-        app.use((req, res, next) => {
-            const allowedOrigins = [
-                'https://watches-sale-63lj.vercel.app',
-                'https://watches-sale.vercel.app',
-                'http://localhost:3000'
-            ];
-            const origin = req.headers.origin;
-            if (origin && allowedOrigins.includes(origin)) {
-                res.header('Access-Control-Allow-Origin', origin);
-            }
-            else {
-                res.header('Access-Control-Allow-Origin', 'https://watches-sale.vercel.app');
-            }
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-            res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-            res.header('Access-Control-Allow-Credentials', 'true');
-            if (req.method === 'OPTIONS') {
-                res.sendStatus(200);
-            }
-            else {
-                next();
-            }
-        });
         app.enableCors({
-            origin: (origin, callback) => {
-                const allowedOrigins = [
-                    'https://watches-sale-63lj.vercel.app',
-                    'https://watches-sale.vercel.app',
-                    'http://localhost:3000'
-                ];
-                if (!origin || allowedOrigins.includes(origin)) {
-                    callback(null, true);
-                }
-                else {
-                    callback(new Error('Not allowed by CORS'));
-                }
-            },
+            origin: true,
             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
             credentials: true,
+            allowedHeaders: 'Content-Type, Authorization, Content-Length, X-Requested-With',
         });
         await app.init();
         cachedApp = app.getHttpAdapter().getInstance();

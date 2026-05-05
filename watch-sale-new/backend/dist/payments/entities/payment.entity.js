@@ -20,6 +20,7 @@ let Payment = class Payment {
     amount;
     status;
     transactionId;
+    receiptImage;
     order;
 };
 exports.Payment = Payment;
@@ -29,8 +30,8 @@ __decorate([
 ], Payment.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: 'enum',
-        enum: payment_method_enum_1.PaymentMethod,
+        type: 'varchar',
+        length: 50,
     }),
     __metadata("design:type", String)
 ], Payment.prototype, "method", void 0);
@@ -40,8 +41,8 @@ __decorate([
 ], Payment.prototype, "amount", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: 'enum',
-        enum: payment_status_enum_1.PaymentStatus,
+        type: 'varchar',
+        length: 20,
         default: payment_status_enum_1.PaymentStatus.PENDING,
     }),
     __metadata("design:type", String)
@@ -50,6 +51,10 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Payment.prototype, "transactionId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Payment.prototype, "receiptImage", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => order_entity_1.Order, order => order.payment, { onDelete: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'order_id' }),

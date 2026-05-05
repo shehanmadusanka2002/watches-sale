@@ -18,6 +18,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const order_entity_1 = require("./entities/order.entity");
 const order_item_entity_1 = require("./entities/order-item.entity");
+const product_entity_1 = require("../products/entities/product.entity");
 const users_service_1 = require("../users/users.service");
 const cart_service_1 = require("../cart/cart.service");
 const payments_service_1 = require("../payments/payments.service");
@@ -55,7 +56,7 @@ let OrdersService = class OrdersService {
             });
             order = await transactionalEntityManager.save(order_entity_1.Order, order);
             for (const item of cart.cartItems) {
-                const product = await transactionalEntityManager.findOne('Product', { where: { id: item.product.id } });
+                const product = await transactionalEntityManager.findOne(product_entity_1.Product, { where: { id: item.product.id } });
                 if (!product || product.stockQuantity < item.quantity) {
                     throw new common_1.BadRequestException(`Apologies, but the ${product?.name || 'requested timepiece'} is currently unavailable in this quantity. Please adjust your collection.`);
                 }
@@ -87,38 +88,43 @@ let OrdersService = class OrdersService {
             throw new common_1.BadRequestException('No items provided for order');
         }
         const totalAmount = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        return this.orderRepository.manager.transaction(async (transactionalEntityManager) => {
-            let order = transactionalEntityManager.create(order_entity_1.Order, {
-                user,
-                status: order_status_enum_1.OrderStatus.PENDING,
-                ...shippingDetails,
-            });
-            order = await transactionalEntityManager.save(order_entity_1.Order, order);
-            for (const item of items) {
-                const product = await transactionalEntityManager.findOne('Product', { where: { id: item.productId } });
-                if (!product)
-                    throw new common_1.NotFoundException(`Product ${item.productId} not found`);
-                if (product.stockQuantity < item.quantity) {
-                    throw new common_1.BadRequestException(`Apologies, but the ${product.name} is currently unavailable in this quantity. Please adjust your collection.`);
-                }
-                const orderItem = transactionalEntityManager.create(order_item_entity_1.OrderItem, {
-                    order,
-                    product,
-                    quantity: item.quantity,
-                    price: item.price,
+        try {
+            return await this.orderRepository.manager.transaction(async (transactionalEntityManager) => {
+                let order = transactionalEntityManager.create(order_entity_1.Order, {
+                    user,
+                    status: order_status_enum_1.OrderStatus.PENDING,
+                    ...shippingDetails,
                 });
-                await transactionalEntityManager.save(order_item_entity_1.OrderItem, orderItem);
-                product.stockQuantity -= item.quantity;
-                await transactionalEntityManager.save('Product', product);
-            }
-            await this.paymentsService.createPaymentInTransaction(transactionalEntityManager, order, paymentMethod, totalAmount);
-            const finalOrder = (await transactionalEntityManager.findOne(order_entity_1.Order, {
-                where: { id: order.id },
-                relations: ['orderItems', 'orderItems.product', 'payment', 'user'],
-            }));
-            this.mailService.sendOrderConfirmation(finalOrder);
-            return finalOrder;
-        });
+                order = await transactionalEntityManager.save(order_entity_1.Order, order);
+                for (const item of items) {
+                    const product = await transactionalEntityManager.findOne(product_entity_1.Product, { where: { id: item.productId } });
+                    if (!product)
+                        throw new common_1.NotFoundException(`Product ${item.productId} not found`);
+                    if (product.stockQuantity < item.quantity) {
+                        throw new common_1.BadRequestException(`Apologies, but the ${product.name} is currently unavailable in this quantity. Please adjust your collection.`);
+                    }
+                    const orderItem = transactionalEntityManager.create(order_item_entity_1.OrderItem, {
+                        order,
+                        product,
+                        quantity: item.quantity,
+                        price: item.price,
+                    });
+                    await transactionalEntityManager.save(order_item_entity_1.OrderItem, orderItem);
+                    product.stockQuantity -= item.quantity;
+                    await transactionalEntityManager.save('Product', product);
+                }
+                await this.paymentsService.createPaymentInTransaction(transactionalEntityManager, order, paymentMethod, totalAmount);
+                const finalOrder = (await transactionalEntityManager.findOne(order_entity_1.Order, {
+                    where: { id: order.id },
+                    relations: ['orderItems', 'orderItems.product', 'payment', 'user'],
+                }));
+                this.mailService.sendOrderConfirmation(finalOrder);
+                return finalOrder;
+            });
+        }
+        catch (error) {
+            throw error;
+        }
     }
     async getUserOrders(userId) {
         return this.orderRepository.find({
