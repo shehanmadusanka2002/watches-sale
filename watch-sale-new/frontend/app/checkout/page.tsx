@@ -262,24 +262,58 @@ const CheckoutPage = () => {
                               animate={{ opacity: 1, height: 'auto' }}
                               className="pl-10 space-y-4"
                             >
-                               <div className="bg-white p-6 border border-zinc-200 rounded-sm space-y-3">
-                                  <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Our Bank Details:</p>
-                                  <div className="grid grid-cols-2 gap-4">
-                                     <div>
-                                        <p className="text-[9px] font-bold text-zinc-400 uppercase">Bank</p>
-                                        <p className="text-[11px] font-black uppercase">Commercial Bank</p>
+                               <div className="bg-white p-6 border border-zinc-200 rounded-sm space-y-6">
+                                  <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 border-b border-zinc-100 pb-2">Select Your Preferred Bank:</p>
+                                  
+                                  {/* Commercial Bank */}
+                                  <div className="border-l-4 border-[#0067b1] pl-4 py-2 bg-blue-50/30">
+                                     <div className="grid grid-cols-2 gap-y-3">
+                                        <div className="col-span-2 flex items-center justify-between">
+                                           <p className="text-[11px] font-black uppercase text-[#0067b1]">Commercial Bank</p>
+                                           <span className="text-[8px] font-black bg-[#0067b1] text-white px-2 py-0.5 rounded-full uppercase tracking-widest">Primary</span>
+                                        </div>
+                                        <div>
+                                           <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Name</p>
+                                           <p className="text-[10px] font-black uppercase">ANIX BOUTIQUE</p>
+                                        </div>
+                                        <div>
+                                           <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Number</p>
+                                           <p className="text-[10px] font-black uppercase tracking-widest">8012345678</p>
+                                        </div>
                                      </div>
-                                     <div>
-                                        <p className="text-[9px] font-bold text-zinc-400 uppercase">Account Name</p>
-                                        <p className="text-[11px] font-black uppercase">ANIX BOUTIQUE</p>
+                                  </div>
+
+                                  {/* Sampath Bank */}
+                                  <div className="border-l-4 border-[#f37021] pl-4 py-2 bg-orange-50/30">
+                                     <div className="grid grid-cols-2 gap-y-3">
+                                        <div className="col-span-2">
+                                           <p className="text-[11px] font-black uppercase text-[#f37021]">Sampath Bank</p>
+                                        </div>
+                                        <div>
+                                           <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Name</p>
+                                           <p className="text-[10px] font-black uppercase">ANIX BOUTIQUE</p>
+                                        </div>
+                                        <div>
+                                           <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Number</p>
+                                           <p className="text-[10px] font-black uppercase tracking-widest">1234567890</p>
+                                        </div>
                                      </div>
-                                     <div>
-                                        <p className="text-[9px] font-bold text-zinc-400 uppercase">Account Number</p>
-                                        <p className="text-[11px] font-black uppercase tracking-widest">8012345678</p>
-                                     </div>
-                                     <div>
-                                        <p className="text-[9px] font-bold text-zinc-400 uppercase">Branch</p>
-                                        <p className="text-[11px] font-black uppercase">Colombo 04</p>
+                                  </div>
+
+                                  {/* BOC */}
+                                  <div className="border-l-4 border-[#ffcc00] pl-4 py-2 bg-yellow-50/30">
+                                     <div className="grid grid-cols-2 gap-y-3">
+                                        <div className="col-span-2">
+                                           <p className="text-[11px] font-black uppercase text-zinc-800">Bank of Ceylon (BOC)</p>
+                                        </div>
+                                        <div>
+                                           <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Name</p>
+                                           <p className="text-[10px] font-black uppercase">ANIX BOUTIQUE</p>
+                                        </div>
+                                        <div>
+                                           <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Number</p>
+                                           <p className="text-[10px] font-black uppercase tracking-widest">0087654321</p>
+                                        </div>
                                      </div>
                                   </div>
                                </div>
