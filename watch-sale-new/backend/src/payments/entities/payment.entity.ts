@@ -9,8 +9,8 @@ export class Payment {
   id: number;
 
   @Column({
-    type: 'enum',
-    enum: PaymentMethod,
+    type: 'varchar',
+    length: 50,
   })
   method: PaymentMethod;
 
@@ -18,8 +18,8 @@ export class Payment {
   amount: number;
 
   @Column({
-    type: 'enum',
-    enum: PaymentStatus,
+    type: 'varchar',
+    length: 20,
     default: PaymentStatus.PENDING,
   })
   status: PaymentStatus;
