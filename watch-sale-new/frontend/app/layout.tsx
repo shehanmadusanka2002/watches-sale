@@ -27,6 +27,7 @@ import { WishlistProvider } from "@/context/WishlistContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ChatBot from "@/app/components/ChatBot";
 import WhatsAppButton from "@/app/components/WhatsAppButton";
+import Preloader from "@/app/components/Preloader";
 
 export default function RootLayout({
   children,
@@ -41,6 +42,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
+        <Preloader />
         <GoogleOAuthProvider clientId={googleClientId}>
           <CartProvider>
             <WishlistProvider>
