@@ -12,19 +12,15 @@ async function bootstrap() {
     app.use(json({ limit: '50mb' }));
     app.use(urlencoded({ limit: '50mb', extended: true }));
 
-    // Manual CORS Middleware for Vercel (More Secure)
+    // Dynamic CORS Middleware for Vercel
     app.use((req, res, next) => {
-      const allowedOrigins = [
-        'https://watches-sale-63lj.vercel.app',
-        'https://watches-sale.vercel.app',
-        'http://localhost:3000'
-      ];
       const origin = req.headers.origin;
+      const isVercel = origin && (origin.endsWith('.vercel.app') || origin.includes('localhost'));
       
-      if (origin && allowedOrigins.includes(origin)) {
+      if (isVercel) {
         res.header('Access-Control-Allow-Origin', origin);
       } else {
-        res.header('Access-Control-Allow-Origin', 'https://watches-sale.vercel.app'); // Default to your main frontend
+        res.header('Access-Control-Allow-Origin', '*');
       }
 
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -39,18 +35,7 @@ async function bootstrap() {
     });
 
     app.enableCors({
-      origin: (origin, callback) => {
-        const allowedOrigins = [
-          'https://watches-sale-63lj.vercel.app',
-          'https://watches-sale.vercel.app',
-          'http://localhost:3000'
-        ];
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
+      origin: true,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       credentials: true,
     });
