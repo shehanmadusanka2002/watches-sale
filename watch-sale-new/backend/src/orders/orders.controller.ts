@@ -55,12 +55,12 @@ export class OrdersController {
         throw new BadRequestException('Invalid order id');
       }
 
-      const statusValue = Number(status);
-      if (isNaN(statusValue) || OrderStatus[statusValue] === undefined) {
+      // Validate that the provided status exists in the OrderStatus enum
+      if (!Object.values(OrderStatus).includes(status as any)) {
         throw new BadRequestException(`Invalid order status: ${status}`);
       }
 
-      return await this.ordersService.updateOrderStatus(parsedOrderId, statusValue as OrderStatus);
+      return await this.ordersService.updateOrderStatus(parsedOrderId, status as OrderStatus);
     } catch (error) {
       console.error('Status update failed:', error);
       throw new BadRequestException(`Fulfillment synchronization failed: ${error.message}`);

@@ -36,20 +36,21 @@ const TrackOrder = () => {
 
   const getStatusSteps = (status: number) => {
     const steps = [
-      { label: 'Ordered', icon: Clock, description: 'Order received & pending' },
-      { label: 'Confirmed', icon: Package, description: 'Verified by boutique' },
-      { label: 'Shipped', icon: Truck, description: 'In transit to destination' },
-      { label: 'Delivered', icon: CheckCircle2, description: 'Successfully received' },
+      { id: 'PENDING', label: 'Ordered', icon: Clock, description: 'Order received & pending' },
+      { id: 'CONFIRMED', label: 'Confirmed', icon: Package, description: 'Verified by boutique' },
+      { id: 'SHIPPED', label: 'Shipped', icon: Truck, description: 'In transit to destination' },
+      { id: 'DELIVERED', label: 'Delivered', icon: CheckCircle2, description: 'Successfully received' },
     ];
 
-    // Status mapping: 0=Pending, 1=Confirmed, 2=Shipped, 3=Delivered
-    let currentStep = status;
-    if (status === 4) return []; // Cancelled handled separately
+    const statusOrder = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED'];
+    let currentStepIndex = statusOrder.indexOf(status.toString().toUpperCase());
+    
+    if (status.toString().toUpperCase() === 'CANCELLED') return [];
 
     return steps.map((step, index) => ({
       ...step,
-      active: index <= currentStep,
-      current: index === currentStep
+      active: index <= currentStepIndex,
+      current: index === currentStepIndex
     }));
   };
 
@@ -142,7 +143,7 @@ const TrackOrder = () => {
               >
                 {/* Progress Bar */}
                 <div className="bg-white border border-zinc-100 p-8 md:p-12 rounded-sm shadow-sm overflow-hidden relative">
-                   {order.status === 4 ? (
+                   {order.status?.toString().toUpperCase() === 'CANCELLED' ? (
                       <div className="text-center py-8">
                          <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
                             <AlertCircle size={32} />

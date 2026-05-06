@@ -40,10 +40,11 @@ __decorate([
 ], Order.prototype, "orderDate", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: 'int',
+        type: 'varchar',
+        length: 50,
         default: order_status_enum_1.OrderStatus.PENDING,
     }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Order.prototype, "status", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),

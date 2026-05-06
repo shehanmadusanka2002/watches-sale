@@ -50,11 +50,10 @@ let OrdersController = class OrdersController {
             if (!Number.isInteger(parsedOrderId) || parsedOrderId <= 0) {
                 throw new common_1.BadRequestException('Invalid order id');
             }
-            const statusValue = Number(status);
-            if (isNaN(statusValue) || order_status_enum_1.OrderStatus[statusValue] === undefined) {
+            if (!Object.values(order_status_enum_1.OrderStatus).includes(status)) {
                 throw new common_1.BadRequestException(`Invalid order status: ${status}`);
             }
-            return await this.ordersService.updateOrderStatus(parsedOrderId, statusValue);
+            return await this.ordersService.updateOrderStatus(parsedOrderId, status);
         }
         catch (error) {
             console.error('Status update failed:', error);

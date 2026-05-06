@@ -14,7 +14,8 @@ export class Order {
   orderDate: Date;
 
   @Column({
-    type: 'int',
+    type: 'varchar',
+    length: 50,
     default: OrderStatus.PENDING,
   })
   status: OrderStatus;
