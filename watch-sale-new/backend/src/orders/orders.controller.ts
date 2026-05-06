@@ -51,19 +51,17 @@ export class OrdersController {
   ) {
     try {
       const parsedOrderId = Number(id);
-      if (!Number.isInteger(parsedOrderId) || parsedOrderId <= 0) {
-        throw new BadRequestException('Invalid order id');
+      const statusValue = Number(status);
+      
+      if (isNaN(statusValue) || OrderStatus[statusValue] === undefined) {
+        throw new BadRequestException(`Invalid status value: ${status}`);
       }
 
-      // Validate that the provided status exists in the OrderStatus enum
-      if (!Object.values(OrderStatus).includes(status as any)) {
-        throw new BadRequestException(`Invalid order status: ${status}`);
-      }
-
-      return await this.ordersService.updateOrderStatus(parsedOrderId, status as OrderStatus);
+      return await this.ordersService.updateOrderStatus(parsedOrderId, statusValue as OrderStatus);
     } catch (error) {
-      console.error('Status update failed:', error);
-      throw new BadRequestException(`Fulfillment synchronization failed: ${error.message}`);
+      console.error('CRITICAL: Status update failed:', error);
+      // Return a very detailed error message to help debug on Vercel
+      throw new BadRequestException(`SYNC_ERROR: ${error.message} | Stack: ${error.stack?.substring(0, 100)}`);
     }
   }
 

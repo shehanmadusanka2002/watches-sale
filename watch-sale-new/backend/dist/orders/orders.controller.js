@@ -47,17 +47,15 @@ let OrdersController = class OrdersController {
     async updateStatus(id, status) {
         try {
             const parsedOrderId = Number(id);
-            if (!Number.isInteger(parsedOrderId) || parsedOrderId <= 0) {
-                throw new common_1.BadRequestException('Invalid order id');
+            const statusValue = Number(status);
+            if (isNaN(statusValue) || order_status_enum_1.OrderStatus[statusValue] === undefined) {
+                throw new common_1.BadRequestException(`Invalid status value: ${status}`);
             }
-            if (!Object.values(order_status_enum_1.OrderStatus).includes(status)) {
-                throw new common_1.BadRequestException(`Invalid order status: ${status}`);
-            }
-            return await this.ordersService.updateOrderStatus(parsedOrderId, status);
+            return await this.ordersService.updateOrderStatus(parsedOrderId, statusValue);
         }
         catch (error) {
-            console.error('Status update failed:', error);
-            throw new common_1.BadRequestException(`Fulfillment synchronization failed: ${error.message}`);
+            console.error('CRITICAL: Status update failed:', error);
+            throw new common_1.BadRequestException(`SYNC_ERROR: ${error.message} | Stack: ${error.stack?.substring(0, 100)}`);
         }
     }
     trackOrder(id, phone) {
