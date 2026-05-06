@@ -9,6 +9,7 @@ export declare class OrdersController {
     checkout(userId: string, paymentMethod: PaymentMethod, items?: any[], shippingDetails?: any): Promise<import("./entities/order.entity").Order>;
     getUserOrders(userId: string): Promise<import("./entities/order.entity").Order[]>;
     updateStatus(id: string, status: string): Promise<import("./entities/order.entity").Order>;
+    trackOrder(id: string, phone: string): Promise<import("./entities/order.entity").Order>;
     getOrderById(id: string): Promise<import("./entities/order.entity").Order>;
     deleteOrder(id: string): Promise<void>;
 }

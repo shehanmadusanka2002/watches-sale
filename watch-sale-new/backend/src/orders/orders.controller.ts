@@ -62,6 +62,15 @@ export class OrdersController {
     return this.ordersService.updateOrderStatus(parsedOrderId, statusValue as OrderStatus);
   }
 
+  @Get('track/public')
+  trackOrder(
+    @Query('id') id: string,
+    @Query('phone') phone: string,
+  ) {
+    const parsedOrderId = Number(id.replace(/[^0-9]/g, '')); // Handle cases like #WH-000023
+    return this.ordersService.trackOrder(parsedOrderId, phone);
+  }
+
   @Get(':id')
   getOrderById(@Param('id') id: string) {
     const parsedOrderId = Number(id);

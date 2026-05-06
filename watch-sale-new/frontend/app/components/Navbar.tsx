@@ -45,6 +45,7 @@ const Navbar = () => {
 
   const categories = [
     { name: "HOME", href: "/" },
+    { name: "TRACK ORDER", href: "/track-order" },
     { name: "MEN'S WATCHES", href: "/category/men" },
     { name: "WOMEN'S WATCHES", href: "/category/women" },
     { name: "COUPLE WATCHES", href: "/category/couple" },

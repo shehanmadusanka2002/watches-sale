@@ -154,6 +154,15 @@ let OrdersService = class OrdersService {
         await this.orderRepository.save(order);
         return this.getOrderById(orderId);
     }
+    async trackOrder(orderId, phone) {
+        const order = await this.orderRepository.findOne({
+            where: { id: orderId, phone: phone },
+            relations: ['orderItems', 'orderItems.product', 'payment'],
+        });
+        if (!order)
+            throw new common_1.NotFoundException('No order found with the provided details. Please check your Order ID and Phone Number.');
+        return order;
+    }
     async deleteOrder(orderId) {
         const order = await this.getOrderById(orderId);
         await this.orderRepository.remove(order);

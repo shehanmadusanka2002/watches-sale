@@ -55,6 +55,10 @@ let OrdersController = class OrdersController {
         }
         return this.ordersService.updateOrderStatus(parsedOrderId, statusValue);
     }
+    trackOrder(id, phone) {
+        const parsedOrderId = Number(id.replace(/[^0-9]/g, ''));
+        return this.ordersService.trackOrder(parsedOrderId, phone);
+    }
     getOrderById(id) {
         const parsedOrderId = Number(id);
         if (!Number.isInteger(parsedOrderId) || parsedOrderId <= 0) {
@@ -114,6 +118,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], OrdersController.prototype, "updateStatus", null);
+__decorate([
+    (0, common_1.Get)('track/public'),
+    __param(0, (0, common_1.Query)('id')),
+    __param(1, (0, common_1.Query)('phone')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], OrdersController.prototype, "trackOrder", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),

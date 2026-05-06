@@ -272,7 +272,13 @@ export default function Home() {
             <div>
               <h4 className="text-[11px] font-black uppercase tracking-[0.4em] text-white mb-10">Concierge</h4>
               <ul className="space-y-4">
-                {['Tracking Number', 'Warranty Claims', 'Order Status', 'Boutique Finder'].map((item) => (
+                <li>
+                  <Link href="/track-order" className="text-[10px] font-bold text-zinc-500 hover:text-white transition-all uppercase tracking-widest flex items-center gap-2 group">
+                    <span className="w-0 group-hover:w-4 h-px bg-white transition-all duration-300" />
+                    Track Order
+                  </Link>
+                </li>
+                {['Warranty Claims', 'Order Status', 'Boutique Finder'].map((item) => (
                   <li key={item}>
                     <a href="#" className="text-[10px] font-bold text-zinc-500 hover:text-white transition-all uppercase tracking-widest flex items-center gap-2 group">
                       <span className="w-0 group-hover:w-4 h-px bg-white transition-all duration-300" />

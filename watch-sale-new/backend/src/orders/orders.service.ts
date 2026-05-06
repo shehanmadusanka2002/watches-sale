@@ -174,6 +174,15 @@ export class OrdersService {
     return this.getOrderById(orderId);
   }
 
+  async trackOrder(orderId: number, phone: string): Promise<Order> {
+    const order = await this.orderRepository.findOne({
+      where: { id: orderId, phone: phone },
+      relations: ['orderItems', 'orderItems.product', 'payment'],
+    });
+    if (!order) throw new NotFoundException('No order found with the provided details. Please check your Order ID and Phone Number.');
+    return order;
+  }
+
   async deleteOrder(orderId: number): Promise<void> {
     const order = await this.getOrderById(orderId);
     await this.orderRepository.remove(order);

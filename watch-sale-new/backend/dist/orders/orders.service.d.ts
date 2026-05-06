@@ -21,6 +21,7 @@ export declare class OrdersService {
     getAllOrders(): Promise<Order[]>;
     getOrderById(orderId: number): Promise<Order>;
     updateOrderStatus(orderId: number, status: OrderStatus): Promise<Order>;
+    trackOrder(orderId: number, phone: string): Promise<Order>;
     deleteOrder(orderId: number): Promise<void>;
     getDashboardStats(): Promise<any>;
     getConsolidatedStats(): Promise<any>;
