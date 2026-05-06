@@ -44,16 +44,22 @@ let OrdersController = class OrdersController {
         }
         return this.ordersService.getUserOrders(parsedUserId);
     }
-    updateStatus(id, status) {
-        const parsedOrderId = Number(id);
-        if (!Number.isInteger(parsedOrderId) || parsedOrderId <= 0) {
-            throw new common_1.BadRequestException('Invalid order id');
+    async updateStatus(id, status) {
+        try {
+            const parsedOrderId = Number(id);
+            if (!Number.isInteger(parsedOrderId) || parsedOrderId <= 0) {
+                throw new common_1.BadRequestException('Invalid order id');
+            }
+            const statusValue = Number(status);
+            if (isNaN(statusValue) || order_status_enum_1.OrderStatus[statusValue] === undefined) {
+                throw new common_1.BadRequestException(`Invalid order status: ${status}`);
+            }
+            return await this.ordersService.updateOrderStatus(parsedOrderId, statusValue);
         }
-        const statusValue = Number(status);
-        if (isNaN(statusValue) || order_status_enum_1.OrderStatus[statusValue] === undefined) {
-            throw new common_1.BadRequestException(`Invalid order status: ${status}`);
+        catch (error) {
+            console.error('Status update failed:', error);
+            throw new common_1.BadRequestException(`Fulfillment synchronization failed: ${error.message}`);
         }
-        return this.ordersService.updateOrderStatus(parsedOrderId, statusValue);
     }
     trackOrder(id, phone) {
         const parsedOrderId = Number(id.replace(/[^0-9]/g, ''));
@@ -116,7 +122,7 @@ __decorate([
     __param(1, (0, common_1.Query)('status')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "updateStatus", null);
 __decorate([
     (0, common_1.Get)('track/public'),

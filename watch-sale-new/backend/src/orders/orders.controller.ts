@@ -45,21 +45,26 @@ export class OrdersController {
   }
 
   @Put(':id/status')
-  updateStatus(
+  async updateStatus(
     @Param('id') id: string,
     @Query('status') status: string,
   ) {
-    const parsedOrderId = Number(id);
-    if (!Number.isInteger(parsedOrderId) || parsedOrderId <= 0) {
-      throw new BadRequestException('Invalid order id');
-    }
+    try {
+      const parsedOrderId = Number(id);
+      if (!Number.isInteger(parsedOrderId) || parsedOrderId <= 0) {
+        throw new BadRequestException('Invalid order id');
+      }
 
-    const statusValue = Number(status);
-    if (isNaN(statusValue) || OrderStatus[statusValue] === undefined) {
-      throw new BadRequestException(`Invalid order status: ${status}`);
-    }
+      const statusValue = Number(status);
+      if (isNaN(statusValue) || OrderStatus[statusValue] === undefined) {
+        throw new BadRequestException(`Invalid order status: ${status}`);
+      }
 
-    return this.ordersService.updateOrderStatus(parsedOrderId, statusValue as OrderStatus);
+      return await this.ordersService.updateOrderStatus(parsedOrderId, statusValue as OrderStatus);
+    } catch (error) {
+      console.error('Status update failed:', error);
+      throw new BadRequestException(`Fulfillment synchronization failed: ${error.message}`);
+    }
   }
 
   @Get('track/public')

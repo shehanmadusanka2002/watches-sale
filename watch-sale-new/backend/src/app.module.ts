@@ -16,6 +16,7 @@ import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
+    // Build trigger for status sync
     ConfigModule.forRoot({
       isGlobal: true,
     }),
