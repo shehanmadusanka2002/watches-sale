@@ -167,10 +167,10 @@ export class OrdersService {
     return order;
   }
 
-  async updateOrderStatus(orderId: number, status: OrderStatus): Promise<Order> {
+  async updateOrderStatus(orderId: number, status: string): Promise<Order> {
     try {
       const order = await this.getOrderById(orderId);
-      order.status = status;
+      order.orderStatus = status;
       return await this.orderRepository.save(order);
     } catch (error) {
       console.error(`Failed to update order ${orderId} to status ${status}:`, error);

@@ -14,11 +14,10 @@ const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../../users/entities/user.entity");
 const order_item_entity_1 = require("./order-item.entity");
 const payment_entity_1 = require("../../payments/entities/payment.entity");
-const order_status_enum_1 = require("../../enums/order-status.enum");
 let Order = class Order {
     id;
     orderDate;
-    status;
+    orderStatus;
     firstName;
     lastName;
     email;
@@ -40,11 +39,13 @@ __decorate([
 ], Order.prototype, "orderDate", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: 'int',
-        default: order_status_enum_1.OrderStatus.PENDING,
+        name: 'order_status',
+        type: 'varchar',
+        length: 50,
+        default: 'PENDING',
     }),
-    __metadata("design:type", Number)
-], Order.prototype, "status", void 0);
+    __metadata("design:type", String)
+], Order.prototype, "orderStatus", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)

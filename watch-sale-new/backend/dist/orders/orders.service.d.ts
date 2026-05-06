@@ -5,7 +5,6 @@ import { UsersService } from '../users/users.service';
 import { CartService } from '../cart/cart.service';
 import { PaymentsService } from '../payments/payments.service';
 import { MailService } from '../mail/mail.service';
-import { OrderStatus } from '../enums/order-status.enum';
 import { PaymentMethod } from '../enums/payment-method.enum';
 export declare class OrdersService {
     private orderRepository;
@@ -20,7 +19,7 @@ export declare class OrdersService {
     getUserOrders(userId: number): Promise<Order[]>;
     getAllOrders(): Promise<Order[]>;
     getOrderById(orderId: number): Promise<Order>;
-    updateOrderStatus(orderId: number, status: OrderStatus): Promise<Order>;
+    updateOrderStatus(orderId: number, status: string): Promise<Order>;
     trackOrder(orderId: number, phone: string): Promise<Order>;
     deleteOrder(orderId: number): Promise<void>;
     getDashboardStats(): Promise<any>;
