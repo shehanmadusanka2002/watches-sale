@@ -43,16 +43,18 @@ const OrdersPage = () => {
 
   const statusMap: { [key: number]: string } = {
     0: 'PENDING',
-    1: 'SHIPPED',
-    2: 'DELIVERED',
-    3: 'CANCELLED'
+    1: 'CONFIRMED',
+    2: 'SHIPPED',
+    3: 'DELIVERED',
+    4: 'CANCELLED'
   };
 
   const reverseStatusMap: { [key: string]: number } = {
     'PENDING': 0,
-    'SHIPPED': 1,
-    'DELIVERED': 2,
-    'CANCELLED': 3
+    'CONFIRMED': 1,
+    'SHIPPED': 2,
+    'DELIVERED': 3,
+    'CANCELLED': 4
   };
 
   const handleStatusUpdate = async (orderId: number, newStatus: string) => {
@@ -95,6 +97,17 @@ const OrdersPage = () => {
     } catch (error) {
       console.error('Delete order error:', error);
       setToast({ isVisible: true, message: 'Critical failure during archival.', type: 'error' });
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'PENDING': return 'bg-zinc-100 text-zinc-600';
+      case 'CONFIRMED': return 'bg-amber-50 text-amber-600';
+      case 'SHIPPED': return 'bg-blue-50 text-blue-600';
+      case 'DELIVERED': return 'bg-emerald-50 text-emerald-600';
+      case 'CANCELLED': return 'bg-red-50 text-red-600';
+      default: return 'bg-zinc-100 text-zinc-600';
     }
   };
 
@@ -160,14 +173,10 @@ const OrdersPage = () => {
                     <select 
                       value={currentStatusString}
                       onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
-                      className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border-none outline-none cursor-pointer ${
-                        currentStatusString === 'SHIPPED' ? 'bg-blue-50 text-blue-600' : 
-                        currentStatusString === 'DELIVERED' ? 'bg-emerald-50 text-emerald-600' :
-                        currentStatusString === 'CANCELLED' ? 'bg-red-50 text-red-600' :
-                        'bg-zinc-100 text-zinc-600'
-                      }`}
+                      className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border-none outline-none cursor-pointer ${getStatusColor(currentStatusString)}`}
                     >
                       <option value="PENDING">Pending</option>
+                      <option value="CONFIRMED">Confirmed</option>
                       <option value="SHIPPED">Shipped</option>
                       <option value="DELIVERED">Delivered</option>
                       <option value="CANCELLED">Cancelled</option>
