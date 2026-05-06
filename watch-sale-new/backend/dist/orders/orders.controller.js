@@ -50,8 +50,8 @@ let OrdersController = class OrdersController {
             throw new common_1.BadRequestException('Invalid order id');
         }
         const statusValue = Number(status);
-        if (isNaN(statusValue) || !Object.values(order_status_enum_1.OrderStatus).includes(statusValue)) {
-            throw new common_1.BadRequestException('Invalid order status');
+        if (isNaN(statusValue) || order_status_enum_1.OrderStatus[statusValue] === undefined) {
+            throw new common_1.BadRequestException(`Invalid order status: ${status}`);
         }
         return this.ordersService.updateOrderStatus(parsedOrderId, statusValue);
     }

@@ -55,8 +55,8 @@ export class OrdersController {
     }
 
     const statusValue = Number(status);
-    if (isNaN(statusValue) || !Object.values(OrderStatus).includes(statusValue)) {
-      throw new BadRequestException('Invalid order status');
+    if (isNaN(statusValue) || OrderStatus[statusValue] === undefined) {
+      throw new BadRequestException(`Invalid order status: ${status}`);
     }
 
     return this.ordersService.updateOrderStatus(parsedOrderId, statusValue as OrderStatus);

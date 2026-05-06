@@ -149,10 +149,15 @@ let OrdersService = class OrdersService {
         return order;
     }
     async updateOrderStatus(orderId, status) {
-        const order = await this.getOrderById(orderId);
-        order.status = status;
-        await this.orderRepository.save(order);
-        return this.getOrderById(orderId);
+        try {
+            const order = await this.getOrderById(orderId);
+            order.status = status;
+            return await this.orderRepository.save(order);
+        }
+        catch (error) {
+            console.error(`Failed to update order ${orderId} to status ${status}:`, error);
+            throw error;
+        }
     }
     async trackOrder(orderId, phone) {
         const order = await this.orderRepository.findOne({
