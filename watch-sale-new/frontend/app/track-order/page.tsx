@@ -36,20 +36,24 @@ const TrackOrder = () => {
 
   const getStatusSteps = (status: number) => {
     const steps = [
-      { label: 'Ordered', icon: Clock, description: 'Order received & pending' },
-      { label: 'Confirmed', icon: Package, description: 'Verified by boutique' },
-      { label: 'Shipped', icon: Truck, description: 'In transit to destination' },
-      { label: 'Delivered', icon: CheckCircle2, description: 'Successfully received' },
+      { id: 0, label: 'Ordered', icon: Clock, description: 'Order received & pending' },
+      { id: 4, label: 'Confirmed', icon: Package, description: 'Verified by boutique' },
+      { id: 1, label: 'Shipped', icon: Truck, description: 'In transit to destination' },
+      { id: 2, label: 'Delivered', icon: CheckCircle2, description: 'Successfully received' },
     ];
 
-    // Status mapping: 0=Pending, 1=Confirmed, 2=Shipped, 3=Delivered, 4=Cancelled
-    let currentStep = Number(status);
-    if (currentStep === 4) return []; 
+    // Status mapping: 0=Pending, 4=Confirmed, 1=Shipped, 2=Delivered, 3=Cancelled
+    const currentStatus = Number(status);
+    if (currentStatus === 3) return []; // 3 is CANCELLED now
+
+    // Find the current step's position in our logical order
+    const logicalOrder = [0, 4, 1, 2];
+    const currentIndex = logicalOrder.indexOf(currentStatus);
 
     return steps.map((step, index) => ({
       ...step,
-      active: index <= currentStep,
-      current: index === currentStep
+      active: currentIndex !== -1 ? index <= currentIndex : false,
+      current: currentIndex !== -1 ? index === currentIndex : false
     }));
   };
 
@@ -142,7 +146,7 @@ const TrackOrder = () => {
               >
                 {/* Progress Bar */}
                 <div className="bg-white border border-zinc-100 p-8 md:p-12 rounded-sm shadow-sm overflow-hidden relative">
-                   {Number(order.status) === 4 ? (
+                   {Number(order.status) === 3 ? (
                       <div className="text-center py-8">
                          <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
                             <AlertCircle size={32} />

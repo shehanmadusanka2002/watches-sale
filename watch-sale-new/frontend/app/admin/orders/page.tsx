@@ -43,18 +43,18 @@ const OrdersPage = () => {
 
   const reverseStatusMap: { [key: string]: number } = {
     'PENDING': 0,
-    'CONFIRMED': 1,
-    'SHIPPED': 2,
-    'DELIVERED': 3,
-    'CANCELLED': 4
+    'SHIPPED': 1,
+    'DELIVERED': 2,
+    'CANCELLED': 3,
+    'CONFIRMED': 4
   };
 
   const statusMap: { [key: number]: string } = {
     0: 'PENDING',
-    1: 'CONFIRMED',
-    2: 'SHIPPED',
-    3: 'DELIVERED',
-    4: 'CANCELLED'
+    1: 'SHIPPED',
+    2: 'DELIVERED',
+    3: 'CANCELLED',
+    4: 'CONFIRMED'
   };
 
   const handleStatusUpdate = async (orderId: number, newStatus: string) => {

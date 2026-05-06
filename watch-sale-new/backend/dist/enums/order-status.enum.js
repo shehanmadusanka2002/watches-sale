@@ -4,9 +4,9 @@ exports.OrderStatus = void 0;
 var OrderStatus;
 (function (OrderStatus) {
     OrderStatus[OrderStatus["PENDING"] = 0] = "PENDING";
-    OrderStatus[OrderStatus["CONFIRMED"] = 1] = "CONFIRMED";
-    OrderStatus[OrderStatus["SHIPPED"] = 2] = "SHIPPED";
-    OrderStatus[OrderStatus["DELIVERED"] = 3] = "DELIVERED";
-    OrderStatus[OrderStatus["CANCELLED"] = 4] = "CANCELLED";
+    OrderStatus[OrderStatus["SHIPPED"] = 1] = "SHIPPED";
+    OrderStatus[OrderStatus["DELIVERED"] = 2] = "DELIVERED";
+    OrderStatus[OrderStatus["CANCELLED"] = 3] = "CANCELLED";
+    OrderStatus[OrderStatus["CONFIRMED"] = 4] = "CONFIRMED";
 })(OrderStatus || (exports.OrderStatus = OrderStatus = {}));
 //# sourceMappingURL=order-status.enum.js.map
