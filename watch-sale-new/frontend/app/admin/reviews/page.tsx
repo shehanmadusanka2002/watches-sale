@@ -32,6 +32,7 @@ const AdminReviews = () => {
         username: r.user?.username || 'Anonymous',
         rating: r.rating,
         comment: r.comment,
+        imageUrl: r.reviewImageUrl,
         date: r.createdAt ? new Date(r.createdAt).toLocaleDateString() : 'N/A'
       }));
 
@@ -105,6 +106,7 @@ const AdminReviews = () => {
                 <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400">Collector</th>
                 <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400">Product</th>
                 <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400">Rating</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400">Evidence</th>
                 <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400">Comment</th>
                 <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400 text-right">Actions</th>
               </tr>
@@ -129,6 +131,15 @@ const AdminReviews = () => {
                         <Star key={i} size={12} className={i < review.rating ? 'fill-black text-black' : 'text-zinc-200'} />
                       ))}
                     </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    {review.imageUrl ? (
+                      <div className="w-12 h-12 rounded-sm overflow-hidden border border-zinc-100 shadow-sm group-hover:scale-110 transition-transform cursor-pointer">
+                        <img src={review.imageUrl} alt="Review" className="w-full h-full object-cover" onClick={() => window.open(review.imageUrl, '_blank')} />
+                      </div>
+                    ) : (
+                      <span className="text-[8px] font-black uppercase tracking-widest text-zinc-300 italic">No Photo</span>
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <p className="text-xs text-zinc-500 font-medium line-clamp-2 max-w-md">{review.comment}</p>
