@@ -151,7 +151,7 @@ let OrdersService = class OrdersService {
     async updateOrderStatus(orderId, status) {
         try {
             const order = await this.getOrderById(orderId);
-            order.orderStatus = status;
+            order.status = status;
             return await this.orderRepository.save(order);
         }
         catch (error) {

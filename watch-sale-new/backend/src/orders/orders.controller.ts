@@ -51,17 +51,17 @@ export class OrdersController {
   ) {
     try {
       const parsedOrderId = Number(id);
+      const statusValue = Number(status);
       
-      // Simple validation for luxury status values
-      const validStatuses = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
-      if (!validStatuses.includes(status.toUpperCase())) {
+      if (isNaN(statusValue) || OrderStatus[statusValue] === undefined) {
         throw new BadRequestException(`Invalid status value: ${status}`);
       }
 
-      return await this.ordersService.updateOrderStatus(parsedOrderId, status.toUpperCase());
+      return await this.ordersService.updateOrderStatus(parsedOrderId, statusValue as OrderStatus);
     } catch (error) {
       console.error('CRITICAL: Status update failed:', error);
-      throw new BadRequestException(`SYNC_ERROR: ${error.message}`);
+      // Return a very detailed error message to help debug on Vercel
+      throw new BadRequestException(`SYNC_ERROR: ${error.message} | Stack: ${error.stack?.substring(0, 100)}`);
     }
   }
 

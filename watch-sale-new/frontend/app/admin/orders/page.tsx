@@ -41,9 +41,26 @@ const OrdersPage = () => {
     }
   };
 
+  const reverseStatusMap: { [key: string]: number } = {
+    'PENDING': 0,
+    'CONFIRMED': 1,
+    'SHIPPED': 2,
+    'DELIVERED': 3,
+    'CANCELLED': 4
+  };
+
+  const statusMap: { [key: number]: string } = {
+    0: 'PENDING',
+    1: 'CONFIRMED',
+    2: 'SHIPPED',
+    3: 'DELIVERED',
+    4: 'CANCELLED'
+  };
+
   const handleStatusUpdate = async (orderId: number, newStatus: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status?status=${newStatus}`, {
+      const statusValue = reverseStatusMap[newStatus];
+      const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status?status=${statusValue}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -134,7 +151,7 @@ const OrdersPage = () => {
                 </td>
               </tr>
             ) : orders.map((order) => {
-              const currentStatusString = order.orderStatus || 'PENDING';
+              const currentStatusString = statusMap[order.status] || 'PENDING';
               return (
                 <tr 
                   key={order.id} 

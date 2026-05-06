@@ -16,6 +16,7 @@ exports.OrdersController = void 0;
 const common_1 = require("@nestjs/common");
 const orders_service_1 = require("./orders.service");
 const payment_method_enum_1 = require("../enums/payment-method.enum");
+const order_status_enum_1 = require("../enums/order-status.enum");
 let OrdersController = class OrdersController {
     ordersService;
     constructor(ordersService) {
@@ -46,15 +47,15 @@ let OrdersController = class OrdersController {
     async updateStatus(id, status) {
         try {
             const parsedOrderId = Number(id);
-            const validStatuses = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
-            if (!validStatuses.includes(status.toUpperCase())) {
+            const statusValue = Number(status);
+            if (isNaN(statusValue) || order_status_enum_1.OrderStatus[statusValue] === undefined) {
                 throw new common_1.BadRequestException(`Invalid status value: ${status}`);
             }
-            return await this.ordersService.updateOrderStatus(parsedOrderId, status.toUpperCase());
+            return await this.ordersService.updateOrderStatus(parsedOrderId, statusValue);
         }
         catch (error) {
             console.error('CRITICAL: Status update failed:', error);
-            throw new common_1.BadRequestException(`SYNC_ERROR: ${error.message}`);
+            throw new common_1.BadRequestException(`SYNC_ERROR: ${error.message} | Stack: ${error.stack?.substring(0, 100)}`);
         }
     }
     trackOrder(id, phone) {

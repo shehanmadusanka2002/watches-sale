@@ -14,12 +14,10 @@ export class Order {
   orderDate: Date;
 
   @Column({
-    name: 'order_status',
-    type: 'varchar',
-    length: 50,
-    default: 'PENDING',
+    type: 'int',
+    default: OrderStatus.PENDING,
   })
-  orderStatus: string;
+  status: OrderStatus;
 
   @Column({ nullable: true })
   firstName: string;
