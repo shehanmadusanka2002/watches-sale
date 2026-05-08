@@ -63,82 +63,115 @@ const UserOrdersPage = () => {
             <p className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.2em]">Track your luxury acquisitions</p>
          </div>
 
-         {loading ? (
+          {loading ? (
             <div className="flex flex-col items-center justify-center py-40">
-               <Loader2 size={40} className="animate-spin text-zinc-200 mb-6" />
-               <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Syncing Collection Data...</p>
+               <Loader2 size={40} className="animate-spin text-zinc-100 mb-6" />
+               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Syncing Collection Data...</p>
             </div>
          ) : orders.length === 0 ? (
-            <div className="text-center py-32 border border-dashed border-zinc-100 rounded-sm">
-               <ShoppingBag size={48} className="mx-auto mb-6 text-zinc-100" />
-               <h3 className="text-lg font-black uppercase tracking-tight mb-2">No Acquisitions Yet</h3>
-               <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest mb-8">Your horological journey starts here.</p>
+            <div className="text-center py-32 border-2 border-dashed border-zinc-50 rounded-2xl">
+               <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                  <ShoppingBag size={32} className="text-zinc-200" />
+               </div>
+               <h3 className="text-xl font-black uppercase tracking-tight mb-4">Portfolio is Empty</h3>
+               <p className="text-[11px] text-zinc-400 font-bold uppercase tracking-[0.2em] mb-10 max-w-xs mx-auto leading-relaxed">Your journey through time starts with your first masterpiece.</p>
                <button 
                   onClick={() => router.push('/')}
-                  className="bg-black text-white px-12 py-4 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-zinc-800 transition-all"
+                  className="bg-black text-white px-12 py-5 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-zinc-800 transition-all shadow-xl"
                >
                   Explore Collection
                </button>
             </div>
          ) : (
-            <div className="space-y-6">
-               {orders.map((order) => {
-                  const statusMap: { [key: number]: string } = {
-                    0: 'PENDING',
-                    1: 'SHIPPED',
-                    2: 'DELIVERED',
-                    3: 'CANCELLED'
+            <div className="space-y-10 pb-32">
+               {orders.map((order, orderIdx) => {
+                  const statusMap: { [key: number]: { label: string, color: string, icon: any } } = {
+                    0: { label: 'PENDING', color: 'bg-amber-50 text-amber-600 border-amber-100', icon: Clock },
+                    1: { label: 'SHIPPED', color: 'bg-blue-50 text-blue-600 border-blue-100', icon: Truck },
+                    2: { label: 'DELIVERED', color: 'bg-emerald-50 text-emerald-600 border-emerald-100', icon: CheckCircle },
+                    3: { label: 'CANCELLED', color: 'bg-rose-50 text-rose-600 border-rose-100', icon: X }
                   };
-                  const currentStatus = statusMap[order.status] || 'PENDING';
+                  const status = statusMap[order.status] || statusMap[0];
+                  const StatusIcon = status.icon;
 
                   return (
                     <motion.div 
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: orderIdx * 0.1 }}
                       key={order.id}
-                      className="border border-zinc-100 rounded-sm overflow-hidden hover:border-black transition-all group"
+                      className="bg-white border border-zinc-100 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.04)] transition-all duration-700"
                     >
-                       <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                          <div className="flex items-center gap-6">
-                             <div className="w-16 h-16 bg-zinc-50 rounded-sm flex items-center justify-center text-zinc-300 group-hover:bg-black group-hover:text-white transition-all duration-500">
-                                <Package size={24} />
+                       {/* Header Section */}
+                       <div className="p-8 md:p-10 border-b border-zinc-50">
+                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                             <div className="flex items-center gap-6">
+                                <div className="w-16 h-16 bg-zinc-950 rounded-2xl flex items-center justify-center text-white shadow-2xl transition-transform group-hover:scale-110">
+                                   <Package size={24} />
+                                </div>
+                                <div>
+                                   <div className="flex items-center gap-3 mb-2">
+                                      <p className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.4em]">Acquisition</p>
+                                      <div className={`px-2.5 py-0.5 rounded-full border ${status.color} text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5`}>
+                                         <StatusIcon size={10} />
+                                         {status.label}
+                                      </div>
+                                   </div>
+                                   <h3 className="text-lg font-black uppercase tracking-tight">#WH-{order.id.toString().padStart(6, '0')}</h3>
+                                </div>
                              </div>
-                             <div>
-                                <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Acquisition ID</p>
-                                <h3 className="text-sm font-black uppercase">#WH-{order.id.toString().padStart(6, '0')}</h3>
+
+                             <div className="grid grid-cols-2 md:flex md:items-center gap-12 md:gap-16">
+                                <div className="flex flex-col">
+                                   <p className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.4em] mb-2">Investment</p>
+                                   <p className="text-xl font-black tracking-tighter">Rs. {order.payment?.amount?.toLocaleString() || '0'}</p>
+                                </div>
+                                <div className="flex flex-col">
+                                   <p className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.4em] mb-2">Date</p>
+                                   <p className="text-[11px] font-black uppercase tracking-widest">{new Date(order.orderDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                                </div>
                              </div>
                           </div>
-
-                          <div className="grid grid-cols-2 md:flex md:items-center gap-10">
-                             <div>
-                                <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Status</p>
-                                <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider ${
-                                  currentStatus === 'DELIVERED' ? 'bg-emerald-50 text-emerald-600' : 'bg-zinc-100 text-zinc-600'
-                                }`}>
-                                  {currentStatus === 'PENDING' ? <Clock size={10} /> : <CheckCircle size={10} />}
-                                  {currentStatus}
-                                </span>
-                             </div>
-                             <div>
-                                <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Value</p>
-                                <p className="text-sm font-black italic">Rs. {order.payment?.amount?.toLocaleString() || '0'}</p>
-                             </div>
-                          </div>
-
-                          <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest group-hover:gap-4 transition-all">
-                             Details
-                             <ChevronRight size={14} className="text-zinc-300" />
-                          </button>
                        </div>
                        
-                       {/* Item Summary */}
-                       <div className="bg-zinc-50/50 px-8 py-4 border-t border-zinc-50 flex gap-8 overflow-x-auto scrollbar-hide">
-                          {order.orderItems?.map((item: any, idx: number) => (
-                             <div key={idx} className="flex flex-col gap-1 flex-shrink-0">
-                                <span className="text-[9px] font-black uppercase tracking-tighter truncate max-w-[200px]">{item.product?.name || 'Timepiece'}</span>
-                                <span className="text-[8px] text-zinc-400 font-bold uppercase tracking-widest">Qty: {item.quantity} &bull; Rs. {item.price.toLocaleString()}</span>
-                             </div>
-                          ))}
+                       {/* Items List Section */}
+                       <div className="bg-zinc-50/30 p-8 md:p-10 space-y-6">
+                          <p className="text-[8px] font-black text-zinc-300 uppercase tracking-[0.5em] mb-4">Included Masterpieces</p>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {order.orderItems?.map((item: any, idx: number) => (
+                               <div key={idx} className="flex items-center gap-5 group/item">
+                                  <div className="w-16 h-20 bg-white rounded-lg border border-zinc-100 overflow-hidden flex-shrink-0 shadow-sm group-hover/item:shadow-md transition-all">
+                                     <img 
+                                        src={item.product?.imageUrl?.split('|')[0] || 'https://images.unsplash.com/photo-1524592094714-0f0654e20314'} 
+                                        className="w-full h-full object-cover transition-transform group-hover/item:scale-110 duration-700"
+                                        alt={item.product?.name}
+                                     />
+                                  </div>
+                                  <div className="flex flex-col gap-1.5 overflow-hidden">
+                                     <span className="text-[10px] font-black uppercase tracking-widest text-black truncate leading-tight">{item.product?.name || 'Luxury Timepiece'}</span>
+                                     <div className="flex items-center gap-3">
+                                        <span className="text-[9px] font-black text-zinc-400">QTY: {item.quantity}</span>
+                                        <div className="w-1 h-1 bg-zinc-200 rounded-full" />
+                                        <span className="text-[9px] font-black text-zinc-600 tracking-tighter">Rs. {item.price.toLocaleString()}</span>
+                                     </div>
+                                  </div>
+                               </div>
+                            ))}
+                          </div>
+                       </div>
+
+                       {/* Action Bar */}
+                       <div className="px-8 py-5 border-t border-zinc-50 flex items-center justify-between">
+                          <button className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 hover:text-black transition-all group/btn">
+                             Digital Certificate
+                             <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                          </button>
+                          <button 
+                            onClick={() => router.push(`/profile/orders/${order.id}`)}
+                            className="bg-zinc-50 hover:bg-black hover:text-white px-6 py-2.5 rounded-full text-[8px] font-black uppercase tracking-widest transition-all duration-500"
+                          >
+                            View Experience
+                          </button>
                        </div>
                     </motion.div>
                   );
