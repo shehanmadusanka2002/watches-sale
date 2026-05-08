@@ -166,14 +166,10 @@ const UserOrdersPage = () => {
                            </div>
 
                            {/* Action Bar - Clean Mobile Look */}
-                           <div className="px-6 py-5 border-t border-zinc-50 flex items-center justify-between bg-white">
-                              <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 hover:text-black transition-all group/btn">
-                                 Details
-                                 <ChevronRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
-                              </button>
-                              <button
-                                 onClick={() => router.push(`/profile/orders/${order.id}`)}
-                                 className="bg-zinc-950 text-white px-6 py-2.5 rounded-full text-[8px] font-black uppercase tracking-[0.4em] transition-all hover:bg-zinc-800 shadow-lg"
+                           <div className="px-6 py-5 border-t border-zinc-50 flex items-center justify-end bg-white">
+                              <button 
+                                onClick={() => router.push(`/profile/orders/${order.id}`)}
+                                className="bg-zinc-950 text-white px-8 py-3 rounded-full text-[9px] font-black uppercase tracking-[0.4em] transition-all hover:bg-zinc-800 shadow-xl active:scale-95"
                               >
                                  Track Acquisition
                               </button>
