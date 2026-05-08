@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import Navbar from '@/app/components/Navbar';
-import { Package, Truck, CheckCircle, Clock, ChevronRight, ShoppingBag, ArrowLeft, Loader2 } from 'lucide-react';
+import { Package, Truck, CheckCircle, Clock, ChevronRight, ShoppingBag, ArrowLeft, Loader2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { API_BASE_URL } from '@/lib/api';
