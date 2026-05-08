@@ -178,22 +178,22 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
               )}
             </div>
 
-            {/* Footer - Luxury Black */}
+            {/* Footer - Luxury Black - Optimized for Mobile */}
             {user && cart.length > 0 && (
-              <div className="p-8 bg-zinc-950 text-white space-y-6 relative overflow-hidden">
+              <div className="p-6 md:p-8 bg-zinc-950 text-white space-y-6 relative overflow-hidden z-[110] pb-12 md:pb-8">
                 <div className="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
                 
                 <div className="flex justify-between items-end relative z-10 px-2">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em]">Investment Total</span>
-                    <span className="text-[8px] text-zinc-600 font-bold uppercase tracking-widest">Inclusive of Luxury Tax & Insurance</span>
+                  <div className="flex flex-col gap-1.5">
+                    <span className="text-[8px] md:text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em]">Investment Total</span>
+                    <span className="text-[7px] md:text-[8px] text-zinc-600 font-bold uppercase tracking-widest">Inc. Luxury Tax & Insurance</span>
                   </div>
                   <div className="flex flex-col items-end">
                     <motion.span 
                       key={getCartTotal()}
                       initial={{ scale: 1.1, opacity: 0.5 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      className="text-2xl font-black tracking-tighter"
+                      className="text-xl md:text-2xl font-black tracking-tighter"
                     >
                       Rs. {getCartTotal().toLocaleString()}
                     </motion.span>
@@ -205,13 +205,13 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                     onClose();
                     router.push('/checkout');
                   }}
-                  className="w-full bg-white text-black py-5 text-[11px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-4 hover:bg-zinc-200 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.3)] active:scale-95 group relative z-10"
+                  className="w-full bg-white text-black py-4 md:py-5 text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 hover:bg-zinc-200 transition-all shadow-xl active:scale-95 group relative z-10"
                 >
-                  Confirm & Checkout
+                  Proceed to Checkout
                   <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-500" />
                 </button>
                 
-                <div className="flex items-center justify-center gap-4 relative z-10 pt-2">
+                <div className="hidden md:flex items-center justify-center gap-4 relative z-10 pt-2">
                    <div className="h-px flex-1 bg-white/5" />
                    <p className="text-[8px] text-zinc-600 font-black uppercase tracking-[0.3em]">
                      Encrypted Secure Transaction
