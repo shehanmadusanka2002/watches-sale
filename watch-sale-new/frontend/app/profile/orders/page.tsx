@@ -165,15 +165,6 @@ const UserOrdersPage = () => {
                               </div>
                            </div>
 
-                           {/* Action Bar - Clean Mobile Look */}
-                           <div className="px-6 py-5 border-t border-zinc-50 flex items-center justify-end bg-white">
-                              <button 
-                                onClick={() => router.push(`/profile/orders/${order.id}`)}
-                                className="bg-zinc-950 text-white px-8 py-3 rounded-full text-[9px] font-black uppercase tracking-[0.4em] transition-all hover:bg-zinc-800 shadow-xl active:scale-95"
-                              >
-                                 Track Acquisition
-                              </button>
-                           </div>
                         </motion.div>
                      );
                   })}
