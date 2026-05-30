@@ -25,6 +25,9 @@ const Navbar = () => {
   const { wishlistCount } = useWishlist();
   const menuCloseRef = useRef<HTMLButtonElement | null>(null);
   const menuPanelRef = useRef<HTMLDivElement | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -45,6 +48,7 @@ const Navbar = () => {
         setIsCartOpen(false);
         setShowUserDropdown(false);
         setShowUserDropdownMobile(false);
+        setIsSearchOpen(false);
       }
     };
     document.addEventListener('keydown', onKeyDown);
@@ -61,6 +65,23 @@ const Navbar = () => {
       document.body.style.overflow = '';
     }
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (isSearchOpen) {
+      setTimeout(() => searchInputRef.current?.focus(), 100);
+      document.body.style.overflow = 'hidden';
+    } else if (!isMenuOpen) {
+      document.body.style.overflow = '';
+    }
+  }, [isSearchOpen, isMenuOpen]);
+
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!searchQuery || searchQuery.trim() === '') return;
+    setIsSearchOpen(false);
+    router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    setSearchQuery('');
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -114,14 +135,16 @@ const Navbar = () => {
              {/* Mobile search button */}
              <button
                className="lg:hidden text-black hover:scale-110 transition-transform"
-               onClick={() => router.push('/search')}
+               onClick={() => setIsSearchOpen(true)}
                aria-label="Open search"
              >
                <Search size={20} strokeWidth={1.5} />
              </button>
              <div className="hidden lg:flex items-center group relative cursor-pointer">
+               <button onClick={() => setIsSearchOpen(true)} aria-label="Open search" className="flex items-center">
                 <Search size={20} strokeWidth={1.5} className="text-zinc-400 group-hover:text-black transition-colors" />
                 <span className="ml-3 text-[10px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-black transition-colors">Search Catalog</span>
+               </button>
              </div>
              
              {/* Quiz Button */}
@@ -266,7 +289,45 @@ const Navbar = () => {
                </div>
           </div>
         </div>
-      </header>
+        </header>
+
+        {/* Search Overlay */}
+        <AnimatePresence>
+          {isSearchOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[120] flex items-start justify-center pt-24 px-6 bg-black/40 backdrop-blur-sm"
+              onClick={() => setIsSearchOpen(false)}
+              aria-hidden={!isSearchOpen}
+            >
+              <motion.form
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -20, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                onSubmit={handleSearchSubmit}
+                className="w-full max-w-2xl bg-white rounded-xl p-6 shadow-2xl"
+              >
+                <div className="flex items-center gap-4">
+                  <input
+                    ref={searchInputRef}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search watches, brands, collections..."
+                    aria-label="Search catalogs"
+                    className="flex-1 border border-zinc-100 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                  />
+                  <button type="submit" className="bg-black text-white px-5 py-3 rounded-md font-black">Search</button>
+                  <button type="button" onClick={() => setIsSearchOpen(false)} aria-label="Close search" className="text-zinc-500 ml-2">
+                    <X size={20} />
+                  </button>
+                </div>
+              </motion.form>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
