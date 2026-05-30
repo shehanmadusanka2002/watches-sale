@@ -58,7 +58,7 @@ const CategoryPage = () => {
 
       {/* Footer Branding */}
       <footer className="py-20 border-t border-zinc-50 text-center">
-         <p className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.6em]">ANIX OFFICIAL BOUTIQUE</p>
+         <p className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.6em]">NEXORA HUB</p>
       </footer>
     </main>
   );

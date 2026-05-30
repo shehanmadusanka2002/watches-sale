@@ -63,7 +63,7 @@ const Preloader = () => {
                 ))}
 
                 {/* Brand Name on Dial */}
-                <span className="absolute top-1/3 text-[6px] font-black tracking-[0.4em] text-amber-500/50 uppercase">Anix Official</span>
+                <span className="absolute top-1/3 text-[6px] font-black tracking-[0.4em] text-amber-500/50 uppercase">NEXORA HUB</span>
 
                 {/* Center Hub */}
                 <div className="absolute w-4 h-4 bg-gradient-to-br from-amber-300 to-amber-600 rounded-full z-30 shadow-lg border border-amber-800/20" />
@@ -106,7 +106,7 @@ const Preloader = () => {
             className="mt-12 flex flex-col items-center"
           >
             <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-500 to-amber-200 uppercase tracking-[0.5em] italic">
-              ANIX
+              NEXORA HUB
             </h1>
             <div className="h-[1px] w-32 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent mt-4" />
             <span className="text-[8px] font-black text-zinc-500 uppercase tracking-[0.8em] mt-4">

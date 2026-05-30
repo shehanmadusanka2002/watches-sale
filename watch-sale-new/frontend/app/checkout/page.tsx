@@ -293,7 +293,7 @@ const CheckoutPage = () => {
                                         </div>
                                         <div>
                                            <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Name</p>
-                                           <p className="text-[10px] font-black uppercase">ANIX BOUTIQUE</p>
+                                           <p className="text-[10px] font-black uppercase">NEXORA HUB</p>
                                         </div>
                                         <div>
                                            <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Number</p>
@@ -310,7 +310,7 @@ const CheckoutPage = () => {
                                         </div>
                                         <div>
                                            <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Name</p>
-                                           <p className="text-[10px] font-black uppercase">ANIX BOUTIQUE</p>
+                                           <p className="text-[10px] font-black uppercase">NEXORA HUB</p>
                                         </div>
                                         <div>
                                            <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Number</p>
@@ -327,7 +327,7 @@ const CheckoutPage = () => {
                                         </div>
                                         <div>
                                            <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Name</p>
-                                           <p className="text-[10px] font-black uppercase">ANIX BOUTIQUE</p>
+                                           <p className="text-[10px] font-black uppercase">NEXORA HUB</p>
                                         </div>
                                         <div>
                                            <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-tighter">Acc Number</p>
@@ -431,7 +431,7 @@ const CheckoutPage = () => {
       
       <footer className="bg-white border-t border-zinc-100 py-12">
           <div className="container mx-auto px-6 text-center">
-              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.5em]">ANIX OFFICIAL BOUTIQUE &copy; 2026</p>
+              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.5em]">NEXORA HUB &copy; 2026</p>
           </div>
       </footer>
     </div>

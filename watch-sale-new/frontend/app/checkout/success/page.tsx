@@ -28,7 +28,7 @@ const SuccessContent = () => {
     const sendWhatsAppReceipt = () => {
         if (!orderDetails) return;
         const phone = "94762388479"; // Your Business Phone
-        const message = `Hello ANIX Boutique! I just placed an order. 
+        const message = `Hello NEXORA HUB! I just placed an order. 
 Order ID: #${orderDetails.orderId}
 Total Amount: Rs. ${orderDetails.total.toLocaleString()}
 Payment Method: Bank Transfer
@@ -92,7 +92,7 @@ I am sending the payment receipt below:`;
                         </div>
                         <h3 className="text-[10px] font-black uppercase tracking-widest mb-3">Order Logged</h3>
                         <p className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest">
-                            Transaction #ANIX-{orderDetails?.orderId || Math.floor(Math.random() * 90000) + 10000}
+                            Transaction #NEXORA-{orderDetails?.orderId || Math.floor(Math.random() * 90000) + 10000}
                         </p>
                     </div>
 
@@ -132,7 +132,7 @@ I am sending the payment receipt below:`;
 
             <footer className="bg-white border-t border-zinc-100 py-12">
                 <div className="container mx-auto px-6 text-center text-[9px] font-black text-zinc-300 uppercase tracking-[0.4em]">
-                    Thank you for choosing ANIX Boutique
+                    Thank you for choosing NEXORA HUB
                 </div>
             </footer>
         </div>

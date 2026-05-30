@@ -7,8 +7,8 @@ export type AdminBranding = {
 const STORAGE_KEY = 'adminBranding';
 
 export const defaultAdminBranding: AdminBranding = {
-  storeName: 'ANIX',
-  storeTagline: 'Luxury Watch Emporium',
+  storeName: 'NEXORA HUB',
+  storeTagline: 'Curated Collections & Hub',
   primaryColor: '#000000',
 };
 

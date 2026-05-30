@@ -564,7 +564,7 @@ const ProductDetails = () => {
                             Boutique Heritage
                         </h4>
                         <p className="text-xs text-zinc-500 leading-relaxed uppercase tracking-widest font-bold">
-                            Established in Colombo, Anix Boutique curated this timepiece personally, ensuring it meets the rigorous standards of our local horological heritage.
+                            Established in Colombo, NEXORA HUB curated this timepiece personally, ensuring it meets our rigorous standards of quality and craftsmanship.
                         </p>
                     </div>
                     <div>
@@ -590,7 +590,7 @@ const ProductDetails = () => {
 
             <footer className="bg-white border-t border-zinc-100 py-12 mb-20 md:mb-0">
                 <div className="container mx-auto px-6 text-center">
-                    <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.5em]">ANIX OFFICIAL BOUTIQUE &copy; 2026</p>
+                    <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.5em]">NEXORA HUB &copy; 2026</p>
                 </div>
             </footer>
 

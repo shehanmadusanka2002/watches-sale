@@ -8,7 +8,7 @@ const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: 'user' | 'bot', content: string }[]>([
-    { role: 'bot', content: "Welcome to Anix Boutique. I am your personal horological expert. How may I assist you in finding your next masterpiece today?" }
+    { role: 'bot', content: "Welcome to NEXORA HUB. I am your personal product expert. How may I assist you today?" }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -27,7 +27,7 @@ const ChatBot = () => {
     
     // Greetings
     if (text.match(/\b(hi|hello|hey|good morning|good evening)\b/)) {
-      return "Greetings, sir/madam. It is a pleasure to welcome you to Anix Boutique. How may I assist you with our collection today?";
+      return "Greetings. Welcome to NEXORA HUB. How may I assist you with our collection today?";
     }
 
     // Brands
@@ -35,7 +35,7 @@ const ChatBot = () => {
       return "Casio is renowned for blending legendary durability with modern style. Our Casio-Oak and G-Shock series are particularly popular among those who value both form and function. Shall I show you our latest Casio arrivals?";
     }
     if (text.includes('rolex') || text.includes('luxury') || text.includes('expensive')) {
-      return "At Anix Boutique, we curate only the finest timepieces. While certain brands represent the pinnacle of luxury, every watch in our collection is chosen for its exceptional craftsmanship and heritage.";
+      return "At NEXORA HUB, we curate only the finest items. Every product in our collection is chosen for its exceptional quality and value.";
     }
 
     // Movements
@@ -53,11 +53,11 @@ const ChatBot = () => {
 
     // Prices / Shipping
     if (text.includes('sri lanka') || text.includes('popular') || text.includes('best brand')) {
-      return "In Sri Lanka, Casio is exceptionally popular for its reliability. Brands like Seiko and Citizen also have a strong following. At Anix Boutique, we find our customers particularly love the 'Casio-Oak' models for their iconic style.";
+      return "In Sri Lanka, Casio is exceptionally popular for its reliability. Brands like Seiko and Citizen also have a strong following. At NEXORA HUB, our customers love reliable and stylish everyday pieces.";
     }
 
     if (text.includes('location') || text.includes('address') || text.includes('where') || text.includes('store') || text.includes('contact') || text.includes('phone')) {
-      return "Anix Boutique is primarily an online destination for luxury timepieces with home delivery. You can reach our experts via WhatsApp at +94 76 238 8479 for personalized service.";
+      return "NEXORA HUB is primarily an online destination with home delivery. You can reach our experts via WhatsApp at +94 76 238 8479 for personalized service.";
     }
 
     if (text.includes('price') || text.includes('cost') || text.includes('how much')) {
@@ -66,11 +66,11 @@ const ChatBot = () => {
 
     // Warranty
     if (text.includes('warranty') || text.includes('guarantee')) {
-      return "Every watch from Anix Boutique comes with an official international warranty, ranging from 12 to 24 months, ensuring your investment is perfectly protected.";
+      return "Every product from NEXORA HUB comes with an official international warranty, ranging from 12 to 24 months, ensuring your investment is protected.";
     }
 
     // Default expert response
-    return "That is an excellent horological question. As a specialist at Anix Boutique, I recommend exploring our full collection online or visiting our boutique for a personalized consultation with our experts.";
+    return "That is an excellent question. As a specialist at NEXORA HUB, I recommend exploring our full collection online or contacting our experts for personalized help.";
   };
 
   const handleSendMessage = async () => {
@@ -107,7 +107,7 @@ const ChatBot = () => {
                   <Sparkles size={16} className="text-zinc-400" />
                 </div>
                 <div>
-                  <h3 className="text-[11px] font-black uppercase tracking-[0.2em] leading-tight text-white">Anix Boutique Expert</h3>
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.2em] leading-tight text-white">NEXORA HUB Expert</h3>
                   <p className="text-[8px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">Always Online</p>
                 </div>
               </div>

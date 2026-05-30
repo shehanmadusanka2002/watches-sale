@@ -50,7 +50,7 @@ const RegisterPage = () => {
         className="w-full max-w-md bg-white p-10 rounded-sm shadow-xl border border-zinc-100"
       >
         <div className="text-center mb-10">
-          <Link href="/" className="text-3xl font-black tracking-tighter mb-4 inline-block">ANIX<span className="text-zinc-300">.</span></Link>
+          <Link href="/" className="text-3xl font-black tracking-tighter mb-4 inline-block">NEXORA HUB</Link>
           <h2 className="text-xl font-black uppercase tracking-widest text-zinc-900 mt-4">Join The Club</h2>
           <p className="text-xs text-zinc-400 font-bold uppercase italic mt-1">Create your premium account</p>
         </div>

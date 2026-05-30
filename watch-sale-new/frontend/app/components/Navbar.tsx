@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, User, Search, Menu, X, Heart, Phone, LogOut, Settings, ChevronRight, Package } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
@@ -69,7 +70,7 @@ const Navbar = () => {
       </div>
 
       {/* 2. Main Header */}
-      <header className="bg-white/80 backdrop-blur-xl border-b border-zinc-100 py-6 sticky top-0 transition-all">
+      <header className="bg-white/80 backdrop-blur-xl border-b border-zinc-100 py-8 sticky top-0 transition-all">
         <div className="container mx-auto px-6 grid grid-cols-3 items-center">
           {/* Left: Search & Menu */}
           <div className="flex items-center gap-6">
@@ -92,11 +93,10 @@ const Navbar = () => {
           </div>
 
           {/* Center: Logo */}
-          <div className="flex justify-center flex-col items-center group cursor-pointer" onClick={() => router.push('/')}>
-            <span className="text-4xl md:text-5xl font-black tracking-tighter text-black leading-none italic">
-              ANIX<span className="text-zinc-200 group-hover:text-black transition-colors duration-500">.</span>
-            </span>
-            <span className="text-[7px] tracking-[0.6em] uppercase font-black text-zinc-400 mt-1 ml-1 group-hover:text-black transition-colors">Official Boutique</span>
+          <div className="flex justify-center flex-col items-center group cursor-pointer py-2" onClick={() => router.push('/')}>
+            <img src="/logo.png" alt="NEXORA HUB" className="w-48 max-h-24 object-contain" />
+            <span className="sr-only">NEXORA HUB</span>
+            <span className="text-[9px] tracking-[0.6em] uppercase font-black text-black mt-1 ml-1 group-hover:text-black transition-colors">NEXORA HUB</span>
           </div>
 
           {/* Right: Personal & Cart */}
@@ -257,8 +257,10 @@ const Navbar = () => {
             className="fixed inset-0 z-[100] bg-white flex flex-col p-8"
           >
             <div className="flex justify-between items-center mb-12">
-               <span className="text-2xl font-black">ANIX.</span>
-               <button onClick={() => setIsMenuOpen(false)}><X size={30} /></button>
+               <div className="flex items-center gap-3">
+                 <img src="/logo.png" alt="NEXORA HUB" className="w-36 max-h-16 object-contain" />
+               </div>
+              <button onClick={() => setIsMenuOpen(false)}><X size={30} /></button>
             </div>
             <div className="flex flex-col gap-6">
               {categories.map((cat) => (

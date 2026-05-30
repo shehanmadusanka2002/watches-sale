@@ -240,8 +240,8 @@ export default function Home() {
             {/* Brand Column */}
             <div className="space-y-8">
               <div className="flex flex-col">
-                <span className="text-4xl font-black tracking-tighter italic">ANIX<span className="text-zinc-700">.</span></span>
-                <span className="text-[7px] tracking-[0.6em] uppercase font-black text-zinc-500 mt-1">Official Boutique</span>
+                <span className="text-4xl font-black tracking-tighter italic">NEXORA HUB</span>
+                <span className="text-[7px] tracking-[0.6em] uppercase font-black text-zinc-500 mt-1">NEXORA HUB</span>
               </div>
               
               <div className="space-y-4">
@@ -326,7 +326,7 @@ export default function Home() {
           {/* Bottom Bar */}
           <div className="pt-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-8">
             <p className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.3em]">
-              © 2026 ANIX WATCHES SRI LANKA. ALL RIGHTS RESERVED.
+              © 2026 NEXORA HUB. ALL RIGHTS RESERVED.
             </p>
             
             <div className="flex items-center gap-8 grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-700">

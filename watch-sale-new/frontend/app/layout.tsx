@@ -18,8 +18,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "ANIX Official | Luxury Timepiece Boutique",
-  description: "Experience the pinnacle of luxury with ANIX Official's curated collection of masterwork timepieces in Sri Lanka.",
+  title: "NEXORA HUB",
+  description: "NEXORA HUB - curated collections and premium shopping hub.",
 };
 
 import { CartProvider } from "@/context/CartContext";

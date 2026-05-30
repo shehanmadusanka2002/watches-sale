@@ -175,7 +175,7 @@ const UserOrdersPage = () => {
          {/* Footer Placeholder */}
          <footer className="bg-white border-t border-zinc-100 py-12">
             <div className="container mx-auto px-6 text-center">
-               <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.5em]">ANIX OFFICIAL BOUTIQUE &copy; 2026</p>
+               <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.5em]">NEXORA HUB &copy; 2026</p>
             </div>
          </footer>
       </div>
