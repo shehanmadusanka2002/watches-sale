@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ShoppingCart, User, Search, Menu, X, Heart, Phone, LogOut, Settings, ChevronRight, Package } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -23,6 +23,8 @@ const Navbar = () => {
   const pathname = usePathname();
   const { getCartCount } = useCart();
   const { wishlistCount } = useWishlist();
+  const menuCloseRef = useRef<HTMLButtonElement | null>(null);
+  const menuPanelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -34,6 +36,31 @@ const Navbar = () => {
       }
     }
   }, []);
+
+  // Close overlays on Escape and manage focus when menu opens
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false);
+        setIsCartOpen(false);
+        setShowUserDropdown(false);
+        setShowUserDropdownMobile(false);
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      // move focus to close button for accessibility
+      setTimeout(() => menuCloseRef.current?.focus(), 200);
+      // prevent body scroll while menu open
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isMenuOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -74,8 +101,23 @@ const Navbar = () => {
         <div className="container mx-auto px-6 grid grid-cols-3 items-center">
           {/* Left: Search & Menu */}
           <div className="flex items-center gap-6">
-             <button className="lg:hidden text-black hover:scale-110 transition-transform" onClick={() => setIsMenuOpen(true)}>
-                <Menu size={24} strokeWidth={1.5} />
+             <button
+               className="lg:hidden text-black hover:scale-110 transition-transform"
+               onClick={() => setIsMenuOpen(true)}
+               aria-label="Open menu"
+               aria-expanded={isMenuOpen}
+               aria-controls="mobile-menu"
+             >
+               <Menu size={24} strokeWidth={1.5} />
+             </button>
+
+             {/* Mobile search button */}
+             <button
+               className="lg:hidden text-black hover:scale-110 transition-transform"
+               onClick={() => router.push('/search')}
+               aria-label="Open search"
+             >
+               <Search size={20} strokeWidth={1.5} />
              </button>
              <div className="hidden lg:flex items-center group relative cursor-pointer">
                 <Search size={20} strokeWidth={1.5} className="text-zinc-400 group-hover:text-black transition-colors" />
@@ -232,7 +274,7 @@ const Navbar = () => {
       <StyleQuiz isOpen={showQuiz} onClose={() => setShowQuiz(false)} />
 
       {/* 3. Navigation Bar */}
-      <nav className="bg-white border-b border-zinc-100 hidden lg:block">
+      <nav role="navigation" aria-label="Primary" className="bg-white border-b border-zinc-100 hidden lg:block">
         <div className="container mx-auto px-6 flex justify-center items-center gap-14 py-4">
           {categories.map((cat) => (
             <Link 
@@ -254,13 +296,17 @@ const Navbar = () => {
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
             className="fixed inset-0 z-[100] bg-white flex flex-col p-8"
+            ref={menuPanelRef}
           >
             <div className="flex justify-between items-center mb-12">
                <div className="flex items-center gap-3">
                  <img src="/logo.png" alt="NEXORA HUB" className="w-36 max-h-16 object-contain" />
                </div>
-              <button onClick={() => setIsMenuOpen(false)}><X size={30} /></button>
+              <button ref={menuCloseRef} onClick={() => setIsMenuOpen(false)} aria-label="Close menu"><X size={30} /></button>
             </div>
             <div className="flex flex-col gap-6">
               {categories.map((cat) => (
