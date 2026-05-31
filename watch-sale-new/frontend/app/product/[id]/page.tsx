@@ -595,7 +595,7 @@ const ProductDetails = () => {
             </footer>
 
             {/* Mobile Sticky Add to Cart */}
-            <div className="lg:hidden fixed bottom-[72px] left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-zinc-100 z-[90]">
+            <div className="mobile-add lg:hidden fixed bottom-[72px] left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-zinc-100 z-[90]">
                 <button 
                     onClick={handleAddToCart}
                     className={`w-full ${isAdded ? 'bg-green-600' : 'bg-black'} text-white py-4 text-[11px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 shadow-2xl active:scale-95 transition-all`}

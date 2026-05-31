@@ -67,6 +67,16 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   useEffect(() => {
+    if (isCartOpen) {
+      document.body.classList.add('overlay-open');
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.classList.remove('overlay-open');
+      if (!isMenuOpen && !isSearchOpen) document.body.style.overflow = '';
+    }
+  }, [isCartOpen, isMenuOpen, isSearchOpen]);
+
+  useEffect(() => {
     if (isSearchOpen) {
       setTimeout(() => searchInputRef.current?.focus(), 100);
       document.body.style.overflow = 'hidden';
