@@ -56,6 +56,41 @@ const AdminDashboard = () => {
     { label: 'Total Products', value: stats ? stats.totalProducts : '...', change: '+0.8%', isUp: true, icon: TrendingUp },
   ];
 
+  const getStatusLabel = (status: string | number | undefined) => {
+    if (status === undefined || status === null) return 'PENDING';
+
+    if (typeof status === 'number') {
+      const numericMap: Record<number, string> = {
+        0: 'PENDING',
+        1: 'SHIPPED',
+        2: 'DELIVERED',
+        3: 'CANCELLED',
+        4: 'CONFIRMED',
+      };
+      return numericMap[status] || 'PENDING';
+    }
+
+    const upper = status.toUpperCase();
+    if (upper === 'PAID') return 'CONFIRMED';
+    if (upper === 'COMPLETED') return 'DELIVERED';
+    return upper;
+  };
+
+  const getStatusBadgeClass = (statusLabel: string) => {
+    switch (statusLabel) {
+      case 'DELIVERED':
+        return 'text-green-600 bg-green-50';
+      case 'CONFIRMED':
+        return 'text-amber-600 bg-amber-50';
+      case 'SHIPPED':
+        return 'text-blue-600 bg-blue-50';
+      case 'CANCELLED':
+        return 'text-red-600 bg-red-50';
+      default:
+        return 'text-zinc-500 bg-zinc-50';
+    }
+  };
+
   return (
     <div className="space-y-10">
       {/* Welcome & Quick Actions */}
@@ -146,8 +181,11 @@ const AdminDashboard = () => {
                  <div className="py-10 text-center text-zinc-400 text-xs font-bold uppercase tracking-widest bg-zinc-50 rounded-sm border border-dashed border-zinc-200">
                     No recent orders
                  </div>
-               ) : recentOrders.map((order) => (
-                 <div key={order.id} className="flex items-center justify-between border-b border-zinc-50 pb-4 last:border-0 last:pb-0">
+              ) : recentOrders.map((order) => {
+                const statusLabel = getStatusLabel(order.status);
+
+                return (
+                <div key={order.id} className="flex items-center justify-between border-b border-zinc-50 pb-4 last:border-0 last:pb-0">
                     <div className="flex items-center gap-4">
                        <div className="w-10 h-10 bg-zinc-50 rounded-sm flex items-center justify-center text-zinc-300 font-black text-xs">#{order.id}</div>
                        <div className="flex flex-col text-left">
@@ -157,13 +195,11 @@ const AdminDashboard = () => {
                           </span>
                        </div>
                     </div>
-                    <span className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${
-                      order.status === 'PAID' || order.status === 'COMPLETED' ? 'text-green-500 bg-green-50' : 'text-zinc-400 bg-zinc-50'
-                    }`}>
-                      {order.status || 'Pending'}
+                  <span className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${getStatusBadgeClass(statusLabel)}`}>
+                   {statusLabel}
                     </span>
                  </div>
-               ))}
+              )})}
             </div>
             <button 
               onClick={() => window.location.href = '/admin/orders'}
