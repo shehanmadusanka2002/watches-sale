@@ -308,7 +308,7 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[120] flex items-start justify-center pt-24 px-6 bg-black/40 backdrop-blur-sm"
+              className="fixed inset-0 z-[120] flex items-start justify-center pt-16 sm:pt-24 px-4 sm:px-6 bg-black/40 backdrop-blur-sm"
               onClick={() => setIsSearchOpen(false)}
               aria-hidden={!isSearchOpen}
             >
@@ -318,19 +318,19 @@ const Navbar = () => {
                 exit={{ y: -20, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
                 onSubmit={handleSearchSubmit}
-                className="w-full max-w-2xl bg-white rounded-xl p-6 shadow-2xl"
+                className="w-full max-w-[calc(100vw-1.5rem)] sm:max-w-2xl bg-white rounded-xl p-4 sm:p-6 shadow-2xl"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                   <input
                     ref={searchInputRef}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search watches, brands, collections..."
                     aria-label="Search catalogs"
-                    className="flex-1 border border-zinc-100 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    className="w-full min-w-0 flex-1 border border-zinc-100 px-4 py-3 sm:py-3 rounded-md text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-300"
                   />
-                  <button type="submit" className="bg-black text-white px-5 py-3 rounded-md font-black">Search</button>
-                  <button type="button" onClick={() => setIsSearchOpen(false)} aria-label="Close search" className="text-zinc-500 ml-2">
+                    <button type="submit" className="w-full sm:w-auto bg-black text-white px-5 py-3 rounded-md font-black whitespace-nowrap">Search</button>
+                    <button type="button" onClick={() => setIsSearchOpen(false)} aria-label="Close search" className="self-end sm:self-auto text-zinc-500 sm:ml-2">
                     <X size={20} />
                   </button>
                 </div>

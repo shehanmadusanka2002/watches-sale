@@ -58,10 +58,22 @@ const SearchClient = () => {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((p) => (
-                  <Link key={p.id} href={`/product/${p.id}`} className="border p-4 rounded-md hover:shadow-lg transition-all">
-                    <img src={(p.imageUrl || '').split('|')[0] || 'https://via.placeholder.com/400'} alt={p.name} className="w-full h-48 object-cover mb-4 rounded-sm" />
-                    <h3 className="font-black text-lg uppercase">{p.name}</h3>
-                    <p className="text-zinc-500 mt-2">Rs. {p.price?.toLocaleString()}</p>
+                  <Link
+                    key={p.id}
+                    href={`/product/${p.id}`}
+                    className="group overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-lg"
+                  >
+                    <div className="bg-zinc-50 p-3 sm:p-4">
+                      <img
+                        src={(p.imageUrl || '').split('|')[0] || 'https://via.placeholder.com/400'}
+                        alt={p.name}
+                        className="w-full aspect-[4/3] sm:aspect-square object-contain rounded-lg bg-white"
+                      />
+                    </div>
+                    <div className="p-4 sm:p-5">
+                      <h3 className="font-black text-base sm:text-lg uppercase leading-snug">{p.name}</h3>
+                      <p className="text-zinc-500 mt-2 text-sm sm:text-base">Rs. {p.price?.toLocaleString()}</p>
+                    </div>
                   </Link>
                 ))}
               </div>
