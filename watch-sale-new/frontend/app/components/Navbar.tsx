@@ -194,7 +194,7 @@ const Navbar = () => {
                   <div className="flex items-center">
                     <button 
                      onClick={() => setShowUserDropdown(!showUserDropdown)}
-                     className="flex items-center gap-3 pl-4 border-l border-zinc-100 group transition-all"
+                     className="flex items-center gap-3 pl-4 border-l border-zinc-100 group transition-all min-w-0"
                     >
                       <div className="w-9 h-9 rounded-full bg-zinc-950 flex items-center justify-center border border-zinc-800 text-white group-hover:bg-zinc-800 transition-all shadow-lg">
                         <span className="text-xs font-black uppercase">{user.name?.charAt(0) || 'U'}</span>
@@ -215,19 +215,19 @@ const Navbar = () => {
                           initial={{ opacity: 0, y: 15, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                            className="absolute right-0 top-[calc(100%+1.5rem)] w-[calc(100vw-1.5rem)] sm:w-72 max-w-72 bg-white border border-zinc-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] z-50 p-2 rounded-xl overflow-hidden"
+                            className="absolute right-0 top-[calc(100%+0.5rem)] w-[calc(100vw-1.5rem)] sm:w-80 max-w-[20rem] bg-white border border-zinc-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] z-50 p-2 rounded-xl overflow-hidden"
                         >
-                          <div className="p-3 bg-zinc-950 rounded-lg mb-3 text-white shadow-lg">
+                          <Link href="/profile" onClick={() => setShowUserDropdown(false)} className="block p-3 bg-zinc-950 rounded-lg mb-3 text-white shadow-lg">
                             <div className="flex items-center gap-3 min-w-0">
-                              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-black text-xs font-black ring-2 ring-white/10">
+                              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-black text-sm font-black ring-2 ring-white/10 overflow-hidden">
                                 {user.name?.charAt(0)}
                               </div>
-                              <div className="flex flex-col min-w-0">
-                                <p className="text-[12px] font-black text-white leading-tight break-words">{user.name}</p>
-                                <p className="text-[10px] font-bold text-zinc-400 uppercase mt-0.5 tracking-wider break-all">{user.email}</p>
+                              <div className="flex flex-col min-w-0 overflow-hidden">
+                                <p className="text-sm font-black text-white leading-tight break-words truncate">{user.name}</p>
+                                <p className="text-xs font-medium text-zinc-300 mt-0.5 tracking-normal break-words">{user.email}</p>
                               </div>
                             </div>
-                          </div>
+                          </Link>
                                 
                           <div className="space-y-1">
                             <button 
@@ -241,7 +241,7 @@ const Navbar = () => {
                                 <div className="w-9 h-9 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-black group-hover:text-white transition-all shrink-0">
                                   <Package size={15} strokeWidth={2} />
                                 </div>
-                                <span className="text-[10px] font-black uppercase tracking-[0.16em] text-zinc-600 group-hover:text-black transition-colors whitespace-nowrap">My Portfolio</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.16em] text-zinc-600 group-hover:text-black transition-colors">My Portfolio</span>
                               </div>
                               <ChevronRight size={13} className="text-zinc-300 group-hover:text-black transition-colors shrink-0" />
                             </button>
@@ -259,7 +259,7 @@ const Navbar = () => {
                                 <div className="w-9 h-9 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0">
                                   <Heart size={15} strokeWidth={2} />
                                 </div>
-                                <span className="text-[10px] font-black uppercase tracking-[0.16em] text-zinc-600 group-hover:text-black transition-colors whitespace-nowrap">Wishlist</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.16em] text-zinc-600 group-hover:text-black transition-colors">Wishlist</span>
                               </div>
                               <ChevronRight size={13} className="text-zinc-300 group-hover:text-black transition-colors shrink-0" />
                             </button>
