@@ -28,7 +28,7 @@ const LoginPage = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Google login failed');
 
-      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('token', data.access_token || data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       router.push('/');
     } catch (err: any) {
@@ -57,7 +57,7 @@ const LoginPage = () => {
       }
 
       // Store token and user info
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', data.access_token || data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
       // Redirect based on role (simple check)
@@ -135,9 +135,9 @@ const LoginPage = () => {
           </button>
 
           <div className="relative flex items-center py-4">
-            <div className="flex-grow border-t border-zinc-100"></div>
-            <span className="flex-shrink mx-4 text-[10px] font-black uppercase text-zinc-300">Or Continue With</span>
-            <div className="flex-grow border-t border-zinc-100"></div>
+            <div className="grow border-t border-zinc-100"></div>
+            <span className="shrink mx-4 text-[10px] font-black uppercase text-zinc-300">Or Continue With</span>
+            <div className="grow border-t border-zinc-100"></div>
           </div>
 
           <div className="flex justify-center">

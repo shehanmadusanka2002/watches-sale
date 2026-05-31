@@ -3,5 +3,6 @@ import { Order } from '../orders/entities/order.entity';
 export declare class MailService {
     private mailerService;
     constructor(mailerService: MailerService);
+    private formatPaymentMethod;
     sendOrderConfirmation(order: Order): Promise<void>;
 }

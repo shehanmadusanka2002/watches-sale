@@ -17,9 +17,24 @@ let MailService = class MailService {
     constructor(mailerService) {
         this.mailerService = mailerService;
     }
+    formatPaymentMethod(method) {
+        switch (method) {
+            case 'CASH_ON_DELIVERY':
+                return 'Cash on Delivery (COD)';
+            case 'BANK_TRANSFER':
+                return 'Bank Transfer / Online Payment';
+            case 'CARD':
+                return 'Card Payment';
+            case 'PAYPAL':
+                return 'PayPal';
+            default:
+                return method ? method.replace(/_/g, ' ') : 'N/A';
+        }
+    }
     async sendOrderConfirmation(order) {
         const orderId = `WH-${order.id.toString().padStart(6, '0')}`;
         const totalAmount = order.payment?.amount?.toLocaleString();
+        const paymentMethod = this.formatPaymentMethod(order.payment?.method);
         const customerName = order.firstName ? `${order.firstName} ${order.lastName}` : (order.user?.username || 'Valued Customer');
         const itemsHtml = order.orderItems.map(item => `
       <tr>
@@ -52,7 +67,7 @@ let MailService = class MailService {
       <body>
         <div class="container">
           <div class="header">
-            <a href="#" class="logo">ANIX OFFICIAL</a>
+            <a href="#" class="logo">NEXORA HUB</a>
           </div>
           
           <div class="content">
@@ -60,7 +75,12 @@ let MailService = class MailService {
             <p style="font-size: 12px; font-weight: 900; text-transform: uppercase; color: #999999; letter-spacing: 2px; margin-bottom: 30px;">Order Reference: ${orderId}</p>
             
             <p style="font-size: 14px;">Dear <strong>${customerName}</strong>,</p>
-            <p style="font-size: 14px;">Thank you for your acquisition from ANIX Official. We are pleased to confirm that your order has been successfully recorded in our archives and is currently being prepared for shipment.</p>
+            <p style="font-size: 14px;">Thank you for your acquisition from NEXORA HUB. We are pleased to confirm that your order has been successfully recorded in our archives and is currently being prepared for shipment.</p>
+
+            <div style="margin: 24px 0 30px; padding: 16px 18px; border: 1px solid #eeeeee; background: #fafafa; border-radius: 2px;">
+              <div style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #999999; margin-bottom: 6px;">Payment Method</div>
+              <div style="font-size: 14px; font-weight: 900; color: #000000;">${paymentMethod}</div>
+            </div>
             
             <table class="order-summary">
               <thead>
@@ -93,7 +113,7 @@ let MailService = class MailService {
           </div>
 
           <div class="footer">
-            &copy; 2026 ANIX OFFICIAL BOUTIQUE<br>
+            &copy; 2026 NEXORA HUB BOUTIQUE<br>
             LUXURY TIMEPIECE EMPORIUM
           </div>
         </div>
@@ -103,7 +123,7 @@ let MailService = class MailService {
         try {
             await this.mailerService.sendMail({
                 to: order.email || order.user?.email,
-                subject: `Your ANIX Acquisition Confirmed | Order ${orderId}`,
+                subject: `Your NEXORA HUB Acquisition Confirmed | Order ${orderId}`,
                 html: html,
             });
             console.log(`Order confirmation email sent to ${order.email || order.user?.email}`);
