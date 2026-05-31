@@ -199,9 +199,11 @@ const Navbar = () => {
                       <div className="w-9 h-9 rounded-full bg-zinc-950 flex items-center justify-center border border-zinc-800 text-white group-hover:bg-zinc-800 transition-all shadow-lg">
                         <span className="text-xs font-black uppercase">{user.name?.charAt(0) || 'U'}</span>
                       </div>
-                      <div className="hidden sm:flex flex-col items-start leading-[1.1] text-left">
-                        <span className="text-[8px] text-zinc-400 font-black uppercase tracking-[0.2em]">Boutique Member</span>
-                        <span className="text-[11px] font-black text-black group-hover:text-zinc-600 transition-colors truncate max-w-[100px]">{user.name}</span>
+                      <div className="hidden sm:flex flex-col items-start leading-tight text-left min-w-0">
+                        <span className="text-[9px] text-zinc-400 font-black uppercase tracking-[0.18em] whitespace-nowrap">Boutique Member</span>
+                        <span className="text-[12px] font-black text-black group-hover:text-zinc-600 transition-colors whitespace-nowrap">
+                          {user.name}
+                        </span>
                       </div>
                     </button>
 
@@ -213,35 +215,35 @@ const Navbar = () => {
                           initial={{ opacity: 0, y: 15, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                          className="absolute right-0 top-[calc(100%+1.5rem)] w-64 bg-white border border-zinc-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] z-50 p-2 rounded-xl"
+                            className="absolute right-0 top-[calc(100%+1.5rem)] w-[calc(100vw-1.5rem)] sm:w-72 max-w-72 bg-white border border-zinc-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] z-50 p-2 rounded-xl overflow-hidden"
                         >
                           <div className="p-3 bg-zinc-950 rounded-lg mb-3 text-white shadow-lg">
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 min-w-0">
                               <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-black text-xs font-black ring-2 ring-white/10">
                                 {user.name?.charAt(0)}
                               </div>
-                              <div className="flex flex-col overflow-hidden">
-                                <p className="text-[11px] font-black text-white leading-tight truncate">{user.name}</p>
-                                <p className="text-[9px] font-bold text-zinc-400 truncate uppercase mt-0.5 tracking-wider">{user.email}</p>
+                              <div className="flex flex-col min-w-0">
+                                <p className="text-[12px] font-black text-white leading-tight break-words">{user.name}</p>
+                                <p className="text-[10px] font-bold text-zinc-400 uppercase mt-0.5 tracking-wider break-all">{user.email}</p>
                               </div>
                             </div>
                           </div>
                                 
-                          <div className="space-y-0.5">
+                          <div className="space-y-1">
                             <button 
                               onClick={() => {
                                setShowUserDropdown(false);
                                router.push('/profile/orders');
                               }}
-                              className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-zinc-50 transition-all group"
+                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-zinc-50 transition-all group"
                             >
                               <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-black group-hover:text-white transition-all">
-                                  <Package size={14} strokeWidth={2} />
+                                <div className="w-9 h-9 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-black group-hover:text-white transition-all shrink-0">
+                                  <Package size={15} strokeWidth={2} />
                                 </div>
-                                <span className="text-[9px] font-black uppercase tracking-[0.15em] text-zinc-600 group-hover:text-black transition-colors">My Portfolio</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.16em] text-zinc-600 group-hover:text-black transition-colors whitespace-nowrap">My Portfolio</span>
                               </div>
-                              <ChevronRight size={12} className="text-zinc-300 group-hover:text-black transition-colors" />
+                              <ChevronRight size={13} className="text-zinc-300 group-hover:text-black transition-colors shrink-0" />
                             </button>
                                     
 
@@ -251,25 +253,25 @@ const Navbar = () => {
                                setShowUserDropdown(false);
                                router.push('/profile/wishlist');
                               }}
-                              className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-zinc-50 transition-all group"
+                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-zinc-50 transition-all group"
                             >
                               <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-indigo-600 group-hover:text-white transition-all">
-                                  <Heart size={14} strokeWidth={2} />
+                                <div className="w-9 h-9 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0">
+                                  <Heart size={15} strokeWidth={2} />
                                 </div>
-                                <span className="text-[9px] font-black uppercase tracking-[0.15em] text-zinc-600 group-hover:text-black transition-colors">Wishlist</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.16em] text-zinc-600 group-hover:text-black transition-colors whitespace-nowrap">Wishlist</span>
                               </div>
-                              <ChevronRight size={12} className="text-zinc-300 group-hover:text-black transition-colors" />
+                              <ChevronRight size={13} className="text-zinc-300 group-hover:text-black transition-colors shrink-0" />
                             </button>
                                    
                             <button 
                              onClick={handleLogout}
-                             className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-red-50 transition-all group border-t border-zinc-50 mt-1.5"
+                             className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 transition-all group border-t border-zinc-50 mt-1.5"
                             >
-                              <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all">
-                                <LogOut size={14} strokeWidth={2} />
+                              <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all shrink-0">
+                                <LogOut size={15} strokeWidth={2} />
                               </div>
-                              <span className="text-[9px] font-black uppercase tracking-[0.15em] text-red-600 group-hover:text-red-700 transition-colors">Secure Sign Out</span>
+                              <span className="text-[10px] font-black uppercase tracking-[0.16em] text-red-600 group-hover:text-red-700 transition-colors whitespace-nowrap">Secure Sign Out</span>
                             </button>
                           </div>
                         </motion.div>
