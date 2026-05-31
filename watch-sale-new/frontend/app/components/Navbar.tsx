@@ -129,26 +129,26 @@ const Navbar = () => {
 
       {/* 2. Main Header */}
       <header className="bg-white/80 backdrop-blur-xl border-b border-zinc-100 py-3 sm:py-8 sticky top-0 transition-all">
-        <div className="container mx-auto px-4 sm:px-6 grid grid-cols-3 items-center">
+        <div className="container mx-auto px-4 sm:px-6" style={{gridTemplateColumns: '1fr auto 1fr', display: 'grid', alignItems: 'center'}}>
           {/* Left: Search & Menu */}
-          <div className="flex items-center gap-2 sm:gap-6">
+          <div className="flex items-center gap-2 sm:gap-6 justify-center">
              <button
-               className="lg:hidden text-black hover:scale-110 transition-transform"
+               className="p-2 w-10 h-10 flex items-center justify-center rounded-md text-black hover:bg-zinc-100 active:scale-95 transition-all lg:hidden"
                onClick={() => setIsMenuOpen(true)}
                aria-label="Open menu"
                aria-expanded={isMenuOpen}
                aria-controls="mobile-menu"
              >
-               <Menu size={24} strokeWidth={1.5} />
+               <Menu size={20} strokeWidth={1.5} />
              </button>
 
              {/* Mobile search button */}
              <button
-               className="lg:hidden text-black hover:scale-110 transition-transform"
+               className="p-2 w-10 h-10 flex items-center justify-center rounded-md text-black hover:bg-zinc-100 active:scale-95 transition-all lg:hidden"
                onClick={() => setIsSearchOpen(true)}
                aria-label="Open search"
              >
-               <Search size={20} strokeWidth={1.5} />
+               <Search size={18} strokeWidth={1.5} />
              </button>
              <div className="hidden lg:flex items-center group relative cursor-pointer">
                <button onClick={() => setIsSearchOpen(true)} aria-label="Open search" className="flex items-center">
@@ -169,135 +169,135 @@ const Navbar = () => {
 
           {/* Center: Logo */}
           <div className="flex justify-center flex-col items-center group cursor-pointer py-1 sm:py-2" onClick={() => router.push('/')}>
-            <img src="/logo.png" alt="NEXORA HUB" className="w-32 sm:w-48 max-h-12 sm:max-h-24 object-contain" />
+            <img src="/logo.png" alt="NEXORA HUB" className="w-28 sm:w-48 max-h-12 sm:max-h-24 object-contain" />
             <span className="sr-only">NEXORA HUB</span>
-            <span className="text-[9px] tracking-[0.6em] uppercase font-black text-black mt-1 ml-1 group-hover:text-black transition-colors">NEXORA HUB</span>
+            <span className="hidden sm:block text-[9px] tracking-[0.6em] uppercase font-black text-black mt-1 ml-1 group-hover:text-black transition-colors">NEXORA HUB</span>
           </div>
 
           {/* Right: Personal & Cart */}
-          <div className="flex justify-end items-center gap-2 md:gap-8">
+           <div className="flex items-center gap-2 md:gap-8 justify-center">
                
-               {/* Wishlist */}
-               <div 
-                 onClick={() => router.push('/profile/wishlist')}
-                 className="relative cursor-pointer hover:scale-110 transition-transform hidden sm:block"
-               >
-                 <Heart size={21} strokeWidth={1.2} className={wishlistCount > 0 ? "fill-black" : ""} />
-                 {user && wishlistCount > 0 && (
-                   <span className="absolute -top-1.5 -right-2 bg-indigo-600 text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-black">{wishlistCount}</span>
-                 )}
-               </div>
+              {/* Wishlist (hidden on xs) */}
+              <div 
+                onClick={() => router.push('/profile/wishlist')}
+                className="relative hidden sm:flex items-center justify-center p-2 w-10 h-10 rounded-md hover:bg-zinc-100 transition-all"
+              >
+                <Heart size={18} strokeWidth={1.2} className={wishlistCount > 0 ? "fill-black" : ""} />
+                {user && wishlistCount > 0 && (
+                 <span className="absolute -top-1.5 -right-2 bg-indigo-600 text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-black">{wishlistCount}</span>
+                )}
+              </div>
 
-               {/* User Profile / Login */}
-               <div className="relative">
-                  {user ? (
-                    <div className="flex items-center">
-                       <button 
-                         onClick={() => setShowUserDropdown(!showUserDropdown)}
-                         className="flex items-center gap-3 pl-4 border-l border-zinc-100 group transition-all"
-                       >
-                          <div className="w-9 h-9 rounded-full bg-zinc-950 flex items-center justify-center border border-zinc-800 text-white group-hover:bg-zinc-800 transition-all shadow-lg">
-                             <span className="text-xs font-black uppercase">{user.name?.charAt(0) || 'U'}</span>
-                          </div>
-                          <div className="hidden sm:flex flex-col items-start leading-[1.1] text-left">
-                             <span className="text-[8px] text-zinc-400 font-black uppercase tracking-[0.2em]">Boutique Member</span>
-                             <span className="text-[11px] font-black text-black group-hover:text-zinc-600 transition-colors truncate max-w-[100px]">{user.name}</span>
-                          </div>
-                       </button>
+              {/* User Profile / Login */}
+              <div className="relative">
+                {user ? (
+                  <div className="flex items-center">
+                    <button 
+                     onClick={() => setShowUserDropdown(!showUserDropdown)}
+                     className="flex items-center gap-3 pl-4 border-l border-zinc-100 group transition-all"
+                    >
+                      <div className="w-9 h-9 rounded-full bg-zinc-950 flex items-center justify-center border border-zinc-800 text-white group-hover:bg-zinc-800 transition-all shadow-lg">
+                        <span className="text-xs font-black uppercase">{user.name?.charAt(0) || 'U'}</span>
+                      </div>
+                      <div className="hidden sm:flex flex-col items-start leading-[1.1] text-left">
+                        <span className="text-[8px] text-zinc-400 font-black uppercase tracking-[0.2em]">Boutique Member</span>
+                        <span className="text-[11px] font-black text-black group-hover:text-zinc-600 transition-colors truncate max-w-[100px]">{user.name}</span>
+                      </div>
+                    </button>
 
-                       {/* User Dropdown */}
-                       <AnimatePresence>
-                         {showUserDropdown && (
-                           <>
-                             <div className="fixed inset-0 z-40" onClick={() => setShowUserDropdown(false)} />
-                             <motion.div 
-                                initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                                className="absolute right-0 top-[calc(100%+1.5rem)] w-64 bg-white border border-zinc-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] z-50 p-2 rounded-xl"
-                             >
-                                <div className="p-3 bg-zinc-950 rounded-lg mb-3 text-white shadow-lg">
-                                   <div className="flex items-center gap-3">
-                                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-black text-xs font-black ring-2 ring-white/10">
-                                         {user.name?.charAt(0)}
-                                      </div>
-                                      <div className="flex flex-col overflow-hidden">
-                                         <p className="text-[11px] font-black text-white leading-tight truncate">{user.name}</p>
-                                         <p className="text-[9px] font-bold text-zinc-400 truncate uppercase mt-0.5 tracking-wider">{user.email}</p>
-                                      </div>
-                                   </div>
-                                </div>
+                    <AnimatePresence>
+                     {showUserDropdown && (
+                      <>
+                        <div className="fixed inset-0 z-40" onClick={() => setShowUserDropdown(false)} />
+                        <motion.div 
+                          initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                          className="absolute right-0 top-[calc(100%+1.5rem)] w-64 bg-white border border-zinc-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] z-50 p-2 rounded-xl"
+                        >
+                          <div className="p-3 bg-zinc-950 rounded-lg mb-3 text-white shadow-lg">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-black text-xs font-black ring-2 ring-white/10">
+                                {user.name?.charAt(0)}
+                              </div>
+                              <div className="flex flex-col overflow-hidden">
+                                <p className="text-[11px] font-black text-white leading-tight truncate">{user.name}</p>
+                                <p className="text-[9px] font-bold text-zinc-400 truncate uppercase mt-0.5 tracking-wider">{user.email}</p>
+                              </div>
+                            </div>
+                          </div>
                                 
-                                <div className="space-y-0.5">
-                                   <button 
-                                      onClick={() => {
-                                        setShowUserDropdown(false);
-                                        router.push('/profile/orders');
-                                      }}
-                                      className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-zinc-50 transition-all group"
-                                    >
-                                       <div className="flex items-center gap-3">
-                                          <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-black group-hover:text-white transition-all">
-                                             <Package size={14} strokeWidth={2} />
-                                          </div>
-                                          <span className="text-[9px] font-black uppercase tracking-[0.15em] text-zinc-600 group-hover:text-black transition-colors">My Portfolio</span>
-                                       </div>
-                                       <ChevronRight size={12} className="text-zinc-300 group-hover:text-black transition-colors" />
-                                    </button>
+                          <div className="space-y-0.5">
+                            <button 
+                              onClick={() => {
+                               setShowUserDropdown(false);
+                               router.push('/profile/orders');
+                              }}
+                              className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-zinc-50 transition-all group"
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-black group-hover:text-white transition-all">
+                                  <Package size={14} strokeWidth={2} />
+                                </div>
+                                <span className="text-[9px] font-black uppercase tracking-[0.15em] text-zinc-600 group-hover:text-black transition-colors">My Portfolio</span>
+                              </div>
+                              <ChevronRight size={12} className="text-zinc-300 group-hover:text-black transition-colors" />
+                            </button>
                                     
 
                                    
-                                   <button 
-                                      onClick={() => {
-                                        setShowUserDropdown(false);
-                                        router.push('/profile/wishlist');
-                                      }}
-                                      className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-zinc-50 transition-all group"
-                                    >
-                                       <div className="flex items-center gap-3">
-                                          <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-indigo-600 group-hover:text-white transition-all">
-                                             <Heart size={14} strokeWidth={2} />
-                                          </div>
-                                          <span className="text-[9px] font-black uppercase tracking-[0.15em] text-zinc-600 group-hover:text-black transition-colors">Wishlist</span>
-                                       </div>
-                                       <ChevronRight size={12} className="text-zinc-300 group-hover:text-black transition-colors" />
-                                    </button>
-                                   
-                                   <button 
-                                     onClick={handleLogout}
-                                     className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-red-50 transition-all group border-t border-zinc-50 mt-1.5"
-                                   >
-                                      <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all">
-                                         <LogOut size={14} strokeWidth={2} />
-                                      </div>
-                                      <span className="text-[9px] font-black uppercase tracking-[0.15em] text-red-600 group-hover:text-red-700 transition-colors">Secure Sign Out</span>
-                                   </button>
+                            <button 
+                              onClick={() => {
+                               setShowUserDropdown(false);
+                               router.push('/profile/wishlist');
+                              }}
+                              className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-zinc-50 transition-all group"
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                                  <Heart size={14} strokeWidth={2} />
                                 </div>
-                             </motion.div>
-                           </>
-                         )}
-                       </AnimatePresence>
-                    </div>
-                  ) : (
-                    <User 
-                      size={22} 
-                      strokeWidth={1.2} 
-                      className="cursor-pointer hover:scale-110 transition-transform" 
-                      onClick={() => router.push('/login')}
-                    />
-                  )}
-               </div>
+                                <span className="text-[9px] font-black uppercase tracking-[0.15em] text-zinc-600 group-hover:text-black transition-colors">Wishlist</span>
+                              </div>
+                              <ChevronRight size={12} className="text-zinc-300 group-hover:text-black transition-colors" />
+                            </button>
+                                   
+                            <button 
+                             onClick={handleLogout}
+                             className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-red-50 transition-all group border-t border-zinc-50 mt-1.5"
+                            >
+                              <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all">
+                                <LogOut size={14} strokeWidth={2} />
+                              </div>
+                              <span className="text-[9px] font-black uppercase tracking-[0.15em] text-red-600 group-hover:text-red-700 transition-colors">Secure Sign Out</span>
+                            </button>
+                          </div>
+                        </motion.div>
+                      </>
+                     )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <button onClick={() => router.push('/login')} className="p-2 w-10 h-10 flex items-center justify-center rounded-md hover:bg-zinc-100">
+                   <User 
+                    size={18} 
+                    strokeWidth={1.2} 
+                    className="text-zinc-800" 
+                   />
+                  </button>
+                )}
+              </div>
 
-               <div 
-                 onClick={() => setIsCartOpen(true)}
-                 className="relative cursor-pointer hover:scale-110 transition-transform"
-               >
-                 <ShoppingCart size={22} strokeWidth={1.2} />
-                 {user && getCartCount() > 0 && (
-                   <span className="absolute -top-1.5 -right-2 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-black">{getCartCount()}</span>
-                 )}
-               </div>
-          </div>
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="relative p-2 w-10 h-10 flex items-center justify-center rounded-md hover:bg-zinc-100 transition-all"
+              >
+                <ShoppingCart size={18} strokeWidth={1.2} />
+                {user && getCartCount() > 0 && (
+                 <span className="absolute -top-1.5 -right-2 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-black">{getCartCount()}</span>
+                )}
+              </button>
+           </div>
         </div>
         </header>
 
