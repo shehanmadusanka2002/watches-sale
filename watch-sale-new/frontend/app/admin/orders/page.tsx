@@ -111,6 +111,21 @@ const OrdersPage = () => {
     }
   };
 
+  const formatPaymentMethod = (method?: string) => {
+    switch (method) {
+      case 'CASH_ON_DELIVERY':
+        return 'Cash on Delivery (COD)';
+      case 'BANK_TRANSFER':
+        return 'Bank Transfer / Online Payment';
+      case 'CARD':
+        return 'Card Payment';
+      case 'PAYPAL':
+        return 'PayPal';
+      default:
+        return method ? method.replace(/_/g, ' ') : 'N/A';
+    }
+  };
+
   return (
     <div className="space-y-8 text-left">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -132,6 +147,7 @@ const OrdersPage = () => {
             <tr className="border-b border-zinc-100 bg-zinc-50/50">
               <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400">Order Reference</th>
               <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400">Status</th>
+              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400">Payment Method</th>
               <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400 text-right">Amount (LKR)</th>
               <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-400 text-right">Actions</th>
             </tr>
@@ -139,13 +155,13 @@ const OrdersPage = () => {
           <tbody className="divide-y divide-zinc-50">
             {loading ? (
               <tr>
-                <td colSpan={4} className="px-6 py-20 text-center">
+                <td colSpan={5} className="px-6 py-20 text-center">
                   <Loader2 size={24} className="animate-spin inline-block text-zinc-200" />
                 </td>
               </tr>
             ) : orders.length === 0 ? (
                <tr>
-                <td colSpan={4} className="px-6 py-20 text-center text-zinc-400">
+                <td colSpan={5} className="px-6 py-20 text-center text-zinc-400">
                   <Package size={48} className="mx-auto mb-4 opacity-10" />
                   <p className="text-xs font-black uppercase tracking-widest">No orders recorded in the archives</p>
                 </td>
@@ -181,6 +197,13 @@ const OrdersPage = () => {
                       <option value="DELIVERED">Delivered</option>
                       <option value="CANCELLED">Cancelled</option>
                     </select>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="inline-flex items-center rounded-full border border-zinc-100 bg-zinc-50 px-3 py-1">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-zinc-700 whitespace-nowrap">
+                        {formatPaymentMethod(order.payment?.method)}
+                      </span>
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <span className="text-sm font-black italic">Rs. {order.payment?.amount?.toLocaleString() || '0'}</span>
