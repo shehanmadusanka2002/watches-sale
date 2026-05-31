@@ -128,10 +128,10 @@ const Navbar = () => {
       </div>
 
       {/* 2. Main Header */}
-      <header className="bg-white/80 backdrop-blur-xl border-b border-zinc-100 py-6 sm:py-8 sticky top-0 transition-all">
-        <div className="container mx-auto px-4 sm:px-6 grid grid-cols-3 items-center relative">
+      <header className="bg-white/80 backdrop-blur-xl border-b border-zinc-100 py-3 sm:py-8 sticky top-0 transition-all">
+        <div className="container mx-auto px-4 sm:px-6 grid grid-cols-3 items-center">
           {/* Left: Search & Menu */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 sm:gap-6">
              <button
                className="lg:hidden text-black hover:scale-110 transition-transform"
                onClick={() => setIsMenuOpen(true)}
@@ -168,14 +168,14 @@ const Navbar = () => {
           </div>
 
           {/* Center: Logo */}
-          <div className="flex justify-center flex-col items-center group cursor-pointer py-2 absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 sm:left-auto z-20" onClick={() => router.push('/')}>
-            <img src="/logo.png" alt="NEXORA HUB" className="w-28 sm:w-48 max-h-20 sm:max-h-24 object-contain" />
+          <div className="flex justify-center flex-col items-center group cursor-pointer py-1 sm:py-2" onClick={() => router.push('/')}>
+            <img src="/logo.png" alt="NEXORA HUB" className="w-32 sm:w-48 max-h-12 sm:max-h-24 object-contain" />
             <span className="sr-only">NEXORA HUB</span>
             <span className="text-[9px] tracking-[0.6em] uppercase font-black text-black mt-1 ml-1 group-hover:text-black transition-colors">NEXORA HUB</span>
           </div>
 
           {/* Right: Personal & Cart */}
-          <div className="flex justify-end items-center gap-6 md:gap-8">
+          <div className="flex justify-end items-center gap-2 md:gap-8">
                
                {/* Wishlist */}
                <div 
