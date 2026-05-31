@@ -16,27 +16,15 @@ const OrdersPage = () => {
   const [detailsModal, setDetailsModal] = useState({ isOpen: false, order: null });
   const [toast, setToast] = useState({ isVisible: false, message: '', type: 'success' as 'success' | 'error' });
 
-  const getAuthToken = () => {
-    if (typeof window === 'undefined') return null;
-    const storedToken = localStorage.getItem('token');
-    const legacyToken = localStorage.getItem('access_token');
-    return storedToken || legacyToken;
-  };
-
   useEffect(() => {
     fetchOrders();
   }, []);
 
   const fetchOrders = async () => {
     try {
-      const token = getAuthToken();
-      if (!token) {
-        throw new Error('Missing admin authentication token. Please sign in again.');
-      }
-
       const response = await fetch(`${API_BASE_URL}/orders`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          ...getAuthHeaders()
         }
       });
       if (!response.ok) {
@@ -71,17 +59,11 @@ const OrdersPage = () => {
 
   const handleStatusUpdate = async (orderId: number, newStatus: string) => {
     try {
-      const token = getAuthToken();
-      if (!token) {
-        setToast({ isVisible: true, message: 'Admin session expired. Please sign in again.', type: 'error' });
-        return;
-      }
-
       const statusValue = reverseStatusMap[newStatus];
       const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status?status=${statusValue}`, {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token}`
+          ...getAuthHeaders()
         }
       });
       
@@ -99,16 +81,10 @@ const OrdersPage = () => {
 
   const handleDeleteOrder = async (orderId: number) => {
     try {
-      const token = getAuthToken();
-      if (!token) {
-        setToast({ isVisible: true, message: 'Admin session expired. Please sign in again.', type: 'error' });
-        return;
-      }
-
       const response = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`
+          ...getAuthHeaders()
         }
       });
       
@@ -148,6 +124,18 @@ const OrdersPage = () => {
       default:
         return method ? method.replace(/_/g, ' ') : 'N/A';
     }
+  };
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Missing admin session. Please sign in again.');
+    }
+
+    return {
+      Authorization: `Bearer ${token}`,
+    };
   };
 
   return (

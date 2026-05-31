@@ -51,9 +51,14 @@ export class OrdersController {
   ) {
     try {
       const parsedOrderId = Number(id);
-      const statusValue = Number(status);
-      
-      if (isNaN(statusValue) || OrderStatus[statusValue] === undefined) {
+      const normalizedStatus = String(status || '').trim().toUpperCase();
+      const numericStatus = Number(status);
+
+      const statusValue = Number.isFinite(numericStatus) && OrderStatus[numericStatus] !== undefined
+        ? numericStatus
+        : OrderStatus[normalizedStatus as keyof typeof OrderStatus];
+
+      if (typeof statusValue !== 'number') {
         throw new BadRequestException(`Invalid status value: ${status}`);
       }
 

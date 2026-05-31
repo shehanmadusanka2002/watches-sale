@@ -47,8 +47,12 @@ let OrdersController = class OrdersController {
     async updateStatus(id, status) {
         try {
             const parsedOrderId = Number(id);
-            const statusValue = Number(status);
-            if (isNaN(statusValue) || order_status_enum_1.OrderStatus[statusValue] === undefined) {
+            const normalizedStatus = String(status || '').trim().toUpperCase();
+            const numericStatus = Number(status);
+            const statusValue = Number.isFinite(numericStatus) && order_status_enum_1.OrderStatus[numericStatus] !== undefined
+                ? numericStatus
+                : order_status_enum_1.OrderStatus[normalizedStatus];
+            if (typeof statusValue !== 'number') {
                 throw new common_1.BadRequestException(`Invalid status value: ${status}`);
             }
             return await this.ordersService.updateOrderStatus(parsedOrderId, statusValue);
