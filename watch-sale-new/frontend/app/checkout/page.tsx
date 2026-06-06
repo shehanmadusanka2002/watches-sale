@@ -10,6 +10,7 @@ import { checkout, API_BASE_URL } from '@/lib/api';
 import Script from 'next/script';
 import { md5 } from '@/lib/md5';
 import { ConfirmModal } from '@/app/components/ConfirmModal';
+import Autocomplete from 'react-google-autocomplete';
 
 declare global {
   interface Window {
@@ -35,6 +36,37 @@ const CheckoutPage = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handlePlaceSelected = (place: any) => {
+    let newAddress = formData.address;
+    if (place.formatted_address) {
+      newAddress = place.formatted_address;
+    } else if (place.name) {
+      newAddress = place.name;
+    }
+
+    let city = formData.city;
+    let country = formData.country;
+
+    if (place.address_components) {
+      place.address_components.forEach((component: any) => {
+        const types = component.types;
+        if (types.includes('locality') || types.includes('administrative_area_level_2')) {
+          city = component.long_name;
+        }
+        if (types.includes('country')) {
+          country = component.long_name;
+        }
+      });
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      address: newAddress,
+      city: city,
+      country: country
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -186,13 +218,16 @@ const CheckoutPage = () => {
                   <div className="space-y-8">
                      <div className="space-y-1">
                         <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Shipping Address</p>
-                        <input 
-                           required
-                           type="text" 
-                           name="address"
+                        <Autocomplete
+                           apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+                           onPlaceSelected={handlePlaceSelected}
+                           options={{
+                             types: ['geocode', 'establishment'],
+                             componentRestrictions: { country: "lk" }
+                           }}
                            placeholder="House No, Street, Area"
                            value={formData.address}
-                           onChange={handleInputChange}
+                           onChange={(e: any) => setFormData({...formData, address: e.target.value})}
                            className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
                         />
                      </div>
