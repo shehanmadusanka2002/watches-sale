@@ -77,6 +77,7 @@ let OrdersService = class OrdersService {
                 relations: ['orderItems', 'orderItems.product', 'payment', 'user'],
             }));
             this.mailService.sendOrderConfirmation(finalOrder);
+            this.mailService.sendAdminOrderNotification(finalOrder);
             return finalOrder;
         });
     }
@@ -119,6 +120,7 @@ let OrdersService = class OrdersService {
                     relations: ['orderItems', 'orderItems.product', 'payment', 'user'],
                 }));
                 this.mailService.sendOrderConfirmation(finalOrder);
+                this.mailService.sendAdminOrderNotification(finalOrder);
                 return finalOrder;
             });
         }

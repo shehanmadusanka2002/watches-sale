@@ -5,4 +5,5 @@ export declare class MailService {
     constructor(mailerService: MailerService);
     private formatPaymentMethod;
     sendOrderConfirmation(order: Order): Promise<void>;
+    sendAdminOrderNotification(order: Order): Promise<void>;
 }

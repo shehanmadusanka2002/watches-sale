@@ -78,6 +78,7 @@ export class OrdersService {
 
       // Send email asynchronously
       this.mailService.sendOrderConfirmation(finalOrder);
+      this.mailService.sendAdminOrderNotification(finalOrder);
 
       return finalOrder;
     });
@@ -135,6 +136,7 @@ export class OrdersService {
 
         // Send email asynchronously
         this.mailService.sendOrderConfirmation(finalOrder);
+        this.mailService.sendAdminOrderNotification(finalOrder);
 
         return finalOrder;
       });
