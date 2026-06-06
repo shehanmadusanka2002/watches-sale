@@ -76,9 +76,9 @@ export class OrdersService {
         relations: ['orderItems', 'orderItems.product', 'payment', 'user'],
       }))!;
 
-      // Send email asynchronously
-      this.mailService.sendOrderConfirmation(finalOrder);
-      this.mailService.sendAdminOrderNotification(finalOrder);
+      // Send email synchronously to prevent serverless execution suspension
+      await this.mailService.sendOrderConfirmation(finalOrder);
+      await this.mailService.sendAdminOrderNotification(finalOrder);
 
       return finalOrder;
     });
@@ -134,9 +134,9 @@ export class OrdersService {
           relations: ['orderItems', 'orderItems.product', 'payment', 'user'],
         }))!;
 
-        // Send email asynchronously
-        this.mailService.sendOrderConfirmation(finalOrder);
-        this.mailService.sendAdminOrderNotification(finalOrder);
+        // Send email synchronously to prevent serverless execution suspension
+        await this.mailService.sendOrderConfirmation(finalOrder);
+        await this.mailService.sendAdminOrderNotification(finalOrder);
 
         return finalOrder;
       });
