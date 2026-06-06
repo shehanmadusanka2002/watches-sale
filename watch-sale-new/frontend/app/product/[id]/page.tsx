@@ -235,8 +235,9 @@ const ProductDetails = () => {
                                 <span className="text-3xl font-black text-black tracking-tight">Rs. {product.price?.toLocaleString()}</span>
                                 <div className="hidden md:block h-8 w-px bg-zinc-100"></div>
                                 <div className="flex flex-wrap gap-2">
-                                    <span className="text-[8px] font-black bg-green-50 text-green-600 px-3 py-1 rounded-full uppercase tracking-widest border border-green-100 flex items-center gap-1">
-                                       <Check size={10} /> Islandwide Free Delivery
+                                    <span className={`text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-widest border flex items-center gap-1 ${product.stockQuantity > 0 ? 'bg-green-50 text-green-600 border-green-100' : 'bg-red-50 text-red-600 border-red-100'}`}>
+                                       {product.stockQuantity > 0 ? <Check size={10} /> : null}
+                                       {product.stockQuantity > 0 ? 'In Stock' : 'Out of Stock'}
                                     </span>
                                     <span className="text-[8px] font-black bg-zinc-50 text-zinc-600 px-3 py-1 rounded-full uppercase tracking-widest border border-zinc-100 flex items-center gap-1">
                                        <Truck size={10} /> Cash on Delivery Available
@@ -269,10 +270,13 @@ const ProductDetails = () => {
 
                             <div className="flex flex-col sm:flex-row gap-4 mb-12">
                                 <button 
+                                  disabled={product.stockQuantity <= 0}
                                   onClick={handleAddToCart}
-                                  className={`flex-1 ${isAdded ? 'bg-green-600' : 'bg-black'} text-white px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 hover:bg-zinc-800 transition-all shadow-xl active:scale-95`}
+                                  className={`flex-1 ${product.stockQuantity <= 0 ? 'bg-zinc-300 text-zinc-500 cursor-not-allowed' : isAdded ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-black text-white hover:bg-zinc-800'} px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 transition-all shadow-xl active:scale-95`}
                                 >
-                                    {isAdded ? (
+                                    {product.stockQuantity <= 0 ? (
+                                        'Out of Stock'
+                                    ) : isAdded ? (
                                         <>
                                             <Check size={16} />
                                             Added to Collection
@@ -597,10 +601,13 @@ const ProductDetails = () => {
             {/* Mobile Sticky Add to Cart */}
             <div className="mobile-add lg:hidden fixed bottom-[72px] left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-zinc-100 z-[90]">
                 <button 
+                    disabled={product.stockQuantity <= 0}
                     onClick={handleAddToCart}
-                    className={`w-full ${isAdded ? 'bg-green-600' : 'bg-black'} text-white py-4 text-[11px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 shadow-2xl active:scale-95 transition-all`}
+                    className={`w-full ${product.stockQuantity <= 0 ? 'bg-zinc-300 text-zinc-500 cursor-not-allowed' : isAdded ? 'bg-green-600 text-white' : 'bg-black text-white'} py-4 text-[11px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 shadow-2xl active:scale-95 transition-all`}
                 >
-                    {isAdded ? (
+                    {product.stockQuantity <= 0 ? (
+                        'Out of Stock'
+                    ) : isAdded ? (
                         <>
                             <Check size={16} />
                             Added

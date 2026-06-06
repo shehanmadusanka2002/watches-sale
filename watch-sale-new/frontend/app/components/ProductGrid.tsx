@@ -17,6 +17,7 @@ interface Product {
   categoryType: string;
   movementType?: string;
   imageUrl: string;
+  stockQuantity: number;
 }
 
 interface ProductGridProps {
@@ -156,22 +157,27 @@ const ProductGrid = ({ categoryType, showFilters = false }: ProductGridProps) =>
                   </div>
 
                   {/* Stock Status Indicator */}
-                  <div className="absolute top-4 left-4 z-20 flex items-center gap-2 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500">
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[8px] font-black text-zinc-400 uppercase tracking-widest bg-white/80 backdrop-blur-md px-2 py-1 rounded-full">In Stock</span>
+                  <div className={`absolute top-4 left-4 z-20 flex items-center gap-2 transition-all duration-500 ${product.stockQuantity > 0 ? 'opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0' : 'opacity-100'}`}>
+                    <div className={`w-2 h-2 rounded-full ${product.stockQuantity > 0 ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
+                    <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest bg-white/90 backdrop-blur-md px-2 py-1 rounded-full shadow-sm">
+                      {product.stockQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+                    </span>
                   </div>
 
                   {/* Quick Add Overlay */}
                   <div className="absolute bottom-0 left-0 right-0 p-5 z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out">
                     <button 
+                      disabled={product.stockQuantity <= 0}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        addToCart(product);
+                        if (product.stockQuantity > 0) {
+                          addToCart(product);
+                        }
                       }}
-                      className="w-full bg-black text-white py-4 text-[10px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-3 hover:bg-zinc-800 transition-all shadow-2xl active:scale-95"
+                      className={`w-full py-4 text-[10px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-3 transition-all shadow-2xl active:scale-95 ${product.stockQuantity > 0 ? 'bg-black text-white hover:bg-zinc-800' : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'}`}
                     >
-                      <ShoppingCart size={14} /> Add to Collection
+                      <ShoppingCart size={14} /> {product.stockQuantity > 0 ? 'Add to Collection' : 'Out of Stock'}
                     </button>
                   </div>
 
