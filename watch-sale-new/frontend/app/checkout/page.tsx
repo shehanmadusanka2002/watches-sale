@@ -10,7 +10,12 @@ import { checkout, API_BASE_URL } from '@/lib/api';
 import Script from 'next/script';
 import { md5 } from '@/lib/md5';
 import { ConfirmModal } from '@/app/components/ConfirmModal';
-import Autocomplete from 'react-google-autocomplete';
+import dynamic from 'next/dynamic';
+
+const LeafletMap = dynamic(() => import('@/app/components/LeafletMap'), {
+  ssr: false,
+  loading: () => <div className="w-full h-[300px] bg-zinc-50 flex items-center justify-center text-[10px] uppercase tracking-widest text-zinc-400 font-bold border border-zinc-100">Loading Map Engine...</div>
+});
 
 declare global {
   interface Window {
@@ -26,10 +31,10 @@ const CheckoutPage = () => {
     email: '',
     firstName: '',
     lastName: '',
-    address: '',
-    city: '',
-    country: 'Sri Lanka',
-    phone: ''
+    phone: '',
+    lat: 7.8731,
+    lng: 80.7718,
+    addressDetails: '' // Optional text for house number/street
   });
   const [paymentMethod, setPaymentMethod] = useState<'COD' | 'BANK_TRANSFER'>('COD');
   const [alertModal, setAlertModal] = useState({ isOpen: false, message: '', title: 'Acquisition Alert' });
@@ -38,34 +43,11 @@ const CheckoutPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handlePlaceSelected = (place: any) => {
-    let newAddress = formData.address;
-    if (place.formatted_address) {
-      newAddress = place.formatted_address;
-    } else if (place.name) {
-      newAddress = place.name;
-    }
-
-    let city = formData.city;
-    let country = formData.country;
-
-    if (place.address_components) {
-      place.address_components.forEach((component: any) => {
-        const types = component.types;
-        if (types.includes('locality') || types.includes('administrative_area_level_2')) {
-          city = component.long_name;
-        }
-        if (types.includes('country')) {
-          country = component.long_name;
-        }
-      });
-    }
-
+  const handleLocationSelect = (lat: number, lng: number) => {
     setFormData(prev => ({
       ...prev,
-      address: newAddress,
-      city: city,
-      country: country
+      lat,
+      lng
     }));
   };
 
@@ -95,8 +77,8 @@ const CheckoutPage = () => {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
-        shippingAddress: formData.address,
-        city: formData.city,
+        shippingAddress: `${formData.addressDetails} (Lat: ${formData.lat.toFixed(4)}, Lng: ${formData.lng.toFixed(4)})`,
+        city: 'Map Location',
         phone: formData.phone
       };
 
@@ -189,7 +171,7 @@ const CheckoutPage = () => {
                      <span className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-black">2</span>
                      <h2 className="text-xs font-black uppercase tracking-[0.3em]">Shipping Destination</h2>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
                      <div className="space-y-1">
                         <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">First Name</p>
                         <input 
@@ -214,55 +196,39 @@ const CheckoutPage = () => {
                            className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
                         />
                      </div>
-                  </div>
-                  <div className="space-y-8">
                      <div className="space-y-1">
-                        <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Shipping Address</p>
-                        <Autocomplete
-                           apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-                           onPlaceSelected={handlePlaceSelected}
-                           options={{
-                             types: ['geocode', 'establishment'],
-                             componentRestrictions: { country: "lk" }
-                           }}
-                           placeholder="House No, Street, Area"
-                           value={formData.address}
-                           onChange={(e: any) => setFormData({...formData, address: e.target.value})}
+                        <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Phone Number (Mobile)</p>
+                        <input 
+                           required
+                           type="tel" 
+                           name="phone"
+                           placeholder="077 XXXXXXX"
+                           value={formData.phone}
+                           onChange={handleInputChange}
                            className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
                         />
                      </div>
-                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                        <div className="space-y-1">
-                           <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">City</p>
-                           <input 
-                              required
-                              type="text" 
-                              name="city"
-                              placeholder="e.g. Colombo"
-                              value={formData.city}
-                              onChange={handleInputChange}
-                              className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
-                           />
-                        </div>
-                        <div className="space-y-1">
-                           <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Country</p>
-                           <div className="w-full border-b-2 border-zinc-100 py-4 px-1 text-sm font-black uppercase tracking-widest text-zinc-300">
-                              Sri Lanka
-                           </div>
-                        </div>
-                        <div className="space-y-1">
-                           <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Phone Number (Mobile)</p>
-                           <input 
-                              required
-                              type="tel" 
-                              name="phone"
-                              placeholder="077 XXXXXXX"
-                              value={formData.phone}
-                              onChange={handleInputChange}
-                              className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
-                           />
-                        </div>
+                  </div>
+
+                  <div className="space-y-4 mb-8">
+                     <p className="text-[10px] font-black uppercase tracking-widest text-black ml-1 border-l-2 border-black pl-2">Pin Your Exact Delivery Location</p>
+                     <LeafletMap onLocationSelect={handleLocationSelect} />
+                     <div className="bg-zinc-50 border border-zinc-100 p-4 flex items-center justify-between">
+                         <span className="text-[8px] font-black uppercase tracking-[0.2em] text-zinc-400">Selected Coordinates</span>
+                         <span className="text-[10px] font-black tracking-widest text-black">{formData.lat.toFixed(6)}, {formData.lng.toFixed(6)}</span>
                      </div>
+                  </div>
+
+                  <div className="space-y-1">
+                     <p className="text-[8px] font-black uppercase tracking-widest text-zinc-400 ml-1">Optional: House No / Street Name / Landmarks</p>
+                     <input 
+                        type="text" 
+                        name="addressDetails"
+                        placeholder="e.g. No 12, Galle Road"
+                        value={formData.addressDetails}
+                        onChange={handleInputChange}
+                        className="w-full border-b-2 border-zinc-100 py-4 px-1 focus:border-black transition-colors outline-none text-sm font-bold uppercase tracking-widest placeholder:text-zinc-200"
+                     />
                   </div>
                </section>
 
