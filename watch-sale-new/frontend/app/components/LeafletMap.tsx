@@ -62,7 +62,10 @@ const LeafletMap = ({ onLocationSelect, defaultLat = 7.8731, defaultLng = 80.771
       <MapContainer 
         center={[defaultLat, defaultLng]} 
         zoom={7} 
-        scrollWheelZoom={true} 
+        scrollWheelZoom={true}
+        touchZoom={true}
+        dragging={true}
+        tap={true}
         style={{ height: '100%', width: '100%', zIndex: 0 }}
       >
         <TileLayer

@@ -85,9 +85,34 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({ isOpen, on
                     </div>
                     <div className="p-4 bg-zinc-50 border border-zinc-100 rounded-sm space-y-3">
                       <div>
-                        <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Destination Address</p>
-                        <p className="text-[11px] font-bold uppercase leading-relaxed">{order.shippingAddress || 'N/A'}</p>
-                        <p className="text-[11px] font-black uppercase mt-1">{order.city}</p>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-2">Destination Address</p>
+                        {(() => {
+                           const addressStr = order.shippingAddress || '';
+                           const latMatch = addressStr.match(/Lat:\s*([-\d.]+)/);
+                           const lngMatch = addressStr.match(/Lng:\s*([-\d.]+)/);
+                           const lat = latMatch ? latMatch[1] : null;
+                           const lng = lngMatch ? lngMatch[1] : null;
+                           const cleanAddress = addressStr.replace(/\s*\(Lat:.*?\)/, '').trim();
+                           const cityDisplay = order.city && order.city !== 'Map Location' ? `, ${order.city}` : '';
+
+                           return (
+                              <div className="space-y-2">
+                                 <p className="text-[11px] font-bold uppercase leading-relaxed text-black">
+                                    {cleanAddress || 'Delivery Location'}{cityDisplay}
+                                 </p>
+                                 {lat && lng && (
+                                    <a 
+                                       href={`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`}
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       className="inline-block text-[9px] font-black uppercase tracking-widest text-black border-b border-black pb-0.5 hover:text-zinc-500 hover:border-zinc-500 transition-colors"
+                                    >
+                                       VIEW ON GOOGLE MAPS ↗
+                                    </a>
+                                 )}
+                              </div>
+                           );
+                        })()}
                       </div>
                       <div className="pt-3 border-t border-zinc-200 flex items-center gap-2">
                         <Phone size={12} className="text-zinc-400" />

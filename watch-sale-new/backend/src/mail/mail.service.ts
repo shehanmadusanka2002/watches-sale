@@ -27,6 +27,16 @@ export class MailService {
     const paymentMethod = this.formatPaymentMethod(order.payment?.method);
     const customerName = order.firstName ? `${order.firstName} ${order.lastName}` : (order.user?.username || 'Valued Customer');
 
+    const addressStr = order.shippingAddress || '';
+    const latMatch = addressStr.match(/Lat:\s*([-\d.]+)/);
+    const lngMatch = addressStr.match(/Lng:\s*([-\d.]+)/);
+    const lat = latMatch ? latMatch[1] : null;
+    const lng = lngMatch ? lngMatch[1] : null;
+    const cleanAddress = addressStr.replace(/\s*\(Lat:.*?\)/, '').trim() || 'Delivery Location';
+    const cityDisplay = order.city && order.city !== 'Map Location' ? `, ${order.city}` : '';
+    
+    const mapLinkHtml = lat && lng ? `<div style="margin-top: 12px;"><a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 6px 12px; background: #000000; color: #ffffff; text-decoration: none; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; border-radius: 2px;">📍 VIEW ON GOOGLE MAPS ↗</a></div>` : '';
+
     const itemsHtml = order.orderItems.map(item => `
       <tr>
         <td style="padding: 15px 0; border-bottom: 1px solid #eeeeee;">
@@ -93,10 +103,10 @@ export class MailService {
             <div style="background-color: #f9f9f9; padding: 20px; border-radius: 2px; margin-top: 30px;">
               <h4 style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-top: 0;">Logistics Destination</h4>
               <p style="font-size: 12px; margin-bottom: 0;">
-                ${order.shippingAddress}<br>
-                ${order.city}, Sri Lanka<br>
+                ${cleanAddress}${cityDisplay}<br>
                 T: ${order.phone}
               </p>
+              ${mapLinkHtml}
             </div>
 
             <div style="text-align: center; margin-top: 40px;">
@@ -132,7 +142,18 @@ export class MailService {
     const transactionId = order.payment?.transactionId || `TXN-${order.id}T${Date.now().toString().slice(-4)}`;
     const customerName = order.firstName ? `${order.firstName} ${order.lastName}` : (order.user?.username || 'Customer');
     const customerEmail = order.email || order.user?.email || 'N/A';
-    const orderDate = order.orderDate ? new Date(order.orderDate).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase() : new Date().toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase();
+    const dateOptions: Intl.DateTimeFormatOptions = { timeZone: 'Asia/Colombo', month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
+    const orderDate = order.orderDate ? new Date(order.orderDate).toLocaleString('en-US', dateOptions).toUpperCase() : new Date().toLocaleString('en-US', dateOptions).toUpperCase();
+
+    const addressStr = order.shippingAddress || '';
+    const latMatch = addressStr.match(/Lat:\s*([-\d.]+)/);
+    const lngMatch = addressStr.match(/Lng:\s*([-\d.]+)/);
+    const lat = latMatch ? latMatch[1] : null;
+    const lng = lngMatch ? lngMatch[1] : null;
+    const cleanAddress = addressStr.replace(/\s*\(Lat:.*?\)/, '').trim() || 'Delivery Location';
+    const cityDisplay = order.city && order.city !== 'Map Location' ? `, ${order.city}` : '';
+    
+    const mapLinkHtml = lat && lng ? `<div style="margin-top: 10px;"><a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 6px 12px; background: #000000; color: #ffffff; text-decoration: none; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; border-radius: 2px;">📍 VIEW ON GOOGLE MAPS ↗</a></div>` : '';
 
     const itemsHtml = order.orderItems.map(item => `
       <div style="display: flex; margin-bottom: 20px; padding: 15px; border: 1px solid #eeeeee; border-radius: 4px; background: #ffffff;">
@@ -221,11 +242,11 @@ export class MailService {
                 <h3 class="section-title"><span>📍</span> SHIPPING LOGISTICS</h3>
                 <div class="info-box">
                   <div style="font-size: 10px; font-weight: 900; color: #999999; text-transform: uppercase; margin-bottom: 5px;">DESTINATION ADDRESS</div>
-                  <div class="info-text" style="margin-bottom: 15px;">
-                    ${order.shippingAddress}<br>
-                    ${order.city}
+                  <div class="info-text" style="margin-bottom: 5px;">
+                    ${cleanAddress}${cityDisplay}
                   </div>
-                  <div style="border-top: 1px solid #eeeeee; padding-top: 15px; font-size: 13px; font-weight: 700;">
+                  ${mapLinkHtml}
+                  <div style="border-top: 1px solid #eeeeee; padding-top: 15px; margin-top: 15px; font-size: 13px; font-weight: 700;">
                     📞 ${order.phone}
                   </div>
                 </div>
