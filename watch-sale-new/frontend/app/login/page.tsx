@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
@@ -14,6 +14,7 @@ const LoginPage = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleGoogleSuccess = async (credentialResponse: any) => {
     setLoading(true);
@@ -131,13 +132,20 @@ const LoginPage = () => {
             <div className="relative flex items-center group">
               <Lock size={18} className="absolute left-4 text-zinc-300 group-focus-within:text-black transition-colors" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full bg-zinc-50 border border-zinc-100 py-3 pl-12 pr-4 text-sm focus:border-black outline-none transition-all rounded-sm"
+                className="w-full bg-zinc-50 border border-zinc-100 py-3 pl-12 pr-12 text-sm focus:border-black outline-none transition-all rounded-sm"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 text-zinc-400 hover:text-black transition-colors focus:outline-none"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
 
