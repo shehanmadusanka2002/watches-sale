@@ -67,7 +67,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
             </div>
 
             {/* Free Shipping Indicator */}
-            {user && cart.length > 0 && (
+            {cart.length > 0 && (
               <div className="px-8 py-4 bg-zinc-50 border-b border-zinc-100">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">
@@ -87,24 +87,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
 
             {/* List */}
             <div className="flex-1 overflow-y-auto p-8 scrollbar-hide bg-white">
-              {!user ? (
-                <div className="h-full flex flex-col items-center justify-center text-center py-12">
-                  <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mb-8 border border-zinc-100 shadow-inner">
-                    <User size={30} className="text-zinc-300" />
-                  </div>
-                  <h3 className="text-xs font-black uppercase tracking-[0.3em] text-black mb-4">Identity Verification</h3>
-                  <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest leading-relaxed max-w-[240px]">Access your curated collection and personalized offers by signing into your account.</p>
-                  <button 
-                    onClick={() => {
-                      onClose();
-                      router.push('/login');
-                    }}
-                    className="mt-10 bg-black text-white px-10 py-4 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-zinc-800 transition-all shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] active:scale-95"
-                  >
-                    Authenticate
-                  </button>
-                </div>
-              ) : cart.length === 0 ? (
+              {cart.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center py-12">
                   <motion.div 
                     animate={{ y: [0, -10, 0] }}
@@ -179,7 +162,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
             </div>
 
             {/* Footer - Luxury Black - Optimized for Mobile */}
-            {user && cart.length > 0 && (
+            {cart.length > 0 && (
               <div className="p-6 md:p-8 bg-zinc-950 text-white space-y-6 relative overflow-hidden z-[110] pb-12 md:pb-8">
                 <div className="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
                 
