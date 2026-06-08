@@ -62,6 +62,9 @@ const CheckoutPage = () => {
         title: 'Authentication Required', 
         message: "Please sign in to complete your luxury purchase." 
       });
+      setTimeout(() => {
+        router.push('/login');
+      }, 2500);
       return;
     }
 

@@ -53,16 +53,6 @@ const ProductDetails = () => {
     }, [id]);
 
     const handleAddToCart = () => {
-        const storedUser = localStorage.getItem('user');
-        if (!storedUser) {
-            setShowAuthToast(true);
-            setTimeout(() => {
-                setShowAuthToast(false);
-                router.push('/login');
-            }, 3000);
-            return;
-        }
-
         if (product) {
             addToCart(product);
             setIsAdded(true);
