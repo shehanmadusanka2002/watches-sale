@@ -186,7 +186,11 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                 <button 
                   onClick={() => {
                     onClose();
-                    router.push('/checkout');
+                    if (!user) {
+                      router.push('/login');
+                    } else {
+                      router.push('/checkout');
+                    }
                   }}
                   className="w-full bg-white text-black py-4 md:py-5 text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 hover:bg-zinc-200 transition-all shadow-xl active:scale-95 group relative z-10"
                 >

@@ -295,7 +295,7 @@ const Navbar = () => {
                 className="relative p-2 w-10 h-10 flex items-center justify-center rounded-md hover:bg-zinc-100 transition-all"
               >
                 <ShoppingCart size={18} strokeWidth={1.2} />
-                {user && getCartCount() > 0 && (
+                {getCartCount() > 0 && (
                  <span className="absolute -top-1.5 -right-2 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-black">{getCartCount()}</span>
                 )}
               </button>
