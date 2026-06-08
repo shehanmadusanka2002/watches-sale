@@ -30,7 +30,16 @@ const LoginPage = () => {
 
       localStorage.setItem('token', data.access_token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      router.push('/');
+      
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectUrl = searchParams.get('redirect');
+      if (data.user?.role === 'ADMIN') {
+        router.push('/admin');
+      } else if (redirectUrl) {
+        router.push(redirectUrl);
+      } else {
+        router.push('/');
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -64,7 +73,13 @@ const LoginPage = () => {
       if (data.user.role === 'ADMIN') {
         router.push('/admin');
       } else {
-        router.push('/');
+        const searchParams = new URLSearchParams(window.location.search);
+        const redirectUrl = searchParams.get('redirect');
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        } else {
+          router.push('/');
+        }
       }
     } catch (err: any) {
       setError(err.message);

@@ -187,7 +187,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                   onClick={() => {
                     onClose();
                     if (!user) {
-                      router.push('/login');
+                      router.push('/login?redirect=/checkout');
                     } else {
                       router.push('/checkout');
                     }

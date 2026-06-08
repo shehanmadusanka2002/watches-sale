@@ -63,7 +63,7 @@ const CheckoutPage = () => {
         message: "Please sign in to complete your luxury purchase." 
       });
       setTimeout(() => {
-        router.push('/login');
+        router.push('/login?redirect=/checkout');
       }, 2500);
       return;
     }
